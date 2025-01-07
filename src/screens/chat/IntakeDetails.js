@@ -9,7 +9,7 @@ import * as KundliActions from '../../redux/actions/KundliActions'
 import { colors } from '../../config/Constants';
 
 const IntakeDetails = ({ profileData, dispatch, navigation }) => {
-    console.log("intake Data::>>>",profileData)
+    console.log("intake Data:::>>>",profileData)
     useEffect(() => {
         dispatch(ChatActions.getIntakeDetails());
     }, [dispatch]);

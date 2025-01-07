@@ -5,12 +5,18 @@ import { Fonts } from '../assets/style'
 import { useNavigation } from '@react-navigation/native'
 import MyHeader from '../components/MyHeader'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../config/Screen'
+import * as HistoryActions from '../redux/actions/HistoryActions';
+import { connect } from 'react-redux'
 
-const RegisterdbookPooja = () => {
+const RegisterdbookPooja = ({dispatch}) => {
     const navigation = useNavigation();
+    useEffect(()=>{
+     dispatch(HistoryActions.getAstrologerPuja());
+    },[dispatch])
+
     return (
         <View style={{ flex: 1 }}>
-            <MyHeader title={"Register Puja"} navigation={navigation} />
+            <MyHeader title={"Register "} navigation={navigation} />
 
             {List()}
 
@@ -19,8 +25,6 @@ const RegisterdbookPooja = () => {
     )
 
     function List() {
-
-
         const images = {
             samagri: require('../assets/images/theempress.png'),
             flowers: require('../assets/images/theempress.png'),
@@ -29,9 +33,9 @@ const RegisterdbookPooja = () => {
         };
 
         const DATA = [
-            { id: '1', image: images.samagri, title: 'Samagri', prize: 11 ,Date:13 ,month:"Dec"},
-            { id: '2', image: images.flowers, title: 'Flowers', prize: 15,Date:16 ,month:"Dec"},
-            { id: '3', image: images.heart, title: 'Heart', prize: 21 ,Date:19,month:"Dec"},
+            { id: '1', image: images.samagri, title: 'Samagri', prize: 11, Date: 13, month: "Dec" },
+            { id: '2', image: images.flowers, title: 'Flowers', prize: 15, Date: 16, month: "Dec" },
+            { id: '3', image: images.heart, title: 'Heart', prize: 21, Date: 19, month: "Dec" },
 
         ];
 
@@ -39,7 +43,7 @@ const RegisterdbookPooja = () => {
 
 
         const renderItem = ({ item }) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Pujasubmit')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Pujasubmit')}>
                 <View style={{ display: "flex", flexDirection: "row", paddingHorizontal: 10, paddingVertical: 10, gap: 10 }}>
                     <View style={{ flex: 0.25, }}>
                         <View style={{ alignSelf: "center", backgroundColor: '#F4F4F4', height: 40, borderRadius: 60, width: 40, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
@@ -102,21 +106,27 @@ const RegisterdbookPooja = () => {
 
         );
         return (
-            <View style={{paddingVertical:SCREEN_HEIGHT*0.02}}>
-            <>
-                <FlatList
-                    data={DATA}
-                    renderItem={renderItem}
-                    showsVerticalScrollIndicator={false}
-                />
-            </>
+            <View style={{ paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+                <>
+                    <FlatList
+                        data={DATA}
+                        renderItem={renderItem}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </>
             </View>
         )
     }
 }
 
-export default RegisterdbookPooja
-
+const mapStateToProps = state => ({
+    // giftOrderHistoryData: state.history.giftOrderHistoryData
+  });
+  
+  const mapDispatchToProps = dispatch => ({ dispatch });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(RegisterdbookPooja);
+  
 const styles = StyleSheet.create({
 
     header: {

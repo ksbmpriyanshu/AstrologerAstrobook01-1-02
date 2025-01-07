@@ -7,7 +7,7 @@ import MaskedView from './masked/maskedView';
 import MaskedElement from './masked/giftMaskElement';
 
 const Gifts = ({ giftedData }) => {
-  console.log(giftedData)
+  console.log("giftedData:::>",giftedData)
   const renderItem = ({ item, index }) => {
     return (
       <View style={styles.itemContainer}>

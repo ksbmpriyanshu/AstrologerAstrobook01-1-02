@@ -37,7 +37,6 @@ function* onAcceptRejectChat(actions) {
 }
 
 function* onInitiatChat(actions) {
-    console.log(";dsafn;lsd")
     try {
         const { dispatch, historyId } = actions.payload
         socketServices.initializeSocket(dispatch);
@@ -232,7 +231,7 @@ function* getIntakeDetails(actions) {
         const response = yield postRequest({
             url: api_url + get_linked_profile,
             data: {
-                profileId:requestedData ? requestedData?.profileId: callRequestData ? callRequestData : callVideoRequestData 
+                profileId:requestedData ? requestedData?.profileId: callVideoRequestData ? callVideoRequestData :  callRequestData
             }
 
         })

@@ -55,7 +55,14 @@ export const setGiftOrderHistory = payload => ({
     type: actionTypes.SET_GIFT_ORDER_HISTORY,
     payload,
 })
-
+export const getAstrologerPuja = payload => ({
+  type: actionTypes.GET_ASTROLOGER_DATA,
+  payload,
+})
+export const setAstrologerPuja = payload => ({
+  type: actionTypes.SET_ASTROLOGER_DATA,
+  payload,
+})
 export const getOfflineData = payload =>({
     type: actionTypes.GET_OFFLINE_DATA,
     payload,

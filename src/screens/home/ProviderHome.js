@@ -56,11 +56,14 @@ import { navigate } from '../../NavigationService';
 import * as HistoryActions from '../../redux/actions/HistoryActions'
 import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
-
+    
 
 const { width, height } = Dimensions.get('screen');
 
 const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, callVideoRequestData, anouncementData, videoCallHistoryData, chatHistoryData, callHistoryData, liveVedioCallHistoryData, offlineData, onlineData }) => {
+  // console.log("callRequestData::>",callRequestData)
+  
+  
   const { t } = useTranslation();
   const [isRefereshing, setIsRefereshing] = useState(false);
   const [date, setDate] = useState(null);
@@ -91,6 +94,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
       headerShown: false,
     });
   }, []);
+
 
   const handleChatStatusToggle = (value) => {
     if (value) {
@@ -323,13 +327,14 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
       subscription.remove();
     };
   }, []);
-  // console.log(providerData?.follower_count, 'sdfgsdfg')
 
   useEffect(() => {
     database().ref(`CurrentCall/${providerData?._id}`).on('value', snapshot => {
+      console.log('sanapCall :::::K', snapshot.val());
       try {
         if (snapshot.val()) {
           dispatch(ChatActions.setCallRequestData(snapshot.val()?.formId))
+
         } else {
           dispatch(ChatActions.setCallRequestData(null))
         }
@@ -340,15 +345,16 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     });
 
     database().ref(`CurrentCallVideo/${providerData?._id}`).on('value', snapshot => {
-      console.log('sanap ::::', snapshot.val());
+      console.log('sanapVideoCall ::::', snapshot.val());
       try {
         if (snapshot.val()) {
           dispatch(ChatActions.setCallVideoRequrestData(snapshot.val()?.formId))
         } else {
+          
           dispatch(ChatActions.setCallVideoRequrestData(null))
         }
       } catch (e) {
-        console.log(e)
+       
         dispatch(ChatActions.setCallVideoRequrestData(null))
       }
     });

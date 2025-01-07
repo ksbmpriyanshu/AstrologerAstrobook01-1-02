@@ -197,6 +197,7 @@ export default function* historySaga() {
     yield takeLeading(actionTypes.GET_WALLET_HISTORY, getWalletHistory)
     yield takeLeading(actionTypes.GET_VIDEO_CALL_HISTORY, getVideoCallHistory)
     yield takeLeading(actionTypes.GET_GIFT_ORDER_HISTORY, getGiftOrderHistory)
+    // yield takeLeading(actionTypes.GET_ASTROLOGER_DATA, getastrologerData)
     yield takeLeading(actionTypes.GET_STATUS_ONLINE, getonline)
     yield takeLeading(actionTypes.GET_ONLINE_DATA, getonline)
     yield takeLeading(actionTypes.GET_OFFLINE_DATA, getoffline)

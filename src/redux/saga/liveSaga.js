@@ -138,6 +138,7 @@ function* addLiveListeners(actions) {
           };
           messages.push(new_comments);
         });
+        
         dispatch(LiveActions.setComments(messages));
       },
     );
