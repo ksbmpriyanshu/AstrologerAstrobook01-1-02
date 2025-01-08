@@ -9,6 +9,8 @@ const initialState = {
     giftOrderHistoryData:null,
     offlineData:null,
     onlineData:null,
+    AllPoojaData:null,
+    RegisterPujadata:null
 };
 
 const history = (state = initialState, actions)=>{
@@ -54,6 +56,27 @@ const history = (state = initialState, actions)=>{
                    ...state,
                    onlineData: payload,
                 };
+                case actionTypes.SET_ASTROLOGER_DATA:
+                    return {
+                       ...state,
+                       AllPoojaData: payload,
+                    };
+                    case actionTypes.SET_ASTROLOGER_DATA:
+                    return {
+                       ...state,
+                       AllPoojaData: payload,
+                    };
+
+                    case actionTypes.SET_REGISTERD_PUJA_DATA:
+                     return {
+                        ...state,
+                        RegisterPujadata: payload,
+                     };
+                     case actionTypes.SET_REGISTERD_PUJA_DATA:
+                     return {
+                        ...state,
+                        RegisterPujadata: payload,
+                     };
         default:{
             return state
         }

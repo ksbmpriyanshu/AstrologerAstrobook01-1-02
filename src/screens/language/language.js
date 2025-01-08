@@ -20,11 +20,11 @@ const Language = (props) => {
       headerTintColor: colors.black_color,
       headerShown: true,
       headerStyle: {
-        backgroundColor: colors.background_theme2,
+        backgroundColor: colors.background_theme6,
         
       },
       headerTitleStyle: {
-        fontSize: getFontSize(2), // Set the desired font size here
+        fontSize: getFontSize(2), 
         color:colors.white_color
       },
       headerLeft: () => (
@@ -49,10 +49,10 @@ const Language = (props) => {
 
   const changeLanguage = async (language) => {
 
-    // Save the selected language in AsyncStorage
+  
     await AsyncStorage.setItem('selectedLanguage', language);
 
-    // Change the language using i18next
+
     i18n.changeLanguage(language);
   };
 
@@ -62,7 +62,7 @@ const Language = (props) => {
     <View style={{ margin: 20 }}>
 
       <TouchableOpacity
-        style={{ backgroundColor: i18n.language == 'en' ? colors.statusbar:'#ddd',
+        style={{ backgroundColor: i18n.language == 'en' ? colors.background_theme6:'#ddd',
          padding: 20, 
          borderRadius: 10, 
          marginBottom: 20 }}
@@ -71,7 +71,7 @@ const Language = (props) => {
         <Text style={{ fontSize: 22, fontWeight: 'bold', fontSize: getFontSize(1.8), color: 'white' }}>{t("en")}</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ backgroundColor: i18n.language == 'hi' ? colors.statusbar:'#ddd', padding: 20, borderRadius: 10 }}
+        style={{ backgroundColor: i18n.language == 'hi' ? colors.background_theme6:'#ddd', padding: 20, borderRadius: 10 }}
         activeOpacity={0.8}
         onPress={() => changeLanguage('hi')}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', fontSize: getFontSize(1.8), color: 'white' }}>{t("hi")}</Text>

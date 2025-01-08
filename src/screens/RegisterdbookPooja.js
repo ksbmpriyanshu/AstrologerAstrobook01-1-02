@@ -7,8 +7,12 @@ import MyHeader from '../components/MyHeader'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../config/Screen'
 import * as HistoryActions from '../redux/actions/HistoryActions';
 import { connect } from 'react-redux'
+import { base_url, img_url } from '../config/Constants'
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer'
 
-const RegisterdbookPooja = ({dispatch}) => {
+const RegisterdbookPooja = ({dispatch,AllPoojaData}) => {
+    console.log("AllPoojaDataanuj",AllPoojaData)
+    
     const navigation = useNavigation();
     useEffect(()=>{
      dispatch(HistoryActions.getAstrologerPuja());
@@ -19,7 +23,9 @@ const RegisterdbookPooja = ({dispatch}) => {
             <MyHeader title={"Register "} navigation={navigation} />
 
             {List()}
+            
 
+        
 
         </View>
     )
@@ -43,33 +49,36 @@ const RegisterdbookPooja = ({dispatch}) => {
 
 
         const renderItem = ({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('Pujasubmit')}>
+            <View>
+            <TouchableOpacity onPress={() => navigation.navigate('Pujasubmit',{ PujaData :item  })}>
                 <View style={{ display: "flex", flexDirection: "row", paddingHorizontal: 10, paddingVertical: 10, gap: 10 }}>
                     <View style={{ flex: 0.25, }}>
                         <View style={{ alignSelf: "center", backgroundColor: '#F4F4F4', height: 40, borderRadius: 60, width: 40, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ color: "#000", ...Fonts.primaryHelvetica, fontSize: 15 }}>{item.Date}</Text>
+                            <Text style={{ color: "#000", ...Fonts.primaryHelvetica, fontSize: 15 }}>{new Date(item?.createdAt).getDate()}</Text>
                         </View>
                         <Text style={{ color: "#000", ...Fonts.primaryHelvetica, fontSize: 13, textAlign: "center" }}>
-                            {item.month}
+                        {new Date(item?.createdAt).toLocaleString('en-US', { month: 'short' })}
                         </Text>
                         <Image source={require('../assets/images/line.png')}
                             style={{ objectFit: "contain", height: 90, alignSelf: "center" }}
                         />
                     </View>
                     <View style={{ flex: 0.75, borderWidth: 0.3, borderRadius: 10, borderColor: "#dadada" }}>
+                 
+
                         <ImageBackground
-                            source={item.image}
+                            source={{ uri: img_url + item?.image }}
                             style={styles.poojaImage}
                             imageStyle={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
                         >
                             <View style={styles.overlay} />
-                            <View style={{
+                            {/* <View style={{
                                 backgroundColor: "#000", position: "absolute", paddingHorizontal: 10, paddingVertical: 3,
                                 borderRadius: 10, left: 6, top: 3
                             }}>
                                 <Text style={{ color: "#fff", fontSize: 7 }}>{item?.categoryId?.categoryName}</Text>
-                            </View>
-                            <Image source={item.image}
+                            </View> */}
+                            {/* <Image source={item.image}
                                 style={{
                                     height: 40,
                                     width: 40,
@@ -80,12 +89,10 @@ const RegisterdbookPooja = ({dispatch}) => {
                                     right: 5,
                                     top: 3,
                                 }}
-                            />
+                            /> */}
 
                             <View style={{ position: "absolute", bottom: 4, left: 5, }}>
-                                <Text style={{ color: "#fff", ...Fonts.primaryHelvetica, fontSize: 12, }}
-
-                                >{item?.pujaName?.split(" ").slice(0, 4).join(" ")}{item?.pujaName?.split(" ").length > 4 ? "..." : ""}</Text>
+                                <Text style={{ color: "#fff", ...Fonts.primaryHelvetica, fontSize: 12, }}>{item?.pujaName}</Text>
                                 {item?.shortDescription && (
                                     <Text style={{ color: "#fff", ...Fonts.primaryHelvetica, fontSize: 13, }}>{item?.shortDescription}</Text>
 
@@ -93,34 +100,37 @@ const RegisterdbookPooja = ({dispatch}) => {
                             </View>
                         </ImageBackground>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 5, paddingTop: 5, paddingBottom: 10, }}>
-                            <Text style={styles.dateText}>Price:${item.prize}</Text>
+                            <Text style={styles.dateText}>Price: ₹{item?.price}</Text>
                             <View style={styles.cartBtn}
 
                             >
-                                <Text style={[styles.dateText, { color: "#fff" }]}>Add to Cart</Text>
+                                <Text style={[styles.dateText, { color: "#fff" }]}>Book Now</Text>
                             </View>
                         </View>
                     </View>
                 </View>
             </TouchableOpacity>
+            </View>
 
         );
         return (
-            <View style={{ paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+            <View style={{ paddingVertical: SCREEN_HEIGHT * 0.05 ,bottom:SCREEN_HEIGHT*0.04 }}>
                 <>
                     <FlatList
-                        data={DATA}
+                        data={AllPoojaData}
                         renderItem={renderItem}
                         showsVerticalScrollIndicator={false}
                     />
+                   
                 </>
+             
             </View>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    // giftOrderHistoryData: state.history.giftOrderHistoryData
+    AllPoojaData: state.history.AllPoojaData
   });
   
   const mapDispatchToProps = dispatch => ({ dispatch });

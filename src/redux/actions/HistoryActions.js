@@ -80,4 +80,13 @@ export const getOnlineData = payload =>({
     type: actionTypes.SET_ONLINE_DATA,
     payload,
   })
+
+  export const getRegisterdPujaData = payload => ({
+    type: actionTypes.GET_REGISTERD_PUJA_DATA,
+    payload,
+  })
+  export const setRegisterdPujaData = payload => ({
+    type: actionTypes.SET_REGISTERD_PUJA_DATA,
+    payload,
+  })
   

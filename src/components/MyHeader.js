@@ -96,7 +96,7 @@ const MyHeader = ({navigation, title, statusBar, socialIcons = false,download = 
 
   return (
     <SafeAreaView
-      style={{backgroundColor: colors.new_color}}
+      style={{backgroundColor: colors.background_theme6}}
       forceInset={{top: 'always', bottom: 'never'}}>
       <View
         style={{
@@ -106,7 +106,7 @@ const MyHeader = ({navigation, title, statusBar, socialIcons = false,download = 
         }}>
         <StatusBar
           translucent
-          backgroundColor={statusBar?.backgroundColor}
+          backgroundColor={colors.background_theme6}
           barStyle={statusBar?.barStyle}
         />
       </View>

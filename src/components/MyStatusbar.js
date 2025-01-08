@@ -18,7 +18,7 @@ const MyStatusBar = ({backgroundColor, barStyle, translucent = false }) => {
       }}>
       <StatusBar
         translucent={translucent}
-        backgroundColor={colors.statusbar}
+        backgroundColor={"#FFF3D9"}
         barStyle={barStyle}
       />
     </View>

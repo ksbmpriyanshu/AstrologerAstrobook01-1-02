@@ -62,6 +62,7 @@ const { width, height } = Dimensions.get('screen');
 
 const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, callVideoRequestData, anouncementData, videoCallHistoryData, chatHistoryData, callHistoryData, liveVedioCallHistoryData, offlineData, onlineData }) => {
   // console.log("callRequestData::>",callRequestData)
+  // console.log("anujjjjjjjpal",providerData._id)
   
   
   const { t } = useTranslation();
@@ -190,6 +191,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     Image8: require('../../assets/images/FOLLOWERBOOK.png'),
     Image9: require('../../assets/images/RATING.png'),
     Image10: require('../../assets/images/QUEQUEBOOK.png'),
+    Image11: require('../../assets/images/MYcutomerRevies.png'),
 
 
   };
@@ -205,6 +207,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     { id: '8', image: images.Image8, title: 'My Followers', },
     { id: '9', image: images.Image9, title: 'User Reviews', },
     { id: '10', image: images.Image10, title: 'Queue List', },
+    { id: '11', image: images.Image11, title: 'My Customers', },
 
 
 
@@ -273,9 +276,10 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         case 'User Reviews':
           navigation.navigate('Reviews');
           break;
-        case 'Queue List':
-          navigation.navigate('giftOrderHistory');
+        case 'My Customers':
+          navigation.navigate('MyCustomer');
           break;
+          
         default:
           break;
       }
@@ -484,7 +488,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     <View style={{ flex: 1, backgroundColor: colors.white_color }}>
       <MyStatusBar
         backgroundColor={colors.background_theme6}
-        barStyle="light-content"
+        barStyle="dark-content"
       />
       <View style={{ flex: 0, paddingVertical: SCREEN_HEIGHT * 0.01, backgroundColor: colors.background_theme6, paddingHorizontal: SCREEN_WIDTH * 0.022 }}>
 
@@ -628,7 +632,11 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           </View>
 
           <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-            <TouchableOpacity onPress={()=>showToastMessage({ message: "Coming soon" })} style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, backgroundColor: colors.white_color, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, elevation: 10 }}>
+            <TouchableOpacity 
+            onPress={()=> navigation.navigate("PerformanceDashboard")}
+            // onPress={()=>showToastMessage({ message: "Coming soon" })}
+            
+            style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, backgroundColor: colors.white_color, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, elevation: 10 }}>
               <View style={{ alignItems: "center" }}>
                 <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
                   <Text style={{ color: colors.white_color, fontSize: Sizes.fixPadding * 2, fontWeight: "500" }}>4.2</Text>
@@ -665,10 +673,10 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 <Text style={{ fontSize: Sizes.fixPadding * 1.8, color: colors.white_color, fontWeight: "500" }}>Key Points To Remember</Text>
               </View>
               <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.04, gap: 3 }}>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>Never share your personal Details To Customer.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>Do Not Sell Anything To Customer.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>Never Reach out To Customers Outside The App.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>Ensure Good Customer satisfaction & Reviews.</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Never share your personal Details To Customer.</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Do Not Sell Anything To Customer.</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Never Reach out To Customers Outside The App.</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Ensure Good Customer satisfaction & Reviews.</Text>
               </View>
 
             </View>
@@ -857,15 +865,16 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
             <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
 
-              {/* <View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color7 }}>Live Video</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color6 }}>₹ 400/min</Text>
+               <View>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Video</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.normal_video_call_price}/min</Text>
+
               </View>
 
               <View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color7 }}>Live Audio</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color6 }}>₹ 400/min</Text>
-              </View> */}
+                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Audio</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.call_price}/min</Text>
+              </View> 
 
 
             </View>

@@ -23,15 +23,15 @@ const Splash = ({ navigation, dispatch,customerData }) => {
   }, []);
 
   return (
-    <View style={{backgroundColor:colors.statusbar,flex:1}}>
+    <View style={{backgroundColor:"#FFF3D9",flex:1}}>
 
     
     <ImageBackground 
-    source={require('../assets/images/AstroBookSplash.png')}
+    source={require('../assets/images/SPLASH_02.png')}
     style={{ justifyContent: 'center', alignItems: 'center',height:SCREEN_HEIGHT ,width:SCREEN_WIDTH }} resizeMode='contain'>
       <MyStatusBar
-        backgroundColor={''}
-        barStyle="light-content"
+        backgroundColor={colors.background_theme6}
+        barStyle="dark-content"
         translucent={true}
       />
       {/* {imageview()} */}

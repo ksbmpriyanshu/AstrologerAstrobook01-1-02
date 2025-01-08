@@ -189,7 +189,13 @@ export const get_astro_details = 'api2/get_astro_details';
 export const deductWallet_live_astro = 'api/deductWallet_live_astro';
 export const exit_live_astro = 'api/exit_live_astro';
 export const update_logout = 'api/update_logout';
-export const astroleger_Withdraw = "astrologer/withdraw_request";
+export const astroleger_Withdraw = "ecommerce/get_puja";
+
+// ALL POOJA Data
+export const get_all_pooja = "ecommerce/get_puja";
+
+//Register Pooja
+export const astrologer_register_puja ="ecommerce/astrologer_register_for_puja"
 
 export const google_map_key = 'AIzaSyAnqARt-OmLPXCTpKS3-jKY2SK2SwgUEWE';
 // old

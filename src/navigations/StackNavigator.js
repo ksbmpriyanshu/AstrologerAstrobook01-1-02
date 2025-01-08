@@ -76,6 +76,8 @@ import NotificationDetails from '../screens/home/NotificationDetails';
 import Reviews from '../screens/Reviews';
 import RegisterdbookPooja from '../screens/RegisterdbookPooja';
 import Pujasubmit from '../screens/Pujasubmit';
+import PerformanceDashboard from '../screens/PerformanceDashboard';
+import MyCustomer from '../screens/MyCustomer';
 
 
 
@@ -109,6 +111,8 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name='rashiReport' component={RashiReport} options={{ headerShown: false }} />
       <Stack.Screen name='notificationDetailes' component={NotificationDetails} options={{ headerShown: false }} />
       <Stack.Screen name='Reviews' component={Reviews}  options={{ headerShown: false }}/>
+      <Stack.Screen name='PerformanceDashboard' component={PerformanceDashboard} options={{ headerShown: false }} />
+      <Stack.Screen name='MyCustomer' component={MyCustomer} options={{ headerShown: false }} />
 
       <Stack.Group
         screenOptions={{

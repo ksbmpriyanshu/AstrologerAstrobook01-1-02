@@ -344,7 +344,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
     //   </KeyboardAvoidingView>
     // </View>
    
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 ,backgroundColor:colors.white_color}}>
         <MyStatusBar
         backgroundColor={colors.background_theme2}
         barStyle="light-content"
@@ -361,10 +361,10 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
   );
   function topContent() {
     return (
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <View style={{ justifyContent: "center", alignItems: "center",elevation:1 }}>
         <Image
           style={{ height: SCREEN_HEIGHT * 0.4, width: SCREEN_WIDTH * 1 }}
-          source={require('../../assets/images/bookanuj.png')} />
+          source={require('../../assets/images/LOGINASTRO.png')} />
       </View>
     )
 
@@ -452,7 +452,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
       <TouchableOpacity
         onPress={() => validation()}
         style={{ paddingTop: SCREEN_HEIGHT * 0.03, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.black_color9 }}>
+        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.black_color9,elevation:1 }}>
           <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.white_color }}>Login</Text>
           <AntDesign name='arrowright' color={colors.white_color} size={20} />
         </View>
@@ -463,8 +463,8 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate('astrologerSignUp')}
-        style={{ justifyContent: "center", alignItems: "center", paddingTop: SCREEN_HEIGHT * 0.015 }}>
-        <Text style={{ color: colors.black_color6, fontSize: Sizes.fixPadding * 1.3 }}>Verified Astrologer</Text>
+        style={{ justifyContent: "center", alignItems: "center", paddingTop: SCREEN_HEIGHT * 0.03}}>
+        <Text style={{ color: colors.black_color6, fontSize: Sizes.fixPadding * 1.3 }}>Astrologer Signup</Text>
       </TouchableOpacity>
     )
   }
@@ -485,6 +485,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: SCREEN_HEIGHT * 0.01,
     fontFamily: fonts.medium,
-    paddingLeft: 10
+    paddingLeft: 10,
+
   },
 });
