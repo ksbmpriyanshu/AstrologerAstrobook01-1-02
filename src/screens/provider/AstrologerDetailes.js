@@ -594,7 +594,7 @@ const AstrologerDetailes = ({
       <View style={{flexDirection:'row',marginHorizontal:Sizes.fixPadding,marginTop:Sizes.fixPadding}}>
 
          <LinearGradient
-        colors={[colors.statusbar,colors.statusbar]} 
+        colors={[colors.background_theme6,colors.background_theme6]} 
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ width: '30%', paddingVertical: Sizes.fixPadding * 0.6, borderRadius: 10 }}
@@ -621,7 +621,7 @@ const AstrologerDetailes = ({
         </LinearGradient>
 
            <LinearGradient
-       colors={[colors.statusbar,colors.statusbar]} 
+       colors={[colors.background_theme6,colors.background_theme6]} 
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ width: '30%', paddingVertical: Sizes.fixPadding * 0.6, borderRadius: 10,marginHorizontal:Sizes.fixPadding * 1.5 }}
@@ -648,7 +648,7 @@ const AstrologerDetailes = ({
         </LinearGradient>
 
 <LinearGradient
-        colors={[colors.statusbar,colors.statusbar]} 
+        colors={[colors.background_theme6,colors.background_theme6]} 
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ width: '30%', paddingVertical: Sizes.fixPadding * 0.6, borderRadius: 10}}

@@ -78,6 +78,9 @@ import RegisterdbookPooja from '../screens/RegisterdbookPooja';
 import Pujasubmit from '../screens/Pujasubmit';
 import PerformanceDashboard from '../screens/PerformanceDashboard';
 import MyCustomer from '../screens/MyCustomer';
+import WelcomeMessage from '../screens/WelcomeMessage';
+import SettingBook from '../screens/SettingBook';
+import MyLeaves from '../screens/MyLeaves';
 
 
 
@@ -113,6 +116,9 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name='Reviews' component={Reviews}  options={{ headerShown: false }}/>
       <Stack.Screen name='PerformanceDashboard' component={PerformanceDashboard} options={{ headerShown: false }} />
       <Stack.Screen name='MyCustomer' component={MyCustomer} options={{ headerShown: false }} />
+      <Stack.Screen name='WelcomeMessage' component={WelcomeMessage} options={{ headerShown: false }} />
+      <Stack.Screen name='SettingBook' component={SettingBook} options={{ headerShown: false }} />
+      <Stack.Screen name='MyLeaves' component={MyLeaves} options={{ headerShown: false }} />
 
       <Stack.Group
         screenOptions={{

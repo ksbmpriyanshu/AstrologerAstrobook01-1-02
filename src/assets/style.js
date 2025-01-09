@@ -3,8 +3,8 @@ import { colors } from "../config/Constants";
 export const Colors = {
   primaryDark: '#f9c87d',
   primarymidLight: '#f9c87d',
-  primaryLight: '#381415',
-  PrimaryLight2: '#381415',
+  primaryLight: '#F1B646',
+  PrimaryLight2: '#F1B646',
   white: '#fff',
   whiteDark: '#F5F5F5',
   grayLight: '#ECEAEA',
