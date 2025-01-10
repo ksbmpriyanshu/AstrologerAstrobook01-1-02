@@ -7,7 +7,8 @@ const instialState = {
     chatImageData: null,
     profileData: null,
     callRequestData: null,
-    callVideoRequestData: null
+    callVideoRequestData: null,
+    previousChats:null
 }
 
 const chat = (state = instialState, actions) => {
@@ -50,10 +51,15 @@ const chat = (state = instialState, actions) => {
                 ...state,
                 callVideoRequestData: payload
             }
+        case actionTypes.SET_PREVIUOS_HISTORY:
+            return {
+               ...state,
+                previousChats: payload
+            }
         default: {
             return state
         }
     }
 }
 
-export default chat
+export default chat;

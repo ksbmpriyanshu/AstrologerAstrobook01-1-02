@@ -1,4 +1,4 @@
-import { delay, put, select, takeLeading } from 'redux-saga/effects'
+import { delay, put, select, takeLeading,call } from 'redux-saga/effects'
 import socketServices from '../../utils/socket'
 import * as actionTypes from '../actionTypes'
 import { resetToScreen } from '../../navigations/NavigationServices'
@@ -13,7 +13,7 @@ import axios from 'axios'
 import { showToastMessage } from '../../utils/services'
 
 function* onAcceptRejectChat(actions) {
-   
+
     try {
         const { requestData, status } = actions.payload
         console.log("requestData", requestData)
@@ -83,7 +83,7 @@ function* onInitiatChat(actions) {
             chatPrice: response?.chatHistory?.chatPrice
         };
 
-        console.log("check chat data",data)
+        console.log("check chat data", data)
 
         yield AsyncStorage.setItem('chatData', JSON.stringify(data))
         yield put({ type: actionTypes.SET_CHAT_REQUESTED_DATA, payload: data })
@@ -231,7 +231,7 @@ function* getIntakeDetails(actions) {
         const response = yield postRequest({
             url: api_url + get_linked_profile,
             data: {
-                profileId:requestedData ? requestedData?.profileId: callVideoRequestData ? callVideoRequestData :  callRequestData
+                profileId: requestedData ? requestedData?.profileId : callVideoRequestData ? callVideoRequestData : callRequestData
             }
 
         })
@@ -267,6 +267,41 @@ function* onVideoCallENd(actions) {
         console.log(e);
     }
 }
+function* getprivioushistory(actions) {
+
+    console.log("getprivioushistory", actions);
+
+    try {
+        const providerData = yield select(state => state.provider.providerData);
+
+        const { payload } = actions;
+
+        // console.log("payload::::::::::::::", payload);
+        console.log("customerData::::::::::::::", providerData?._id);
+        const chat_id = `customer_${payload}_astro_${providerData?._id}`;
+
+        console.log("chat_id:::::", chat_id)
+
+        const reference = database().ref(`/ChatMessages/${chat_id}`);
+
+        const snapshot = yield call([reference, reference.once], 'value');
+        const messagesData = snapshot.val();
+
+        console.log("messagesData", messagesData)
+        if (messagesData) {
+            const messages = Object.keys(messagesData).map((key) => ({
+                id: key,
+                ...messagesData[key],
+            }));
+            yield put({ type: actionTypes.SET_PREVIUOS_HISTORY, payload: messages });
+        } else {
+            console.log('No chat history found for this room.');
+        }
+    } catch (e) {
+        console.log('Error fetching chat history:', e);
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false });
+    }
+}
 
 
 export default function* chatSaga() {
@@ -279,4 +314,5 @@ export default function* chatSaga() {
     yield takeLeading(actionTypes.ON_CHAT_IMAGE_SEND, onChatImageSend)
     yield takeLeading(actionTypes.GET_INTAKE_DETAILS, getIntakeDetails)
     yield takeLeading(actionTypes.ON_VIDEO_CALL_END, onVideoCallENd);
+    yield takeLeading(actionTypes.GET_PREVIUOS_HISTORY, getprivioushistory);
 }

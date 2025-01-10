@@ -80,3 +80,12 @@ export const onVideoCallEnd = payload => ({
     type: actionTypes.ON_VIDEO_CALL_END,
     payload
 })
+export const getPreviousChat = payload => ({
+    type: actionTypes.GET_PREVIUOS_HISTORY,
+    payload,
+})
+
+export const setPreviousChat = payload => ({
+    type: actionTypes.SET_PREVIUOS_HISTORY,
+    payload,
+})

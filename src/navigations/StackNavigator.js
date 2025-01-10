@@ -81,6 +81,7 @@ import MyCustomer from '../screens/MyCustomer';
 import WelcomeMessage from '../screens/WelcomeMessage';
 import SettingBook from '../screens/SettingBook';
 import MyLeaves from '../screens/MyLeaves';
+import ChatDetails from '../screens/history/ChatDetails';
 
 
 
@@ -132,6 +133,7 @@ const StackNavigator = (data, data1) => {
         <Stack.Screen name='chatHistory' component={ChatHistory} />
         <Stack.Screen name='callHistory' component={CallHistory} />
         <Stack.Screen name='liveHistory' component={LiveHistory} />
+        <Stack.Screen name='chatdetails' component={ChatDetails} />
         
         <Stack.Screen name="showKundli" component={ShowKundli} />
         <Stack.Screen name='kundliBasicDetails' component={ShowKundliBasic} />

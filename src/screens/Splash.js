@@ -19,7 +19,7 @@ const Splash = ({ navigation, dispatch,customerData }) => {
     setTimeout(() => {
       dispatch(SettingActions.getSplash(dispatch))
       socketServices.initializeSocket(dispatch,customerData?._id)
-    }, 4000);
+    }, 100);
   }, []);
 
   return (
