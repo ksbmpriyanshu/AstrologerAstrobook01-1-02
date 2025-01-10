@@ -265,7 +265,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           navigation.navigate('Notifications');
           break;
         case 'My Earnings':
-          navigation.navigate('Walletwithdraw');
+          navigation.navigate('my-earnings');
           break;
         case 'Remedies':
           navigation.navigate('astrologerDetailes');

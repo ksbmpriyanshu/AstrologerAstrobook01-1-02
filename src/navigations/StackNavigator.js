@@ -82,6 +82,7 @@ import WelcomeMessage from '../screens/WelcomeMessage';
 import SettingBook from '../screens/SettingBook';
 import MyLeaves from '../screens/MyLeaves';
 import ChatDetails from '../screens/history/ChatDetails';
+import MyEarning from '../screens/ernings/MyEarning';
 
 
 
@@ -186,7 +187,7 @@ const StackNavigator = (data, data1) => {
 
       <Stack.Screen name='RegisterdbookPooja' component={RegisterdbookPooja}  options={{ headerShown: false }}/>
       <Stack.Screen name='Pujasubmit' component={Pujasubmit}  options={{ headerShown: false }}/>
-     
+      <Stack.Screen name='my-earnings' component={MyEarning} options={{ headerShown: false }}/>
      
       <Stack.Screen
         name="ZegoUIKitPrebuiltCallInCallScreen"
