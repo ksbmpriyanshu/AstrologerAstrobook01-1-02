@@ -83,6 +83,8 @@ import SettingBook from '../screens/SettingBook';
 import MyLeaves from '../screens/MyLeaves';
 import ChatDetails from '../screens/history/ChatDetails';
 import MyEarning from '../screens/ernings/MyEarning';
+import SelectLanguage from '../screens/AstroloferDetailes/SelectLanguage';
+import Expertise from '../screens/AstroloferDetailes/Expertise';
 
 
 
@@ -121,6 +123,7 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name='WelcomeMessage' component={WelcomeMessage} options={{ headerShown: false }} />
       <Stack.Screen name='SettingBook' component={SettingBook} options={{ headerShown: false }} />
       <Stack.Screen name='MyLeaves' component={MyLeaves} options={{ headerShown: false }} />
+      <Stack.Screen name='Expertise' component={Expertise} options={{ headerShown: false }} />
 
       <Stack.Group
         screenOptions={{
@@ -188,6 +191,8 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name='RegisterdbookPooja' component={RegisterdbookPooja}  options={{ headerShown: false }}/>
       <Stack.Screen name='Pujasubmit' component={Pujasubmit}  options={{ headerShown: false }}/>
       <Stack.Screen name='my-earnings' component={MyEarning} options={{ headerShown: false }}/>
+      <Stack.Screen name='SelectLanguage' component={SelectLanguage}  options={{ headerShown: false }}/>
+     
      
       <Stack.Screen
         name="ZegoUIKitPrebuiltCallInCallScreen"

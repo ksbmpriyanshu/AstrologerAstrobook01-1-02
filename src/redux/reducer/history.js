@@ -10,7 +10,9 @@ const initialState = {
     offlineData:null,
     onlineData:null,
     AllPoojaData:null,
-    RegisterPujadata:null
+    RegisterPujadata:null,
+    SelectLanguagedata:null,
+    Expertisedata:null
 };
 
 const history = (state = initialState, actions)=>{
@@ -77,6 +79,24 @@ const history = (state = initialState, actions)=>{
                         ...state,
                         RegisterPujadata: payload,
                      };
+                    
+                     case actionTypes.SET_SELECT_LANGUAGE_DATA:
+                        return {
+                           ...state,
+                           SelectLanguagedata: payload,
+                        };
+                        case actionTypes.SET_SELECT_LANGUAGE_DATA:
+                        return {
+                           ...state,
+                           SelectLanguagedata: payload,
+                        };
+
+                        case actionTypes.SET_EXPERTISE_DATA:
+                           return {
+                              ...state,
+                              Expertisedata: payload,
+                           };
+                          
         default:{
             return state
         }

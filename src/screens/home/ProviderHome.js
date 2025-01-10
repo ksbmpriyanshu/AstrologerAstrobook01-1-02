@@ -62,7 +62,7 @@ const { width, height } = Dimensions.get('screen');
 
 const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, callVideoRequestData, anouncementData, videoCallHistoryData, chatHistoryData, callHistoryData, liveVedioCallHistoryData, offlineData, onlineData }) => {
   // console.log("callRequestData::>",callRequestData)
-  // console.log("anujjjjjjjpal",providerData._id)
+  // console.log("anujjjjjjjpal",providerData)
   
   
   const { t } = useTranslation();
@@ -316,7 +316,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        // console.log('App has come to the foreground!');
+       
       }
 
       appState.current = nextAppState;
@@ -480,8 +480,8 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     setIsEnabled3(value);
   };
 
-  // Example usage
-  let followerCount = providerData?.follower_count; // Replace with your actual follower count
+  
+  let followerCount = providerData?.follower_count; 
   let formattedCount = formatFollowerCount(followerCount);
 
   return (
