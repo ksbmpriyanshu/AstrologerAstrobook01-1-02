@@ -41,7 +41,7 @@ const Pujasubmit = ({ route, RegisterPujadata, dispatch }) => {
     const handleRegisterPuja = () => {
 
         const formattedDate = date.toISOString();
-        // const formattedTime = date.toLocaleTimeString();
+      
         const formattedTime = date.toISOString();
 
         const data ={

@@ -47,8 +47,10 @@ import { navigate } from '../NavigationService';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useState } from 'react';
+import IssueModal from '../screens/IssueModal';
 
 function CustomDrawerContent(props) {
+
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -58,25 +60,25 @@ function CustomDrawerContent(props) {
   };
 
   const openWhatsApp = () => {
-       
-        
-    const url = `https://astrobook.freekundli.in/astrologers/${props.props?.providerData?._id}}`;  
-  
-    console.log('palAnuj',url)
-    const message = url; 
+
+
+    const url = `https://astrobook.freekundli.in/astrologers/${props.props?.providerData?._id}}`;
+
+    console.log('palAnuj', url)
+    const message = url;
     const phoneNumber = '';
-    const whatsappUrl = phoneNumber 
-        ? `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`
-        : `whatsapp://send?text=${encodeURIComponent(message)}`; 
+    const whatsappUrl = phoneNumber
+      ? `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`
+      : `whatsapp://send?text=${encodeURIComponent(message)}`;
 
     Linking.openURL(whatsappUrl)
-        .then(() => {
-            console.log('WhatsApp opened');
-        })
-        .catch((err) => {
-            console.error('Error opening WhatsApp', err);
-        });
-};
+      .then(() => {
+        console.log('WhatsApp opened');
+      })
+      .catch((err) => {
+        console.error('Error opening WhatsApp', err);
+      });
+  };
 
 
   const handleButtonPress = (buttonType) => {
@@ -140,9 +142,9 @@ function CustomDrawerContent(props) {
 
         <View style={{ gap: SCREEN_HEIGHT * 0.025, paddingVertical: SCREEN_HEIGHT * 0.012 }}>
 
-          <TouchableOpacity 
-          onPress={()=>navigation.navigate('astrologerDetailes')}
-          style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('astrologerDetailes')}
+            style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
             <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
               <Image
                 style={{ height: SCREEN_HEIGHT * 0.03, width: SCREEN_WIDTH * 0.06, resizeMode: "contain" }}
@@ -154,8 +156,8 @@ function CustomDrawerContent(props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-          onPress={()=>navigation.navigate("WelcomeMessage")}
-          style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
+            onPress={() => navigation.navigate("WelcomeMessage")}
+            style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
             <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
               <Image
                 style={{ height: SCREEN_HEIGHT * 0.03, width: SCREEN_WIDTH * 0.06, resizeMode: "contain" }}
@@ -167,8 +169,8 @@ function CustomDrawerContent(props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-          onPress={()=>navigation.navigate('MyLeaves')}
-          style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
+            onPress={() => navigation.navigate('MyLeaves')}
+            style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
             <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
               <Image
                 style={{ height: SCREEN_HEIGHT * 0.03, width: SCREEN_WIDTH * 0.06, resizeMode: "contain" }}
@@ -192,9 +194,9 @@ function CustomDrawerContent(props) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-          onPress={()=>navigation.navigate("SettingBook")}
-          style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SettingBook")}
+            style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.02 }}>
             <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
               <Image
                 style={{ height: SCREEN_HEIGHT * 0.03, width: SCREEN_WIDTH * 0.06, resizeMode: "contain" }}
@@ -205,7 +207,7 @@ function CustomDrawerContent(props) {
             </View>
           </TouchableOpacity>
 
-          <Modal
+          {/* <Modal
             visible={modalVisible}
             animationType="slide"
             transparent={true}
@@ -264,7 +266,12 @@ function CustomDrawerContent(props) {
 
               </View>
             </View>
-          </Modal>
+          </Modal> */}
+          <IssueModal
+            modalVisible={modalVisible}
+            toggleModal={toggleModal}
+      
+          />
 
         </View>
 
@@ -290,9 +297,9 @@ function CustomDrawerContent(props) {
             <Text style={{ ...Fonts.black11InterMedium, fontSize: 10 }}>Employee Id : {props.props?.providerData?._id.slice(0, 9)}</Text>
           </View>
 
-          <TouchableOpacity 
-          onPress={openWhatsApp}
-          style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100, backgroundColor: "white", elevation: 1 }}>
+          <TouchableOpacity
+            onPress={openWhatsApp}
+            style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100, backgroundColor: "white", elevation: 1 }}>
             <Image
               style={{ height: SCREEN_HEIGHT * 0.025, width: SCREEN_WIDTH * 0.045, resizeMode: "contain" }}
               source={require('../assets/images/shareprofileanuj.png')} />

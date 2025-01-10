@@ -89,4 +89,31 @@ export const getOnlineData = payload =>({
     type: actionTypes.SET_REGISTERD_PUJA_DATA,
     payload,
   })
+
+  export const getIssueData = payload => ({
+    type: actionTypes.GET_ISSUE_DATA,
+    payload,
+  })
+  export const setIssueDataData = payload => ({
+    type: actionTypes.SET_ISSUE_DATA,
+    payload,
+  })
+
+  export const getSelectLanguageDATA = payload => ({
+    type: actionTypes.GET_SELECT_LANGUAGE_DATA,
+    payload,
+  })
+  export const setSelectLanguageDATA = payload => ({
+    type: actionTypes.SET_SELECT_LANGUAGE_DATA,
+    payload,
+  })
+
+  export const getExpertiseDATA = payload => ({
+    type: actionTypes.GET_EXPERTISE_DATA,
+    payload,
+  })
+  export const setExpertiseDATA = payload => ({
+    type: actionTypes.SET_EXPERTISE_DATA,
+    payload,
+  })
   

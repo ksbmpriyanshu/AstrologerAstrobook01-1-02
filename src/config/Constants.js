@@ -197,6 +197,20 @@ export const get_all_pooja = "ecommerce/get_puja";
 //Register Pooja
 export const astrologer_register_puja ="ecommerce/astrologer_register_for_puja"
 
+//Issue reporting
+
+export const Issue_reporting ="astrologer/have_an_issue"
+
+//get Language
+
+
+export const Select_language ="admin/get_language"
+
+//get expertise 
+
+export const Main_Expertise ="admin/get-all-main-expertise"
+
+
 export const google_map_key = 'AIzaSyAnqARt-OmLPXCTpKS3-jKY2SK2SwgUEWE';
 // old
 export const call_app_id = 1999906308;
