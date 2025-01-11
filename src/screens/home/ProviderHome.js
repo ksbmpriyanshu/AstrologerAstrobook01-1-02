@@ -55,16 +55,17 @@ import Feather from 'react-native-vector-icons/Feather';
 import { navigate } from '../../NavigationService';
 import * as HistoryActions from '../../redux/actions/HistoryActions'
 import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
-    
+
 
 const { width, height } = Dimensions.get('screen');
 
 const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, callVideoRequestData, anouncementData, videoCallHistoryData, chatHistoryData, callHistoryData, liveVedioCallHistoryData, offlineData, onlineData }) => {
   // console.log("callRequestData::>",callRequestData)
-  // console.log("anujjjjjjjpal",providerData)
-  
-  
+  // console.log("anujjjjjjjpal",providerData?._id);
+
+
   const { t } = useTranslation();
   const [isRefereshing, setIsRefereshing] = useState(false);
   const [date, setDate] = useState(null);
@@ -77,6 +78,8 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date().toDateString());
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [status, setStatus] = useState('offline');
   // const navigation = useNavigation();
 
   // console.log(liveVedioCallHistoryData?.length, 'chat count')
@@ -95,6 +98,20 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
       headerShown: false,
     });
   }, []);
+
+  const handleStatusChange = (newStatus) => {
+    setStatus(newStatus);
+    dispatch(SettingActions.updateChatStatus(newStatus));
+  };
+
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
 
   const handleChatStatusToggle = (value) => {
@@ -229,11 +246,11 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     return (
 
 
-      <View style={{paddingVertical:SCREEN_HEIGHT*0.005}}>
-      <View style={{ width: SCREEN_WIDTH * 0.45, height: SCREEN_HEIGHT * 0.12, borderRadius: 10, alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: colors.white_color, elevation: 2, marginHorizontal: SCREEN_WIDTH * 0.015, }}>
-        <Text style={{ fontSize: Sizes.fixPadding * 1.6, fontWeight: "500", color: colors.black_color9 }}>{item.paisa}</Text>
-        <Text style={{ fontSize: Sizes.fixPadding * 1.4, color: colors.black_color6 }}>{item.title}</Text>
-      </View>
+      <View style={{ paddingVertical: SCREEN_HEIGHT * 0.005 }}>
+        <View style={{ width: SCREEN_WIDTH * 0.34, height: SCREEN_HEIGHT * 0.1, borderRadius: 10, alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: colors.white_color, elevation: 2, marginHorizontal: SCREEN_WIDTH * 0.015, }}>
+          <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.black_color9 }}>{item.paisa}</Text>
+          <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color6 }}>{item.title}</Text>
+        </View>
       </View>
 
 
@@ -279,7 +296,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         case 'My Customers':
           navigation.navigate('MyCustomer');
           break;
-          
+
         default:
           break;
       }
@@ -316,7 +333,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-       
+
       }
 
       appState.current = nextAppState;
@@ -354,11 +371,11 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         if (snapshot.val()) {
           dispatch(ChatActions.setCallVideoRequrestData(snapshot.val()?.formId))
         } else {
-          
+
           dispatch(ChatActions.setCallVideoRequrestData(null))
         }
       } catch (e) {
-       
+
         dispatch(ChatActions.setCallVideoRequrestData(null))
       }
     });
@@ -480,8 +497,8 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     setIsEnabled3(value);
   };
 
-  
-  let followerCount = providerData?.follower_count; 
+
+  let followerCount = providerData?.follower_count;
   let formattedCount = formatFollowerCount(followerCount);
 
   return (
@@ -514,15 +531,15 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 style={{ height: SCREEN_WIDTH * 0.1, width: SCREEN_WIDTH * 0.1, objectFit: "cover" }}
               />
             </TouchableOpacity >
-            <View>
+            <TouchableOpacity onPress={handleOpenModal}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.white_color, fontWeight: "500" }}>Online</Text>
+                <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.white_color, fontWeight: "500" }}>{status}</Text>
                 <AntDesign name='down' size={10} color={colors.white_color} />
               </View>
               <View>
                 <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.white_color, fontWeight: "500" }}>Id: {providerData._id.slice(0, 6) + '...'}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
 
 
@@ -632,11 +649,11 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           </View>
 
           <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-            <TouchableOpacity 
-            onPress={()=> navigation.navigate("PerformanceDashboard")}
-            // onPress={()=>showToastMessage({ message: "Coming soon" })}
-            
-            style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, backgroundColor: colors.white_color, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, elevation: 10 }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PerformanceDashboard")}
+              // onPress={()=>showToastMessage({ message: "Coming soon" })}
+
+              style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, backgroundColor: colors.white_color, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, elevation: 10 }}>
               <View style={{ alignItems: "center" }}>
                 <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
                   <Text style={{ color: colors.white_color, fontSize: Sizes.fixPadding * 2, fontWeight: "500" }}>4.2</Text>
@@ -716,9 +733,9 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           </View>
 
           <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
-            <TouchableOpacity 
-            onPress={()=>showToastMessage({ message: "Coming soon" })}
-            style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.white_color, borderRadius: 10, elevation: 10, overflow: "hidden" }}>
+            <TouchableOpacity
+              onPress={() => showToastMessage({ message: "Coming soon" })}
+              style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.white_color, borderRadius: 10, elevation: 10, overflow: "hidden" }}>
               <View style={{ alignItems: "center", justifyContent: "center", backgroundColor: '#FFFCF3', paddingHorizontal: SCREEN_WIDTH * 0.02, }}>
                 <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", }}>
 
@@ -865,7 +882,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
             <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
 
-               <View>
+              <View>
                 <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Video</Text>
                 <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.normal_video_call_price}/min</Text>
 
@@ -874,7 +891,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
               <View>
                 <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Audio</Text>
                 <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.call_price}/min</Text>
-              </View> 
+              </View>
 
 
             </View>
@@ -1768,7 +1785,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
                 backgroundColor: colors.new_color,
                 borderRadius: 5,
-                marginBottom:10,
+                marginBottom: 10,
               }}>
               <Text
                 style={{
@@ -1869,6 +1886,65 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           </View>
         </View>
       </Modal>
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCloseModal}>
+
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={{ alignItems: "center", paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+
+              <Text style={{ ...Fonts.helveticaBoldBlack, fontSize: responsiveFontSize(1.8) }}>Astrologer Chat Status</Text>
+
+            </View>
+            <View>
+
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: SCREEN_WIDTH * 0.055, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleStatusChange('online');
+                    handleCloseModal();
+                  }}
+                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
+                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Online</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleStatusChange('offline');
+                    handleCloseModal();
+
+                  }}
+
+                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
+                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Offline</Text>
+                </TouchableOpacity >
+                <TouchableOpacity
+                  onPress={() => {
+                    handleStatusChange('busy');
+                    handleCloseModal();
+                  }}
+
+                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
+                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Busy</Text>
+                </TouchableOpacity >
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+
+
+
+
+
+
+
+
     </View>
   );
 };
@@ -1900,6 +1976,25 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 4,
     backgroundColor: '#F45F4B'
+  },
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+
+    borderRadius: 10,
+    width: SCREEN_WIDTH * 0.8,
+    height: SCREEN_HEIGHT * 0.2,
+
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
   },
   boxContainerA: {
     flex: 0,

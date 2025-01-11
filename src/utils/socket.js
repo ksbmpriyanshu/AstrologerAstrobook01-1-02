@@ -13,7 +13,7 @@ class WSService {
     try {
       this.socket = io(SOCKET_URL, {
         transports: ['websocket'],
-        query: { userId },
+        query: { userId,user_type:"Astrologer" },
         reconnection: true,                // Enable reconnection
         reconnectionAttempts: Infinity,    // Retry indefinitely
         reconnectionDelay: 1000,           // 1 second delay between reconnections

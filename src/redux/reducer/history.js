@@ -12,7 +12,8 @@ const initialState = {
     AllPoojaData:null,
     RegisterPujadata:null,
     SelectLanguagedata:null,
-    Expertisedata:null
+    Expertisedata:null,
+    MyCustomerData:null
 };
 
 const history = (state = initialState, actions)=>{
@@ -96,6 +97,14 @@ const history = (state = initialState, actions)=>{
                               ...state,
                               Expertisedata: payload,
                            };
+
+                           case actionTypes.SET_MY_CUSTOMER_DATA:
+                              return {
+                                 ...state,
+                                 MyCustomerData: payload,
+                              };
+
+                           
                           
         default:{
             return state

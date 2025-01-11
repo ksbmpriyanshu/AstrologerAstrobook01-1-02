@@ -38,7 +38,7 @@ const AnnouncementDetails = ({ navigation, dispatch, anouncementData }) => {
     function announcedata() {
         const NoDataFound = () => (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: SCREEN_HEIGHT * 0.9 }}>
-                <Text style={{ color: Colors.black, fontSize: getFontSize(2) }}>No Data found</Text>
+                <Text style={{ color: Colors.black, fontSize: getFontSize(2) }}>No Annoucements found</Text>
             </View>
         );
 
@@ -83,7 +83,7 @@ const AnnouncementDetails = ({ navigation, dispatch, anouncementData }) => {
                     data={anouncementData}
                     renderItem={renderItem}
                     ListEmptyComponent={NoDataFound}
-                    keyExtractor={(item) => item?._id?.toString()} // Ensure each item has a unique key
+                    keyExtractor={(item) => item?._id?.toString()} 
                 />
             </View>
         );

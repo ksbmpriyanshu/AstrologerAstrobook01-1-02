@@ -211,6 +211,12 @@ export const Select_language ="admin/get_language"
 export const Main_Expertise ="admin/get-all-main-expertise"
 
 
+
+// Mycutomer
+
+export const My_Customer ="astrologer/get_my_customer"
+
+
 export const google_map_key = 'AIzaSyAnqARt-OmLPXCTpKS3-jKY2SK2SwgUEWE';
 // old
 export const call_app_id = 1999906308;

@@ -116,4 +116,13 @@ export const getOnlineData = payload =>({
     type: actionTypes.SET_EXPERTISE_DATA,
     payload,
   })
+
+  export const getMyCustomerDATA = payload => ({
+    type: actionTypes.GET_MY_CUSTOMER_DATA,
+    payload,
+  })
+  export const setMyCustomerDATA = payload => ({
+    type: actionTypes.SET_MY_CUSTOMER_DATA,
+    payload,
+  })
   

@@ -318,6 +318,8 @@ function* getAstrologerAnouncement() {
       },
     });
 
+    console.log("getdataaaaa",response)
+
     if (response?.success) {
       yield put({
         type: actionTypes.SET_ALL_ANOUNCEMENT,
@@ -361,7 +363,7 @@ function* getwithdrawwallet(actions) {
         ...payload
       },
     });
-    console.log("withdraw suuccess",response)
+    console.log("withdraw suuccess", response)
     if (response?.success) {
       yield put({
         type: actionTypes.SET_WITHDRAW_WALLET,
@@ -393,11 +395,11 @@ function* getNotificationData(actions) {
     });
 
     console.log("response::::response::::", response);
-    
+
     if (response?.success) {
       // Sort notifications by _id in descending order
       const sortedNotifications = response.notifications.sort((a, b) => b._id.localeCompare(a._id));
-      
+
       // Dispatch sorted notifications to store
       yield put({ type: actionTypes.SET_NOTIFICATIONS_DATA, payload: sortedNotifications });
       showToastMessage({ message: response?.message });
@@ -436,8 +438,8 @@ function* getAssignedPujaData(actions) {
   try {
     const { payload } = actions
     const providerData = yield select(state => state.provider.providerData);
-    console.log(providerData?._id,'ppid')
-   
+    console.log(providerData?._id, 'ppid')
+
     const response = yield postRequest({
       url: api_url + get_assigned_Puja,
       data: {
@@ -447,11 +449,11 @@ function* getAssignedPujaData(actions) {
 
     if (response?.success) {
       yield put({ type: actionTypes.SET_ASSIGNEDPUJA_DATA, payload: response?.pooja })
-   
+
       showToastMessage({ message: response?.message })
 
     }
-    
+
 
   }
   catch (e) {
@@ -465,13 +467,13 @@ function* getAssignedPujaUpload(actions) {
     const { payload } = actions
 
     console.log("order id:::", payload)
- 
+
     const response = yield postRequest({
       url: api_url + complete_astrologer_pooja,
       data: payload
     })
     console.log("respose:::::::", response);
-    }
+  }
   catch (e) {
     console.log("eeee", e);
   }
@@ -480,7 +482,7 @@ function* getAstrologerCompleltePooja(actions) {
   try {
     const { payload } = actions
     const providerData = yield select(state => state.provider.providerData);
-   
+
     const response = yield postRequest({
       url: api_url + get_complete_Puja,
       data: {
@@ -489,11 +491,11 @@ function* getAstrologerCompleltePooja(actions) {
     });
     if (response?.success) {
       yield put({ type: actionTypes.SET_ASTROLOGER_COMPLETE_POOJA, payload: response?.pooja })
-   
+
       showToastMessage({ message: response?.message })
 
     }
-    
+
 
   }
   catch (e) {
@@ -520,5 +522,5 @@ export default function* settingSaga() {
   yield takeLeading(actionTypes.GET_DELETE_ACCOUNT, getdeleteaccount)
   yield takeLeading(actionTypes.GET_ASSIGNEDPUJA_DATA, getAssignedPujaData);
   yield takeLeading(actionTypes.GET_ASSIGNEDPUJA_UPLOAD, getAssignedPujaUpload);
-  yield takeLeading(actionTypes.GET_ASTROLOGER_COMPLETE_POOJA,getAstrologerCompleltePooja);
+  yield takeLeading(actionTypes.GET_ASTROLOGER_COMPLETE_POOJA, getAstrologerCompleltePooja);
 }

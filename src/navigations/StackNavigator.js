@@ -85,6 +85,7 @@ import ChatDetails from '../screens/history/ChatDetails';
 import MyEarning from '../screens/ernings/MyEarning';
 import SelectLanguage from '../screens/AstroloferDetailes/SelectLanguage';
 import Expertise from '../screens/AstroloferDetailes/Expertise';
+import CustomerSessions from '../screens/CustomerSessions';
 
 
 
@@ -124,6 +125,7 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name='SettingBook' component={SettingBook} options={{ headerShown: false }} />
       <Stack.Screen name='MyLeaves' component={MyLeaves} options={{ headerShown: false }} />
       <Stack.Screen name='Expertise' component={Expertise} options={{ headerShown: false }} />
+      <Stack.Screen name='CustomerSessions' component={CustomerSessions} options={{ headerShown: false }} />
 
       <Stack.Group
         screenOptions={{

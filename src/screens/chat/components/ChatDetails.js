@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity ,ImageBackground} from 'react-native'
 import React, { useCallback } from 'react'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
 import { connect } from 'react-redux';
@@ -43,6 +43,13 @@ const ChatDetails = ({ dispatch, chatData, providerData, chatImageData }) => {
   };
 
   return (
+
+    <ImageBackground
+    source={require('../../../assets/images/chat_bg.png')}
+    style={{ flex: 1, justifyContent: 'flex-end' }}
+  >
+
+
     <GiftedChat
       messages={chatData}
       onSend={messages => onSend(messages)}
@@ -122,6 +129,7 @@ const ChatDetails = ({ dispatch, chatData, providerData, chatImageData }) => {
         )
       }}
     />
+    </ImageBackground>
   )
 }
 

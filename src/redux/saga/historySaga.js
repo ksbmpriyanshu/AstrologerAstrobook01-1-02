@@ -1,7 +1,7 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { getRequest, postRequest } from '../../utils/apiRequests'
-import { api_url, astrologer_call_history, astrologer_wallet_history, astrologers_chat_history, get_astrolgoer_live_calls, get_gift_order_history, get_video_call_history, get_status_online, get_status_offline, get_all_pooja, astrologer_register_puja, Issue_reporting, Select_language, Main_Expertise } from '../../config/Constants'
+import { api_url, astrologer_call_history, astrologer_wallet_history, astrologers_chat_history, get_astrolgoer_live_calls, get_gift_order_history, get_video_call_history, get_status_online, get_status_offline, get_all_pooja, astrologer_register_puja, Issue_reporting, Select_language, Main_Expertise, My_Customer } from '../../config/Constants'
 import { Alert } from 'react-native'
 import { showToastMessage } from '../../utils/services'
 import { state } from 'react-native-fs'
@@ -220,37 +220,37 @@ function* getAllastrologerPooja(actions) {
 
 
 function* getRegisterdPuja(actions) {
-    const {payload} = actions
-    console.log("bjhiguytfgvytfg",payload)
-  
+    const { payload } = actions
+    console.log("bjhiguytfgvytfg", payload)
+
     const providerData = yield select(state => state.provider.providerData)
     console.log("providerData", providerData?._id)
-    
+
     try {
-      
-        const data= {
+
+        const data = {
             astrologerId: providerData?._id,
             pujaId: payload?.pujaId,
-            pujaStartDate: payload?.pujaStartDate,  
-            pujaStartTime: payload?.pujaStartTime,  
+            pujaStartDate: payload?.pujaStartDate,
+            pujaStartTime: payload?.pujaStartTime,
             mode: 'online',
-            duration: payload?.duration 
+            duration: payload?.duration
         }
-       console.log("sadhsaoui",data)
+        console.log("sadhsaoui", data)
         const response = yield postRequest({
             url: api_url + astrologer_register_puja,
             data: {
                 astrologerId: providerData?._id,
                 pujaId: payload?.pujaId,
-                pujaStartDate: payload?.pujaStartDate,  
-                pujaStartTime: payload?.pujaStartTime,  
+                pujaStartDate: payload?.pujaStartDate,
+                pujaStartTime: payload?.pujaStartTime,
                 mode: 'online',
-                duration: payload?.duration 
+                duration: payload?.duration
             }
         })
         console.log("responsepooja", response?.success)
         yield put({ type: actionTypes.SET_REGISTERD_PUJA_DATA, payload: response })
-        showToastMessage(message="Pooja is Registered")
+        showToastMessage(message = "Pooja is Registered")
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
 
     } catch (e) {
@@ -259,32 +259,32 @@ function* getRegisterdPuja(actions) {
     }
 }
 function* getIssueregisterd(actions) {
-    const {payload} = actions
-    console.log("bjhiguytfgvytfg",payload)
-  
+    const { payload } = actions
+    console.log("bjhiguytfgvytfg", payload)
+
     const providerData = yield select(state => state.provider.providerData)
     console.log("providerData", providerData?._id)
-    
+
     try {
-      
-        const data= {
+
+        const data = {
             astrologerId: providerData?._id,
-            description:payload?.description
-       
+            description: payload?.description
+
         }
-       console.log("sadhsaoui",data)
+        console.log("sadhsaoui", data)
         const response = yield postRequest({
             url: api_url + Issue_reporting,
             data: {
                 astrologerId: providerData?._id,
-                description:payload?.description
-               
-              
+                description: payload?.description
+
+
             }
         })
         console.log("ANUJJJDATA", response?.message)
         yield put({ type: actionTypes.SET_REGISTERD_PUJA_DATA, payload: response })
-        showToastMessage({ message:Response?.message })
+        showToastMessage({ message: Response?.message })
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
 
     } catch (e) {
@@ -322,22 +322,55 @@ function* getExpertisedata(actions) {
 
         const response = yield getRequest({
             url: api_url + Main_Expertise,
-         
+
 
         })
         console.log('anujjjjexpertise', response?.mainExpertise)
-     
-     
+
+
         if (response?.success) {
-        
+
 
             yield put({ type: actionTypes.SET_EXPERTISE_DATA, payload: response?.mainExpertise })
-          
+
             showToastMessage({ message: response?.message })
 
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
+function* getMyCustomerData(actions) {
+    const { payload } = actions
+    console.log("bjhiguytfgvytfg", payload)
+
+    const providerData = yield select(state => state.provider.providerData)
+    console.log("providerData", providerData?._id)
+
+    try {
+
+        const data = {
+            astrologerId: providerData?._id,
+    
+
+        }
+        console.log("sadhsaouiaaaaaaaa", data)
+        const response = yield postRequest({
+            url: api_url + My_Customer,
+            data: {
+                astrologerId: providerData?._id,
+              
+            }
+        })
+        console.log("Cutomersaagaaaaa", response?.customers)
+        yield put({ type: actionTypes.SET_MY_CUSTOMER_DATA, payload: response?.customers })
+        showToastMessage({ message: Response?.message })
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
     } catch (e) {
         console.log(e)
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -358,9 +391,10 @@ export default function* historySaga() {
     yield takeLeading(actionTypes.GET_STATUS_ONLINE, getonline)
     yield takeLeading(actionTypes.GET_ONLINE_DATA, getonline)
     yield takeLeading(actionTypes.GET_OFFLINE_DATA, getoffline);
-    yield takeLeading(actionTypes.GET_REGISTERD_PUJA_DATA, getRegisterdPuja);getSelectLanguagedata
-    yield takeLeading(actionTypes.GET_ISSUE_DATA, getIssueregisterd);getExpertisedata
-    yield takeLeading(actionTypes.GET_SELECT_LANGUAGE_DATA,getSelectLanguagedata );
-    yield takeLeading(actionTypes.GET_EXPERTISE_DATA,getExpertisedata );
-  
+    yield takeLeading(actionTypes.GET_REGISTERD_PUJA_DATA, getRegisterdPuja); getSelectLanguagedata
+    yield takeLeading(actionTypes.GET_ISSUE_DATA, getIssueregisterd); getExpertisedata
+    yield takeLeading(actionTypes.GET_SELECT_LANGUAGE_DATA, getSelectLanguagedata);getMyCustomerData
+    yield takeLeading(actionTypes.GET_EXPERTISE_DATA, getExpertisedata);
+    yield takeLeading(actionTypes.GET_MY_CUSTOMER_DATA, getMyCustomerData);
+
 }

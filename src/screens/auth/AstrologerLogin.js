@@ -35,11 +35,12 @@ import database from '@react-native-firebase/database';
 import MyLoader from '../../components/MyLoader';
 import { Switch } from 'react-native-switch';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { Colors, Sizes } from '../../assets/style';
+import { Colors, Fonts, Sizes } from '../../assets/style';
 import * as AuthActions from '../../redux/actions/AuthActions'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config/Screen';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -347,7 +348,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
         <View style={{ flex: 1 ,backgroundColor:colors.white_color}}>
         <MyStatusBar
         backgroundColor={colors.background_theme2}
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent={true}
       />
           {topContent()}
@@ -433,26 +434,35 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
   }
   function forget() {
     return (
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('forgetPassword')}
+      //   style={{ paddingTop: SCREEN_HEIGHT * 0.01, width: SCREEN_WIDTH * 0.4, alignSelf: 'flex-end', paddingHorizontal: SCREEN_WIDTH * 0.02 ,borderWidth:1 }}>
+      //   <Text
+      //     style={{
+      //      fontSize:responsiveFontSize(2),
+      //       color: "blue",
+      //       fontFamily: fonts.medium,
+      //       textAlign: 'right'
+      //     }}>
+      //     Forgot Password ?
+      //   </Text>
+      // </TouchableOpacity>
+<View style={{alignItems:"flex-end",paddingHorizontal:SCREEN_WIDTH*0.03,paddingTop:SCREEN_HEIGHT*0.01}}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('forgetPassword')}
-        style={{ paddingTop: SCREEN_HEIGHT * 0.01, width: SCREEN_WIDTH * 0.3, alignSelf: 'flex-end', paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
-        <Text
-          style={{
-            fontSize: 11,
-            color: "blue",
-            fontFamily: fonts.medium,
-            textAlign: 'right'
-          }}>
-          Forgot Password ?
-        </Text>
-      </TouchableOpacity>)
+      onPress={() => navigation.navigate('forgetPassword')}
+      style={{alignItems:"center",}}>
+            <Text style={{...Fonts.black11InterMedium,color:"blue",fontSize:responsiveFontSize(1.3)}}>Forget Password</Text>
+      </TouchableOpacity>
+      </View>
+      
+    )
   }
   function buttonLogin() {
     return (
       <TouchableOpacity
         onPress={() => validation()}
         style={{ paddingTop: SCREEN_HEIGHT * 0.03, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.black_color9,elevation:1 }}>
+        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.background_theme6,elevation:1 }}>
           <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.white_color }}>Login</Text>
           <AntDesign name='arrowright' color={colors.white_color} size={20} />
         </View>
@@ -464,7 +474,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
       <TouchableOpacity
         onPress={() => navigation.navigate('astrologerSignUp')}
         style={{ justifyContent: "center", alignItems: "center", paddingTop: SCREEN_HEIGHT * 0.03}}>
-        <Text style={{ color: colors.black_color6, fontSize: Sizes.fixPadding * 1.3 }}>Astrologer Signup</Text>
+        <Text style={{ color: colors.black_color6, fontSize: Sizes.fixPadding * 1.3, textDecorationLine:"underline"}}>Astrologer Signup</Text>
       </TouchableOpacity>
     )
   }

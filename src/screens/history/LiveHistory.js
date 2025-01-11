@@ -8,78 +8,106 @@ import { secondsToHMS, showNumber } from '../../utils/services';
 import { base_url, getFontSize, img_url } from '../../config/Constants';
 import * as HistoryActions from '../../redux/actions/HistoryActions'
 import MyHeader from '../../components/MyHeader';
+import { colors } from '../../config/Constants';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const LiveHistory = ({ liveVedioCallHistoryData, dispatch, navigation }) => {
   useEffect(() => {
     dispatch(HistoryActions.getLiveVedioCallHistory())
-}, [dispatch])
+  }, [dispatch])
   const renderItem = ({ item, index }) => {
     return (
-      <View style={styles.container}>
-        <Text
-          style={{
-            ...Fonts.black11InterMedium,
-            fontSize: 13,
-            marginBottom: Sizes.fixPadding * 0.5,
-            textTransform: 'uppercase'
-          }}>
-          ORDER ID: {item?.streamId}
-        </Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: img_url + item?.customerId?.image }}
-              style={{ width: '100%', height: '100%', borderRadius: 1000 }}
-            />
-          </View>
-          <View style={{ marginLeft: Sizes.fixPadding }}>
-            <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>{item?.customerId?.customerName}</Text>
-            <Text style={{ ...Fonts.gray12RobotoMedium }}>{item?.customerId?.gender}</Text>
-          </View>
+      // <View style={styles.container}>
+      //   <Text
+      //     style={{
+      //       ...Fonts.black11InterMedium,
+      //       fontSize: 13,
+      //       marginBottom: Sizes.fixPadding * 0.5,
+      //       textTransform: 'uppercase'
+      //     }}>
+      //     ORDER ID: {item?.streamId}
+      //   </Text>
+      //   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      //     <View style={styles.imageContainer}>
+      //       <Image
+      //         source={{ uri: img_url + item?.customerId?.image }}
+      //         style={{ width: '100%', height: '100%', borderRadius: 1000 }}
+      //       />
+      //     </View>
+      //     <View style={{ marginLeft: Sizes.fixPadding }}>
+      //       <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>{item?.customerId?.customerName}</Text>
+      //       <Text style={{ ...Fonts.gray12RobotoMedium }}>{item?.customerId?.gender}</Text>
+      //     </View>
+      //   </View>
+      //   <View style={{ marginTop: Sizes.fixPadding }}>
+      //     <Text
+      //       style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
+      //       Order Time: {moment(item?.createdAt).format('DD MMM YYYY hh:mm A')}
+      //     </Text>
+      //     <Text
+      //       style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
+      //       Duration: {secondsToHMS(item?.durationInSeconds)}
+      //     </Text>
+      //     <Text
+      //       style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
+      //       Live Call Price: {showNumber(item?.roomId?.vedioCallPrice)}/min
+      //     </Text>
+      //     <Text
+      //       style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
+      //       Total Charge: {showNumber(item?.amount)}
+      //     </Text>
+      //     <Text
+      //       style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
+      //       Astro Charge: {showNumber(item?.amount - (item?.durationInSeconds/60) * item?.roomId?.commissionVedioCallPrice)}
+      //     </Text>
+      //     <Text
+      //       style={{ ...Fonts.black14RobotoRegular, color: Colors.blackLight }}>
+      //       Status: {item?.status}
+      //     </Text>
+      //   </View>
+      // </View>
+
+      <View style={{ flexDirection: 'row', marginVertical: SCREEN_HEIGHT * 0.006, justifyContent: "space-between", paddingVertical: SCREEN_HEIGHT * 0.02, paddingHorizontal: SCREEN_WIDTH * 0.015, borderRadius: 10, backgroundColor: "white", elevation: 1 }}>
+
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: img_url + item?.customerId?.image }}
+            style={{ width: '100%', height: '100%', borderRadius: 1000 }}
+          />
         </View>
-        <View style={{ marginTop: Sizes.fixPadding }}>
-          <Text
-            style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
-            Order Time: {moment(item?.createdAt).format('DD MMM YYYY hh:mm A')}
-          </Text>
-          <Text
-            style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
-            Duration: {secondsToHMS(item?.durationInSeconds)}
-          </Text>
-          <Text
-            style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
-            Live Call Price: {showNumber(item?.roomId?.vedioCallPrice)}/min
-          </Text>
-          <Text
-            style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
-            Total Charge: {showNumber(item?.amount)}
-          </Text>
-          <Text
-            style={{ ...Fonts.gray14RobotoRegular, color: Colors.blackLight }}>
-            Astro Charge: {showNumber(item?.amount - (item?.durationInSeconds/60) * item?.roomId?.commissionVedioCallPrice)}
-          </Text>
-          <Text
-            style={{ ...Fonts.black14RobotoRegular, color: Colors.blackLight }}>
-            Status: {item?.status}
-          </Text>
+
+        <View style={{ gap: 2 }}>
+          <Text style={{ ...Fonts.helveticaBoldBlack, fontSize: responsiveFontSize(1.7), color: colors.statusbar }}>{item?.customerId?.customerName}</Text>
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>Live Call Price: {showNumber(item?.roomId?.vedioCallPrice)}/min</Text>
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>Astro Charge: {showNumber(item?.amount - (item?.durationInSeconds / 60) * item?.roomId?.commissionVedioCallPrice)}</Text>
+          {/* <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>Total Charge: {showNumber(item?.amount)}</Text> */}
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>Duration: {secondsToHMS(item?.durationInSeconds)}</Text>
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>Status: {item?.status}</Text>
         </View>
+
+        <View>
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color6, fontSize: responsiveFontSize(1.5) }}>{moment(item?.createdAt).format('DD MMM YYYY hh:mm A')}</Text>
+        </View>
+
+
+
       </View>
     );
   };
   const NoDataFound = () => (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',height:SCREEN_HEIGHT * 0.9 }}>
-      <Text style={{color:Colors.black,fontSize:getFontSize(1.8)}}>No history available.</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: SCREEN_HEIGHT * 0.9 }}>
+      <Text style={{ color: Colors.black, fontSize: getFontSize(1.8) }}>No history available.</Text>
     </View>
   );
   return (
     <View style={{ flex: 1, backgroundColor: Colors.whiteDark }}>
-        <MyHeader title={'Live Call Order History'} navigation={navigation} />
+      <MyHeader title={'Live Call Order History'} navigation={navigation} />
       {liveVedioCallHistoryData && (
         <FlatList
           data={liveVedioCallHistoryData}
           renderItem={renderItem}
           initialNumToRender={5}
-          contentContainerStyle={{ padding: Sizes.fixPadding * 1.5 }}
+          contentContainerStyle={{ padding: Sizes.fixPadding * 1 }}
           ListEmptyComponent={NoDataFound}
         />
       )}
@@ -104,8 +132,8 @@ const styles = StyleSheet.create({
     paddingVertical: Sizes.fixPadding,
   },
   imageContainer: {
-    width: SCREEN_WIDTH * 0.16,
-    height: SCREEN_WIDTH * 0.16,
+    width: SCREEN_WIDTH * 0.13,
+    height: SCREEN_WIDTH * 0.13,
     borderRadius: 1000,
     overflow: 'hidden',
   },
