@@ -14,143 +14,143 @@ import {
 } from 'react-native-responsive-dimensions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const QueueList = () => {
+const QueueList = ({navigation}) => {
   const dataList = [
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
       name: 'Chandan Sharma',
       image:
         'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png',
-      sessionType: 'chat',
-      time: '7m',
+      sessionType: 'Chat',
+      time: '07m',
     },
     {
       id: 1,
@@ -184,14 +184,16 @@ const QueueList = () => {
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.sessionType}>{item.sessionType}</Text>
-              <Text style={styles.time}>{item.time}</Text>
+              <Text style={styles.sessionType}>
+                Session Type: {item.sessionType}
+              </Text>
+              <Text style={styles.time}>Duration: {item.time}</Text>
             </View>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('mymessage')}>
             <MaterialCommunityIcons
               name="message-text-outline"
-              size={30}
+              size={25}
               color="black"
             />
           </TouchableOpacity>
@@ -202,7 +204,7 @@ const QueueList = () => {
 
   return (
     <View style={styles.container}>
-      <MyHeader title="Queue List" />
+      <MyHeader title="Queue List" navigation={navigation} />
       <FlatList
         data={dataList}
         renderItem={MessageData}
