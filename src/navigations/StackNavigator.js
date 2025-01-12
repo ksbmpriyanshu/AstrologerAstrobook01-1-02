@@ -92,6 +92,7 @@ import CustomerSessions from '../screens/CustomerSessions';
 import CallDetails from '../screens/history/CallDetails';
 import LiveDetails from '../screens/history/LiveDetails';
 import VideoCallDetails from '../screens/history/VideoCallDetails';
+import QueueList from '../screens/history/QueueList';
 
 const Stack = createNativeStackNavigator();
 
@@ -216,6 +217,7 @@ const StackNavigator = (data, data1) => {
         <Stack.Screen name="calldetails" component={CallDetails} />
         <Stack.Screen name="livedetails" component={LiveDetails} />
         <Stack.Screen name="videocalldetails" component={VideoCallDetails} />
+        <Stack.Screen name="queueList" component={QueueList} />
 
         <Stack.Screen name="showKundli" component={ShowKundli} />
         <Stack.Screen name="kundliBasicDetails" component={ShowKundliBasic} />

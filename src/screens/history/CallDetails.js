@@ -20,6 +20,7 @@ import {SCREEN_WIDTH} from '../../config/Screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ChatActions from '../../redux/actions/ChatActions';
 import {img_url} from '../../config/Constants';
+import {color} from '@rneui/base';
 
 const ChatDetails = ({
   navigation,
@@ -28,21 +29,29 @@ const ChatDetails = ({
   previousChats,
   providerData,
 }) => {
-  const {CallData} = route.params;
-
-  console.log('Received Chat Data::::::K', CallData?.customerId?._id);
-
-  const customerName = CallData?.customerId?.customerName;
+  const {ChatData} = route.params;
 
   useEffect(() => {
-    dispatch(ChatActions.getPreviousChat(CallData?.customerId?._id));
-  }, [dispatch]);
+    if (ChatData?.customerId?._id) {
+      dispatch(ChatActions.getPreviousChat(ChatData?.customerId?._id));
+    }
+  }, [dispatch, ChatData?.customerId?._id]);
+
+  const customerName = ChatData?.customerId?.customerName;
 
   const [isChatVisible, setIsChatVisible] = useState(false);
 
   const toggleChat = () => {
     setIsChatVisible(!isChatVisible);
   };
+
+  if (!ChatData) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>No Call Data Available</Text>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -53,13 +62,13 @@ const ChatDetails = ({
         <View style={styles.profileContainer}>
           <View style={styles.imageContainer}>
             <Image
-              source={{uri: img_url + (CallData?.customerId?.image || '')}}
+              source={{uri: img_url + (ChatData?.customerId?.image || '')}}
               style={{width: '100%', height: '100%', borderRadius: 1000}}
             />
           </View>
           <View style={styles.profileDetails}>
             <Text style={styles.profileName}>{customerName}</Text>
-            <Text style={styles.profileDate}>{CallData?.endTime || 'N/A'}</Text>
+            <Text style={styles.profileDate}>{ChatData?.endTime || 'N/A'}</Text>
           </View>
         </View>
 
@@ -68,7 +77,7 @@ const ChatDetails = ({
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Offer Minute :</Text>
             <Text style={styles.rowValues}>
-              {CallData?.durationInSeconds} Min
+              {ChatData?.durationInSeconds} Min
             </Text>
           </View>
           <View style={styles.row}>
@@ -76,7 +85,7 @@ const ChatDetails = ({
             <Text style={styles.rowValues}>0 MIN</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Paind Minutes :</Text>
+            <Text style={styles.rowLabel}>Paid Minutes :</Text>
             <Text style={styles.rowValues}>0 MIN</Text>
           </View>
           <Text style={styles.sessionEndText}>Customer Ended the Session</Text>
@@ -87,7 +96,7 @@ const ChatDetails = ({
           <Text style={styles.sectionTitle}>Expert Summary</Text>
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Reference ID :</Text>
-            <Text style={styles.rowValues}>{CallData?.transactionId}</Text>
+            <Text style={styles.rowValues}>{ChatData?.transactionId}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Session type :</Text>
@@ -145,12 +154,8 @@ const ChatDetails = ({
                   <Bubble
                     {...props}
                     wrapperStyle={{
-                      right: {
-                        backgroundColor: '#E0C987',
-                      },
-                      left: {
-                        backgroundColor: '#FFFFFF',
-                      },
+                      right: {backgroundColor: '#E0C987'},
+                      left: {backgroundColor: '#FFFFFF'},
                     }}
                     textStyle={{
                       right: {color: '#000', fontSize: 12},
@@ -178,7 +183,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(ChatDetails);
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: Colors.whiteDark,
   },
   profileContainer: {
@@ -191,11 +195,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     height: responsiveScreenHeight(12),
   },
-  profileImage: {
-    width: responsiveScreenWidth(15),
-    height: responsiveScreenHeight(15),
-    resizeMode: 'contain',
-    borderRadius: 50,
+  imageContainer: {
+    width: SCREEN_WIDTH * 0.15,
+    height: SCREEN_WIDTH * 0.15,
+    borderRadius: 1000,
+    overflow: 'hidden',
+    alignItems: 'center',
   },
   profileDetails: {
     marginLeft: Sizes.fixPadding,
@@ -205,7 +210,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   profileDate: {
-    ...Fonts.gray12RobotoRegular,
     color: Colors.black,
     marginTop: Sizes.fixPadding * 0.5,
   },
@@ -216,108 +220,37 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: Sizes.fixPadding * 0.7,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 1,
     elevation: 2,
   },
   sectionTitle: {
-    ...Fonts.primaryLight14RobotoMedium,
+    ...Fonts.gray14RobotoMedium,
     color: Colors.black,
-    textAlign: 'center',
-    marginBottom: Sizes.fixPadding,
-  },
-  rowValues: {
-    flexDirection: 'row',
-    paddingLeft: Sizes.fixPadding * 6,
-    // marginBottom: Sizes.fixPadding,
+    marginBottom: Sizes.fixPadding * 1,
   },
   row: {
     flexDirection: 'row',
-    paddingLeft: Sizes.fixPadding * 1.5,
+    justifyContent: 'space-around',
     marginBottom: Sizes.fixPadding,
   },
-  rowtotal: {
-    flexDirection: 'row',
-    paddingLeft: Sizes.fixPadding * 1.4,
-    paddingVertical: Sizes.fixPadding,
-  },
   rowLabel: {
-    ...Fonts.gray12RobotoMedium,
-    color: Colors.blackLight,
+    ...Fonts.gray12RobotoRegular,
+    color: 'black',
   },
-  rowValue: {
+  rowValues: {
     ...Fonts.primaryLight14RobotoMedium,
     color: Colors.black,
   },
   sessionEndText: {
-    textAlign: 'center',
-    marginTop: Sizes.fixPadding * 1.5,
-    color: Colors.red,
     ...Fonts.primaryLight14RobotoMedium,
+    color: Colors.black,
+    marginTop: Sizes.fixPadding,
   },
-  imageContainer: {
-    width: SCREEN_WIDTH * 0.15,
-    height: SCREEN_WIDTH * 0.15,
-    borderRadius: 1000,
-    overflow: 'hidden',
-    alignItems: 'center',
-  },
-
-  // --------------p-------------------
-
-  astrologerImage: {
-    height: responsiveScreenHeight(5),
-    width: responsiveScreenWidth(11),
-    objectFit: 'cover',
-    borderRadius: 100,
-  },
-  astrologerName: {
-    ...Fonts.primaryHelvetica,
-    color: '#000',
-    fontSize: 17,
-    fontWeight: '600',
-  },
-  astrologerMode: {
-    ...Fonts.primaryHelvetica,
-    color: '#dadada',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  header: {
-    display: 'flex',
+  rowtotal: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 15,
-    paddingHorizontal: 20,
-    backgroundColor: '#fff',
-    elevation: 2,
-    flex: 0.08,
-  },
-  customFooter: {
-    backgroundColor: '#381415',
-    padding: 10,
-    paddingVertical: 10,
-    margin: 10,
-    borderRadius: 10,
-    elevation: 4,
-  },
-  customFooterText: {
-    fontSize: 13,
-    color: '#fff',
-    ...Fonts.primaryHelvetica,
-  },
-  chatBtn: {
-    backgroundColor: '#F1B646',
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 5,
-  },
-  chatText: {
-    color: '#000',
-    textAlign: 'center',
-    ...Fonts.primaryHelvetica,
-    fontSize: 15,
-    fontWeight: '600',
+    justifyContent: 'space-between',
+    marginTop: Sizes.fixPadding,
   },
 });

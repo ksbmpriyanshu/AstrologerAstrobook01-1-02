@@ -64,7 +64,6 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
               </Text>
               <Text
                 style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
-                {/* Astro Charges: {showNumber(astroCharges)} */}
                 Duration: {secondsToHMS(durationInSeconds)}
               </Text>
               <Text
@@ -96,6 +95,7 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
       </TouchableOpacity>
     );
   };
+
   const NoDataFound = () => (
     <View
       style={{
@@ -109,6 +109,7 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
       </Text>
     </View>
   );
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteDark}}>
       <MyHeader title={'Call Order History'} navigation={navigation} />
@@ -147,14 +148,5 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     overflow: 'hidden',
     alignItems: 'center',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyText: {
-    ...Fonts.gray14RobotoRegular,
-    color: Colors.black,
   },
 });

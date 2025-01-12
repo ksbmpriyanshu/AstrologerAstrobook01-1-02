@@ -305,6 +305,9 @@ const ProviderHome = ({
         case 'User Reviews':
           navigation.navigate('Reviews');
           break;
+        case 'Queue List':
+          navigation.navigate('queueList');
+          break;
         case 'My Customers':
           navigation.navigate('MyCustomer');
           break;
@@ -320,8 +323,8 @@ const ProviderHome = ({
         style={{alignItems: 'center', margin: SCREEN_HEIGHT * 0.01}}>
         <View
           style={{
-            height: SCREEN_HEIGHT * 0.08,
-            width: SCREEN_WIDTH * 0.17,
+            height: SCREEN_HEIGHT * 0.07,
+            width: SCREEN_WIDTH * 0.15,
             borderRadius: 100,
             alignItems: 'center',
             justifyContent: 'center',
@@ -329,8 +332,8 @@ const ProviderHome = ({
           }}>
           <Image
             style={{
-              height: SCREEN_HEIGHT * 0.06,
-              width: SCREEN_WIDTH * 0.15,
+              height: SCREEN_HEIGHT * 0.04,
+              width: SCREEN_WIDTH * 0.13,
               resizeMode: 'contain',
             }}
             source={item.image}
@@ -1102,8 +1105,8 @@ const ProviderHome = ({
                 style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
                 <View
                   style={{
-                    height: SCREEN_HEIGHT * 0.08,
-                    width: SCREEN_WIDTH * 0.17,
+                    height: SCREEN_HEIGHT * 0.07,
+                    width: SCREEN_WIDTH * 0.15,
                     borderRadius: 100,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1111,7 +1114,7 @@ const ProviderHome = ({
                   }}>
                   <Image
                     style={{
-                      height: SCREEN_HEIGHT * 0.05,
+                      height: SCREEN_HEIGHT * 0.04,
                       width: SCREEN_WIDTH * 0.1,
                       resizeMode: 'contain',
                     }}
@@ -1176,8 +1179,8 @@ const ProviderHome = ({
                 style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
                 <View
                   style={{
-                    height: SCREEN_HEIGHT * 0.08,
-                    width: SCREEN_WIDTH * 0.17,
+                    height: SCREEN_HEIGHT * 0.07,
+                    width: SCREEN_WIDTH * 0.15,
                     borderRadius: 100,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1185,7 +1188,7 @@ const ProviderHome = ({
                   }}>
                   <Image
                     style={{
-                      height: SCREEN_HEIGHT * 0.05,
+                      height: SCREEN_HEIGHT * 0.04,
                       width: SCREEN_WIDTH * 0.1,
                       resizeMode: 'contain',
                     }}
@@ -1249,8 +1252,8 @@ const ProviderHome = ({
                 style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
                 <View
                   style={{
-                    height: SCREEN_HEIGHT * 0.08,
-                    width: SCREEN_WIDTH * 0.17,
+                    height: SCREEN_HEIGHT * 0.07,
+                    width: SCREEN_WIDTH * 0.15,
                     borderRadius: 100,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1258,8 +1261,8 @@ const ProviderHome = ({
                   }}>
                   <Image
                     style={{
-                      height: SCREEN_HEIGHT * 0.06,
-                      width: SCREEN_WIDTH * 0.15,
+                      height: SCREEN_HEIGHT * 0.05,
+                      width: SCREEN_WIDTH * 0.13,
                       resizeMode: 'contain',
                     }}
                     source={require('../../assets/images/INTERTNETBOOK.png')}
