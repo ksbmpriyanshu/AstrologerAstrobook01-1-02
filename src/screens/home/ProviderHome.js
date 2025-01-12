@@ -11,71 +11,81 @@ import {
   RefreshControl,
   AppState,
   Switch,
-  FlatList
+  FlatList,
 } from 'react-native';
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MyStatusBar from '../../components/MyStatusbar';
-import {
-  base_url,
-  colors,
-  fonts,
-  getFontSize,
-} from '../../config/Constants';
+import {base_url, colors, fonts, getFontSize} from '../../config/Constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 import database from '@react-native-firebase/database';
-import { connect } from 'react-redux';
-import { useState } from 'react';
+import {connect} from 'react-redux';
+import {useState} from 'react';
 import MyLoader from '../../components/MyLoader';
 import axios from 'axios';
-import { useCallback } from 'react';
+import {useCallback} from 'react';
 import * as ProviderActions from '../../redux/actions/ProviderActions';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import {Rating, AirbnbRating} from 'react-native-ratings';
 import moment from 'moment';
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { success_toast, warnign_toast } from '../../components/MyToastMessage';
-import { useTranslation } from 'react-i18next';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
+import {success_toast, warnign_toast} from '../../components/MyToastMessage';
+import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
-import * as SettingActions from '../../redux/actions/SettingActions'
-import { resetToScreen } from '../../navigations/NavigationServices';
-import { Colors, Fonts, Sizes } from '../../assets/style';
-import * as AuthActions from '../../redux/actions/AuthActions'
-import { showNumber, showToastMessage } from '../../utils/services';
-import * as ChatActions from '../../redux/actions/ChatActions'
+import {useFocusEffect} from '@react-navigation/native';
+import * as SettingActions from '../../redux/actions/SettingActions';
+import {resetToScreen} from '../../navigations/NavigationServices';
+import {Colors, Fonts, Sizes} from '../../assets/style';
+import * as AuthActions from '../../redux/actions/AuthActions';
+import {showNumber, showToastMessage} from '../../utils/services';
+import * as ChatActions from '../../redux/actions/ChatActions';
 import RenderHtml from 'react-native-render-html';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config/Screen';
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../config/Screen';
 // import { navigate } from '../../NavigationService';
-import { color } from '@rneui/base';
+import {color} from '@rneui/base';
 import Feather from 'react-native-vector-icons/Feather';
 
+import {navigate} from '../../NavigationService';
+import * as HistoryActions from '../../redux/actions/HistoryActions';
+import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 
-import { navigate } from '../../NavigationService';
-import * as HistoryActions from '../../redux/actions/HistoryActions'
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
-import { responsiveFontSize } from 'react-native-responsive-dimensions';
+const {width, height} = Dimensions.get('screen');
 
-
-
-const { width, height } = Dimensions.get('screen');
-
-const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, callVideoRequestData, anouncementData, videoCallHistoryData, chatHistoryData, callHistoryData, liveVedioCallHistoryData, offlineData, onlineData }) => {
+const ProviderHome = ({
+  providerData,
+  navigation,
+  dispatch,
+  callRequestData,
+  callVideoRequestData,
+  anouncementData,
+  videoCallHistoryData,
+  chatHistoryData,
+  callHistoryData,
+  liveVedioCallHistoryData,
+  offlineData,
+  onlineData,
+}) => {
   // console.log("callRequestData::>",callRequestData)
   // console.log("anujjjjjjjpal",providerData?._id);
 
-
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const [isRefereshing, setIsRefereshing] = useState(false);
   const [date, setDate] = useState(null);
-  const [anouncementsVisible, setAnouncementsVisible] = useState(false)
+  const [anouncementsVisible, setAnouncementsVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRemember] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
-  const [displayDuration, setDisplayDuration] = useState(onlineData?.data?.totalActiveDuration || 0);
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date().toDateString());
+  const [displayDuration, setDisplayDuration] = useState(
+    onlineData?.data?.totalActiveDuration || 0,
+  );
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(
+    new Date().toDateString(),
+  );
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -88,10 +98,9 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     dispatch(HistoryActions.getVideoCallHistory());
     dispatch(HistoryActions.getChatHistory());
     dispatch(HistoryActions.getCallHistory());
-    dispatch(HistoryActions.getLiveVedioCallHistory())
-    dispatch(HistoryActions.getOfflineData())
-  }, [dispatch])
-
+    dispatch(HistoryActions.getLiveVedioCallHistory());
+    dispatch(HistoryActions.getOfflineData());
+  }, [dispatch]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -99,11 +108,10 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     });
   }, []);
 
-  const handleStatusChange = (newStatus) => {
+  const handleStatusChange = newStatus => {
     setStatus(newStatus);
     dispatch(SettingActions.updateChatStatus(newStatus));
   };
-
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -113,86 +121,79 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     setModalVisible(false);
   };
 
-
-  const handleChatStatusToggle = (value) => {
+  const handleChatStatusToggle = value => {
     if (value) {
-
       Alert.alert(
-        "Confirm Chat Status ",
-        "Are you sure you want to go online?",
+        'Confirm Chat Status ',
+        'Are you sure you want to go online?',
         [
           {
-            text: "No",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
           },
           {
-            text: "Yes",
+            text: 'Yes',
             onPress: () => {
               const newStatus = 'online';
               dispatch(SettingActions.updateChatStatus(newStatus));
             },
           },
         ],
-        { cancelable: false }
+        {cancelable: false},
       );
     } else {
-
       const newStatus = 'offline';
       dispatch(SettingActions.updateChatStatus(newStatus));
     }
   };
 
-  const handleCallStatusToggle = (value) => {
+  const handleCallStatusToggle = value => {
     if (value) {
-
       Alert.alert(
-        "Confirm Call Status",
-        "Are you sure you want to go online?",
+        'Confirm Call Status',
+        'Are you sure you want to go online?',
         [
           {
-            text: "No",
-            onPress: () => console.log("Call Status Not Changed"),
-            style: "cancel",
+            text: 'No',
+            onPress: () => console.log('Call Status Not Changed'),
+            style: 'cancel',
           },
           {
-            text: "Yes",
+            text: 'Yes',
             onPress: () => {
               dispatch(SettingActions.updateCallStatus('online'));
             },
           },
         ],
-        { cancelable: false }
+        {cancelable: false},
       );
     } else {
-
       dispatch(SettingActions.updateCallStatus('offline'));
     }
   };
 
-  const handleVideoCallStatusToggle = (value) => {
+  const handleVideoCallStatusToggle = value => {
     if (value) {
-
       Alert.alert(
-        "Confirm  Video Call Status",
-        "Are you sure you want to go online?",
+        'Confirm  Video Call Status',
+        'Are you sure you want to go online?',
         [
           {
-            text: "No",
-            onPress: () => console.log("Video Call Status Not Changed"),
-            style: "cancel",
+            text: 'No',
+            onPress: () => console.log('Video Call Status Not Changed'),
+            style: 'cancel',
           },
           {
-            text: "Yes",
+            text: 'Yes',
             onPress: () => {
               dispatch(SettingActions.updateVideoCallStatus('online'));
             },
           },
         ],
-        { cancelable: false }
+        {cancelable: false},
       );
     } else {
-
       dispatch(SettingActions.updateVideoCallStatus('offline'));
     }
   };
@@ -209,62 +210,73 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     Image9: require('../../assets/images/RATING.png'),
     Image10: require('../../assets/images/QUEQUEBOOK.png'),
     Image11: require('../../assets/images/MYcutomerRevies.png'),
-
-
   };
 
   const DATA = [
-    { id: '1', image: images.Image1, title: 'Calls', },
-    { id: '2', image: images.Image2, title: 'Chats', },
-    { id: '3', image: images.Image3, title: 'My Live Session', },
-    { id: '4', image: images.Image4, title: 'Video Call', },
-    { id: '5', image: images.Image5, title: 'My Messages', },
-    { id: '6', image: images.Image6, title: 'My Earnings', },
-    { id: '7', image: images.Image7, title: 'Remedies', },
-    { id: '8', image: images.Image8, title: 'My Followers', },
-    { id: '9', image: images.Image9, title: 'User Reviews', },
-    { id: '10', image: images.Image10, title: 'Queue List', },
-    { id: '11', image: images.Image11, title: 'My Customers', },
-
-
-
+    {id: '1', image: images.Image1, title: 'Calls'},
+    {id: '2', image: images.Image2, title: 'Chats'},
+    {id: '3', image: images.Image3, title: 'My Live Session'},
+    {id: '4', image: images.Image4, title: 'Video Call'},
+    {id: '5', image: images.Image5, title: 'My Messages'},
+    {id: '6', image: images.Image6, title: 'My Earnings'},
+    {id: '7', image: images.Image7, title: 'Remedies'},
+    {id: '8', image: images.Image8, title: 'My Followers'},
+    {id: '9', image: images.Image9, title: 'User Reviews'},
+    {id: '10', image: images.Image10, title: 'Queue List'},
+    {id: '11', image: images.Image11, title: 'My Customers'},
   ];
-
 
   const DATA2 = [
-    { id: '1', title: 'Today’s Earning', paisa: showNumber(providerData?.today_earnings?.earnings) },
-    { id: '2', title: 'Total Call Today', paisa: '1' },
-    { id: '3', title: 'My Live Session', paisa: "2" },
-    { id: '4', title: 'Total Chats Today', paisa: "10" },
-    { id: '5', title: 'Gift Earning', paisa: "10" },
-    { id: '6', title: 'Payable Amount', paisa: "6" },
-    { id: '7', title: 'TDS Deducted', paisa: "5" },
-
+    {
+      id: '1',
+      title: 'Today’s Earning',
+      paisa: showNumber(providerData?.today_earnings?.earnings),
+    },
+    {id: '2', title: 'Total Call Today', paisa: '1'},
+    {id: '3', title: 'My Live Session', paisa: '2'},
+    {id: '4', title: 'Total Chats Today', paisa: '10'},
+    {id: '5', title: 'Gift Earning', paisa: '10'},
+    {id: '6', title: 'Payable Amount', paisa: '6'},
+    {id: '7', title: 'TDS Deducted', paisa: '5'},
   ];
 
-  const anujrender = ({ item }) => {
+  const anujrender = ({item}) => {
     return (
-
-
-      <View style={{ paddingVertical: SCREEN_HEIGHT * 0.005 }}>
-        <View style={{ width: SCREEN_WIDTH * 0.34, height: SCREEN_HEIGHT * 0.1, borderRadius: 10, alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: colors.white_color, elevation: 2, marginHorizontal: SCREEN_WIDTH * 0.015, }}>
-          <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.black_color9 }}>{item.paisa}</Text>
-          <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color6 }}>{item.title}</Text>
+      <View style={{paddingVertical: SCREEN_HEIGHT * 0.005}}>
+        <View
+          style={{
+            width: SCREEN_WIDTH * 0.34,
+            height: SCREEN_HEIGHT * 0.1,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 5,
+            backgroundColor: colors.white_color,
+            elevation: 2,
+            marginHorizontal: SCREEN_WIDTH * 0.015,
+          }}>
+          <Text
+            style={{
+              fontSize: Sizes.fixPadding * 1.5,
+              fontWeight: '500',
+              color: colors.black_color9,
+            }}>
+            {item.paisa}
+          </Text>
+          <Text
+            style={{
+              fontSize: Sizes.fixPadding * 1.3,
+              color: colors.black_color6,
+            }}>
+            {item.title}
+          </Text>
         </View>
       </View>
+    );
+  };
 
-
-    )
-  }
-
-
-
-
-  const renderitem = ({ item }) => {
-
-
-
-    const navigateToScreen = (title) => {
+  const renderitem = ({item}) => {
+    const navigateToScreen = title => {
       switch (title) {
         case 'Calls':
           navigation.navigate('callHistory');
@@ -305,24 +317,37 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     return (
       <TouchableOpacity
         onPress={() => navigateToScreen(item.title)}
-        style={{ alignItems: "center", margin: SCREEN_HEIGHT * 0.01 }}>
-
-        <View style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.17, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
+        style={{alignItems: 'center', margin: SCREEN_HEIGHT * 0.01}}>
+        <View
+          style={{
+            height: SCREEN_HEIGHT * 0.08,
+            width: SCREEN_WIDTH * 0.17,
+            borderRadius: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: colors.background_theme6,
+          }}>
           <Image
-            style={{ height: SCREEN_HEIGHT * 0.06, width: SCREEN_WIDTH * 0.15, resizeMode: "contain" }}
-            source={item.image} />
+            style={{
+              height: SCREEN_HEIGHT * 0.06,
+              width: SCREEN_WIDTH * 0.15,
+              resizeMode: 'contain',
+            }}
+            source={item.image}
+          />
         </View>
 
-        <Text style={{ fontSize: Sizes.fixPadding, color: colors.black_color8, fontWeight: "500" }}>{item.title}</Text>
-
-
-
+        <Text
+          style={{
+            fontSize: Sizes.fixPadding,
+            color: colors.black_color8,
+            fontWeight: '500',
+          }}>
+          {item.title}
+        </Text>
       </TouchableOpacity>
-
-    )
-  }
-
-
+    );
+  };
 
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
@@ -333,13 +358,11 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-
       }
 
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
       if (appState.current == 'background') {
-
         console.log('appState background');
       }
     });
@@ -350,39 +373,41 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
   }, []);
 
   useEffect(() => {
-    database().ref(`CurrentCall/${providerData?._id}`).on('value', snapshot => {
-      console.log('sanapCall :::::K', snapshot.val());
-      try {
-        if (snapshot.val()) {
-          dispatch(ChatActions.setCallRequestData(snapshot.val()?.formId))
-
-        } else {
-          dispatch(ChatActions.setCallRequestData(null))
+    database()
+      .ref(`CurrentCall/${providerData?._id}`)
+      .on('value', snapshot => {
+        console.log('sanapCall :::::K', snapshot.val());
+        try {
+          if (snapshot.val()) {
+            dispatch(ChatActions.setCallRequestData(snapshot.val()?.formId));
+          } else {
+            dispatch(ChatActions.setCallRequestData(null));
+          }
+        } catch (e) {
+          console.log(e);
+          dispatch(ChatActions.setCallRequestData(null));
         }
-      } catch (e) {
-        console.log(e)
-        dispatch(ChatActions.setCallRequestData(null))
-      }
-    });
+      });
 
-    database().ref(`CurrentCallVideo/${providerData?._id}`).on('value', snapshot => {
-      console.log('sanapVideoCall ::::', snapshot.val());
-      try {
-        if (snapshot.val()) {
-          dispatch(ChatActions.setCallVideoRequrestData(snapshot.val()?.formId))
-        } else {
-
-          dispatch(ChatActions.setCallVideoRequrestData(null))
+    database()
+      .ref(`CurrentCallVideo/${providerData?._id}`)
+      .on('value', snapshot => {
+        console.log('sanapVideoCall ::::', snapshot.val());
+        try {
+          if (snapshot.val()) {
+            dispatch(
+              ChatActions.setCallVideoRequrestData(snapshot.val()?.formId),
+            );
+          } else {
+            dispatch(ChatActions.setCallVideoRequrestData(null));
+          }
+        } catch (e) {
+          dispatch(ChatActions.setCallVideoRequrestData(null));
         }
-      } catch (e) {
-
-        dispatch(ChatActions.setCallVideoRequrestData(null))
-      }
-    });
-  }, []) // refresh 5 second
+      });
+  }, []); // refresh 5 second
 
   // console.log(callVideoRequestData, 'vvd')
-
 
   useEffect(() => {
     getCredentials();
@@ -390,12 +415,16 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
   const getCredentials = async () => {
     try {
-      const storedCredentials = await AsyncStorage.getItem('astrologerCredentials');
+      const storedCredentials = await AsyncStorage.getItem(
+        'astrologerCredentials',
+      );
       // console.log(storedCredentials);
       if (storedCredentials) {
-        const { email: storedEmail, password: storedPassword, rememberMe: storedRememberMe } = JSON.parse(
-          storedCredentials
-        );
+        const {
+          email: storedEmail,
+          password: storedPassword,
+          rememberMe: storedRememberMe,
+        } = JSON.parse(storedCredentials);
         setEmail(storedEmail);
         setPassword(storedPassword);
         setRemember(storedRememberMe);
@@ -405,17 +434,15 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     }
   };
 
-
-
   const onNextOnline = () => {
     try {
       const ondatePick = (event, date) => {
         const onTimePick = (event, time) => {
           if (event.type === 'set') {
-            console.log('start ')
-            dispatch(SettingActions.onNextOnline({ date, time }))
+            console.log('start ');
+            dispatch(SettingActions.onNextOnline({date, time}));
           }
-        }
+        };
 
         if (event.type === 'set') {
           DateTimePickerAndroid.open({
@@ -424,7 +451,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
             mode: 'time',
           });
         }
-      }
+      };
 
       DateTimePickerAndroid.open({
         value: new Date(),
@@ -432,9 +459,9 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         mode: 'date',
       });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
   function formatFollowerCount(count) {
     if (count >= 1000000) {
       return (count / 1000000).toFixed(1) + 'M';
@@ -445,7 +472,6 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     }
   }
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -455,7 +481,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     return () => clearInterval(interval);
   }, []);
 
-  const formatTotalOfflineDuration = (duration) => {
+  const formatTotalOfflineDuration = duration => {
     const seconds = Math.floor(duration / 1000);
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -463,14 +489,13 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
     return `${hours}h ${minutes}m ${remainingSeconds}s`;
   };
 
-  const formatTotalOnlineDuration = (duration) => {
+  const formatTotalOnlineDuration = duration => {
     const seconds = Math.floor(duration / 1000);
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
     return `${hours}h ${minutes}m ${remainingSeconds}s`;
   };
-
 
   useEffect(() => {
     setDisplayDuration(onlineData?.data?.totalActiveDuration || 0);
@@ -482,94 +507,138 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
         setDisplayDuration(0);
         setLastUpdatedDate(currentDate);
       } else {
-        setDisplayDuration((prevDuration) => prevDuration + 1000);
+        setDisplayDuration(prevDuration => prevDuration + 1000);
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, [onlineData, lastUpdatedDate]);
 
-  const truncatedName = providerData?.astrologerName && providerData?.astrologerName?.length > 12
-    ? `${providerData?.astrologerName?.slice(0, 12)}...`
-    : providerData?.astrologerName;
+  const truncatedName =
+    providerData?.astrologerName && providerData?.astrologerName?.length > 12
+      ? `${providerData?.astrologerName?.slice(0, 12)}...`
+      : providerData?.astrologerName;
 
-  const toggleSwitch3 = (value) => {
+  const toggleSwitch3 = value => {
     setIsEnabled3(value);
   };
-
 
   let followerCount = providerData?.follower_count;
   let formattedCount = formatFollowerCount(followerCount);
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.white_color }}>
+    <View style={{flex: 1, backgroundColor: colors.white_color}}>
       <MyStatusBar
         backgroundColor={colors.background_theme6}
         barStyle="dark-content"
       />
-      <View style={{ flex: 0, paddingVertical: SCREEN_HEIGHT * 0.01, backgroundColor: colors.background_theme6, paddingHorizontal: SCREEN_WIDTH * 0.022 }}>
-
+      <View
+        style={{
+          flex: 0,
+          paddingVertical: SCREEN_HEIGHT * 0.01,
+          backgroundColor: colors.background_theme6,
+          paddingHorizontal: SCREEN_WIDTH * 0.022,
+        }}>
         <View
           style={{
             flex: 0,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-
           }}>
-
-
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 7 }}>
-            <TouchableOpacity onPress={() => navigation.openDrawer()} >
-              <Feather name="menu" size={30} style={{ color: colors.white_color }} />
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 7}}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <Feather
+                name="menu"
+                size={30}
+                style={{color: colors.white_color}}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate('astrologerDetailes')}
-              style={{ height: SCREEN_WIDTH * 0.1, width: SCREEN_WIDTH * 0.1, overflow: 'hidden', borderRadius: 50 }}>
+              style={{
+                height: SCREEN_WIDTH * 0.1,
+                width: SCREEN_WIDTH * 0.1,
+                overflow: 'hidden',
+                borderRadius: 50,
+              }}>
               <Image
-                source={{ uri: base_url + providerData?.profileImage }}
-                style={{ height: SCREEN_WIDTH * 0.1, width: SCREEN_WIDTH * 0.1, objectFit: "cover" }}
+                source={{uri: base_url + providerData?.profileImage}}
+                style={{
+                  height: SCREEN_WIDTH * 0.1,
+                  width: SCREEN_WIDTH * 0.1,
+                  objectFit: 'cover',
+                }}
               />
-            </TouchableOpacity >
+            </TouchableOpacity>
             <TouchableOpacity onPress={handleOpenModal}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.white_color, fontWeight: "500" }}>{status}</Text>
-                <AntDesign name='down' size={10} color={colors.white_color} />
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.2,
+                    color: colors.white_color,
+                    fontWeight: '500',
+                  }}>
+                  {status}
+                </Text>
+                <AntDesign name="down" size={10} color={colors.white_color} />
               </View>
               <View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.white_color, fontWeight: "500" }}>Id: {providerData._id.slice(0, 6) + '...'}</Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.3,
+                    color: colors.white_color,
+                    fontWeight: '500',
+                  }}>
+                  Id: {providerData._id.slice(0, 6) + '...'}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
 
-
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-
-            <TouchableOpacity onPress={() => navigation.navigate('Notifications')} >
-              <FontAwesome name="bell" size={23} style={{ color: colors.white_color }} />
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifications')}>
+              <FontAwesome
+                name="bell"
+                size={23}
+                style={{color: colors.white_color}}
+              />
             </TouchableOpacity>
-
 
             <TouchableOpacity
               onPress={() => navigation.navigate('language')}
-              style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.09 }}>
+              style={{
+                height: SCREEN_HEIGHT * 0.04,
+                width: SCREEN_WIDTH * 0.09,
+              }}>
               <Image
-                style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.09, resizeMode: 'contain' }}
-                source={require('../../assets/images/language.png')} />
+                style={{
+                  height: SCREEN_HEIGHT * 0.04,
+                  width: SCREEN_WIDTH * 0.09,
+                  resizeMode: 'contain',
+                }}
+                source={require('../../assets/images/language.png')}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => navigation.navigate('supportdata')}
-              style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.09 }}>
+              style={{
+                height: SCREEN_HEIGHT * 0.04,
+                width: SCREEN_WIDTH * 0.09,
+              }}>
               <Image
-                style={{ height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.09, resizeMode: 'contain' }}
-                source={require('../../assets/images/supportwhite.png')} />
+                style={{
+                  height: SCREEN_HEIGHT * 0.04,
+                  width: SCREEN_WIDTH * 0.09,
+                  resizeMode: 'contain',
+                }}
+                source={require('../../assets/images/supportwhite.png')}
+              />
             </TouchableOpacity>
-
-
           </View>
-
-
 
           {/* <TouchableOpacity
             onPress={() => navigation.navigate('astrologerDetailes')}
@@ -594,42 +663,56 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
           </TouchableOpacity>
           </View> */}
         </View>
-
-
-
-
       </View>
-      <View style={{ flex: 1, backgroundColor: colors.black_color1 }}>
+      <View style={{flex: 1, backgroundColor: colors.black_color1}}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
               refreshing={isRefereshing}
               onRefresh={() => dispatch(SettingActions.onRefreshHomeScreen())}
-            // onRefresh={on_referesh}
+              // onRefresh={on_referesh}
             />
           }>
-
           <TouchableOpacity
             onPress={() => navigation.navigate('announcementdetails')}
-            style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", backgroundColor: '#FFF6E4', paddingVertical: SCREEN_HEIGHT * 0.01, paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
-
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              backgroundColor: '#FFF6E4',
+              paddingVertical: SCREEN_HEIGHT * 0.01,
+              paddingHorizontal: SCREEN_WIDTH * 0.02,
+            }}>
             <View>
-              <Text style={{ color: colors.background_theme6, fontSize: Sizes.fixPadding * 1.3 }}>Important Annuoucement - New</Text>
-              <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.black_color9 }}>*** New Process Update ***</Text>
+              <Text
+                style={{
+                  color: colors.background_theme6,
+                  fontSize: Sizes.fixPadding * 1.3,
+                }}>
+                Important Annuoucement - New
+              </Text>
+              <Text
+                style={{
+                  fontSize: Sizes.fixPadding * 1.5,
+                  fontWeight: '500',
+                  color: colors.black_color9,
+                }}>
+                *** New Process Update ***
+              </Text>
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate('announcementdetails')}
-            >
-              <AntDesign name='right' size={25} color={colors.black_color9} />
+              onPress={() => navigation.navigate('announcementdetails')}>
+              <AntDesign name="right" size={25} color={colors.black_color9} />
             </TouchableOpacity>
-
-
           </TouchableOpacity>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingVertical: SCREEN_HEIGHT * 0.02, }}>
-
+          <View
+            style={{
+              paddingHorizontal: SCREEN_WIDTH * 0.03,
+              paddingVertical: SCREEN_HEIGHT * 0.02,
+            }}>
             {/* <View style={{ width: SCREEN_WIDTH * 0.45, height: SCREEN_HEIGHT * 0.12, borderRadius: 10, alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: colors.white_color, elevation: 10 }}>
               <Text style={{ fontSize: Sizes.fixPadding * 2, fontWeight: "500", color: colors.black_color9 }}>₹ 0.0</Text>
               <Text style={{ fontSize: Sizes.fixPadding * 1.7, color: colors.black_color6 }}>Today’s Earning</Text>
@@ -643,149 +726,418 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
               showsHorizontalScrollIndicator={false}
               data={DATA2}
               renderItem={anujrender}
-
             />
-
           </View>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
+          <View style={{paddingHorizontal: SCREEN_WIDTH * 0.03}}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("PerformanceDashboard")}
+              onPress={() => navigation.navigate('PerformanceDashboard')}
               // onPress={()=>showToastMessage({ message: "Coming soon" })}
 
-              style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, backgroundColor: colors.white_color, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, elevation: 10 }}>
-              <View style={{ alignItems: "center" }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
-                  <Text style={{ color: colors.white_color, fontSize: Sizes.fixPadding * 2, fontWeight: "500" }}>4.2</Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: SCREEN_WIDTH * 0.05,
+                backgroundColor: colors.white_color,
+                paddingVertical: SCREEN_HEIGHT * 0.02,
+                borderRadius: 10,
+                elevation: 10,
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.1,
+                    width: SCREEN_WIDTH * 0.22,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.background_theme6,
+                  }}>
+                  <Text
+                    style={{
+                      color: colors.white_color,
+                      fontSize: Sizes.fixPadding * 2,
+                      fontWeight: '500',
+                    }}>
+                    4.2
+                  </Text>
                 </View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.1, color: colors.black_color6, fontWeight: "500" }}>Your Rating</Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.1,
+                    color: colors.black_color6,
+                    fontWeight: '500',
+                  }}>
+                  Your Rating
+                </Text>
               </View>
 
               <View>
-                <View style={{ paddingVertical: SCREEN_HEIGHT * 0.01 }}>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.5, color: colors.black_color9, }}>Performance Dashboard </Text>
+                <View style={{paddingVertical: SCREEN_HEIGHT * 0.01}}>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.5,
+                      color: colors.black_color9,
+                    }}>
+                    Performance Dashboard{' '}
+                  </Text>
                 </View>
                 <View>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.black_color7, }} >Check Your daily rating</Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.black_color7, }}>earnings, and overall </Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.2, color: colors.black_color7, }}>performance</Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.2,
+                      color: colors.black_color7,
+                    }}>
+                    Check Your daily rating
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.2,
+                      color: colors.black_color7,
+                    }}>
+                    earnings, and overall{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.2,
+                      color: colors.black_color7,
+                    }}>
+                    performance
+                  </Text>
                 </View>
               </View>
 
               <View>
-                <AntDesign name='right' size={23} color={colors.black_color9} />
+                <AntDesign name="right" size={23} color={colors.black_color9} />
               </View>
-
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
-            <View style={{ elevation: 10, paddingHorizontal: SCREEN_WIDTH * 0.05, paddingBottom: SCREEN_HEIGHT * 0.02, borderRadius: 10, backgroundColor: colors.background_theme6 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 15, paddingVertical: SCREEN_HEIGHT * 0.015 }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.03, width: SCREEN_WIDTH * 0.06, alignItems: "center", justifyContent: "center", borderRadius: 100, backgroundColor: colors.white_color }}>
+          <View
+            style={{
+              paddingHorizontal: SCREEN_WIDTH * 0.03,
+              paddingVertical: SCREEN_HEIGHT * 0.02,
+            }}>
+            <View
+              style={{
+                elevation: 10,
+                paddingHorizontal: SCREEN_WIDTH * 0.05,
+                paddingBottom: SCREEN_HEIGHT * 0.02,
+                borderRadius: 10,
+                backgroundColor: colors.background_theme6,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 15,
+                  paddingVertical: SCREEN_HEIGHT * 0.015,
+                }}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.03,
+                    width: SCREEN_WIDTH * 0.06,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 100,
+                    backgroundColor: colors.white_color,
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.02, width: SCREEN_WIDTH * 0.03 }}
-                    source={require('../../assets/images/BUTTONi.png')} />
+                    style={{
+                      height: SCREEN_HEIGHT * 0.02,
+                      width: SCREEN_WIDTH * 0.03,
+                    }}
+                    source={require('../../assets/images/BUTTONi.png')}
+                  />
                 </View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.8, color: colors.white_color, fontWeight: "500" }}>Key Points To Remember</Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.8,
+                    color: colors.white_color,
+                    fontWeight: '500',
+                  }}>
+                  Key Points To Remember
+                </Text>
               </View>
-              <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.04, gap: 3 }}>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Never share your personal Details To Customer.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Do Not Sell Anything To Customer.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Never Reach out To Customers Outside The App.</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.2, fontWeight: "500", color: colors.white_color }}>• Ensure Good Customer satisfaction & Reviews.</Text>
+              <View style={{paddingHorizontal: SCREEN_WIDTH * 0.04, gap: 3}}>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.2,
+                    fontWeight: '500',
+                    color: colors.white_color,
+                  }}>
+                  • Never share your personal Details To Customer.
+                </Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.2,
+                    fontWeight: '500',
+                    color: colors.white_color,
+                  }}>
+                  • Do Not Sell Anything To Customer.
+                </Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.2,
+                    fontWeight: '500',
+                    color: colors.white_color,
+                  }}>
+                  • Never Reach out To Customers Outside The App.
+                </Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.2,
+                    fontWeight: '500',
+                    color: colors.white_color,
+                  }}>
+                  • Ensure Good Customer satisfaction & Reviews.
+                </Text>
               </View>
-
             </View>
           </View>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
+          <View style={{paddingHorizontal: SCREEN_WIDTH * 0.03}}>
             <TouchableOpacity
               onPress={() => navigation.navigate('livePreview')}
-              style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.white_color, borderRadius: 10, elevation: 10, overflow: "hidden" }}>
-              <View style={{ alignItems: "center", justifyContent: "center", backgroundColor: '#FFFCF3', paddingHorizontal: SCREEN_WIDTH * 0.02, }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", }}>
-
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: colors.white_color,
+                borderRadius: 10,
+                elevation: 10,
+                overflow: 'hidden',
+              }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FFFCF3',
+                  paddingHorizontal: SCREEN_WIDTH * 0.02,
+                }}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.1,
+                    width: SCREEN_WIDTH * 0.22,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.06, width: SCREEN_WIDTH * 0.2 }}
-                    source={require('../../assets/images/LiveButton.png')} />
-
+                    style={{
+                      height: SCREEN_HEIGHT * 0.06,
+                      width: SCREEN_WIDTH * 0.2,
+                    }}
+                    source={require('../../assets/images/LiveButton.png')}
+                  />
                 </View>
-
               </View>
 
-              <View style={{ paddingBottom: SCREEN_HEIGHT * 0.02, paddingTop: SCREEN_HEIGHT * 0.01 }}>
-                <View style={{ paddingVertical: SCREEN_HEIGHT * 0.01 }}>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.7, color: colors.black_color9, }}>Go Live</Text>
+              <View
+                style={{
+                  paddingBottom: SCREEN_HEIGHT * 0.02,
+                  paddingTop: SCREEN_HEIGHT * 0.01,
+                }}>
+                <View style={{paddingVertical: SCREEN_HEIGHT * 0.01}}>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.7,
+                      color: colors.black_color9,
+                    }}>
+                    Go Live
+                  </Text>
                 </View>
                 <View>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }} >Schedulle a live session</Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }}>now & make more </Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }}>Conversations</Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    Schedulle a live session
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    now & make more{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    Conversations
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ justifyContent: "center", paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
-                <AntDesign name='right' size={27} color={colors.black_color9} />
+              <View
+                style={{
+                  justifyContent: 'center',
+                  paddingHorizontal: SCREEN_WIDTH * 0.02,
+                }}>
+                <AntDesign name="right" size={27} color={colors.black_color9} />
               </View>
-
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+          <View
+            style={{
+              paddingHorizontal: SCREEN_WIDTH * 0.03,
+              paddingVertical: SCREEN_HEIGHT * 0.02,
+            }}>
             <TouchableOpacity
-              onPress={() => showToastMessage({ message: "Coming soon" })}
-              style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.white_color, borderRadius: 10, elevation: 10, overflow: "hidden" }}>
-              <View style={{ alignItems: "center", justifyContent: "center", backgroundColor: '#FFFCF3', paddingHorizontal: SCREEN_WIDTH * 0.02, }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.1, width: SCREEN_WIDTH * 0.22, borderRadius: 100, alignItems: "center", justifyContent: "center", }}>
-
+              onPress={() => showToastMessage({message: 'Coming soon'})}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: colors.white_color,
+                borderRadius: 10,
+                elevation: 10,
+                overflow: 'hidden',
+              }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#FFFCF3',
+                  paddingHorizontal: SCREEN_WIDTH * 0.02,
+                }}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.1,
+                    width: SCREEN_WIDTH * 0.22,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.2 }}
-                    source={require('../../assets/images/Calenderastro.png')} />
-
+                    style={{
+                      height: SCREEN_HEIGHT * 0.08,
+                      width: SCREEN_WIDTH * 0.2,
+                    }}
+                    source={require('../../assets/images/Calenderastro.png')}
+                  />
                 </View>
-
               </View>
 
-              <View style={{ paddingBottom: SCREEN_HEIGHT * 0.02, paddingTop: SCREEN_HEIGHT * 0.01 }}>
-                <View style={{ paddingVertical: SCREEN_HEIGHT * 0.01 }}>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.7, color: colors.black_color9, }}>Weekly Time-Table</Text>
+              <View
+                style={{
+                  paddingBottom: SCREEN_HEIGHT * 0.02,
+                  paddingTop: SCREEN_HEIGHT * 0.01,
+                }}>
+                <View style={{paddingVertical: SCREEN_HEIGHT * 0.01}}>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.7,
+                      color: colors.black_color9,
+                    }}>
+                    Weekly Time-Table
+                  </Text>
                 </View>
                 <View>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }} >Create a weekly schedule </Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }}>for all your live sessions & </Text>
-                  <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7, }}>make more conversaions.</Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    Create a weekly schedule{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    for all your live sessions &{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: Sizes.fixPadding * 1.3,
+                      color: colors.black_color7,
+                    }}>
+                    make more conversaions.
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ justifyContent: "center", paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
-                <AntDesign name='right' size={27} color={colors.black_color9} />
+              <View
+                style={{
+                  justifyContent: 'center',
+                  paddingHorizontal: SCREEN_WIDTH * 0.02,
+                }}>
+                <AntDesign name="right" size={27} color={colors.black_color9} />
               </View>
-
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingVertical: SCREEN_HEIGHT * 0.005, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-            <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.black_color9 }}>Manage Your Availability status</Text>
+          <View
+            style={{
+              paddingVertical: SCREEN_HEIGHT * 0.005,
+              paddingHorizontal: SCREEN_WIDTH * 0.03,
+            }}>
+            <Text
+              style={{
+                fontSize: Sizes.fixPadding * 1.5,
+                fontWeight: '500',
+                color: colors.black_color9,
+              }}>
+              Manage Your Availability status
+            </Text>
           </View>
 
-          <View style={{ gap: SCREEN_HEIGHT * 0.015, paddingVertical: SCREEN_HEIGHT * 0.02, paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
-
-            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.04 }}>
-
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.17, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
+          <View
+            style={{
+              gap: SCREEN_HEIGHT * 0.015,
+              paddingVertical: SCREEN_HEIGHT * 0.02,
+              paddingHorizontal: SCREEN_WIDTH * 0.02,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: SCREEN_WIDTH * 0.04,
+              }}>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.08,
+                    width: SCREEN_WIDTH * 0.17,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.background_theme6,
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.05, width: SCREEN_WIDTH * 0.1, resizeMode: "contain" }}
-                    source={require('../../assets/images/CALLBOOK.png')} />
+                    style={{
+                      height: SCREEN_HEIGHT * 0.05,
+                      width: SCREEN_WIDTH * 0.1,
+                      resizeMode: 'contain',
+                    }}
+                    source={require('../../assets/images/CALLBOOK.png')}
+                  />
                 </View>
                 <View>
-                  <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.8, fontWeight: "500" }}>Call</Text>
-                  <Text style={{ color: colors.black_color7, fontSize: Sizes.fixPadding * 1.4 }}>₹ {providerData?.call_price}/min</Text>
+                  <Text
+                    style={{
+                      color: colors.black_color9,
+                      fontSize: Sizes.fixPadding * 1.8,
+                      fontWeight: '500',
+                    }}>
+                    Call
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.black_color7,
+                      fontSize: Sizes.fixPadding * 1.4,
+                    }}>
+                    ₹ {providerData?.call_price}/min
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 {/* <Switch
                   trackColor={{ false: '#FBA6B1', true: '#81b0ff' }}
                   thumbColor={isEnabled ? '#f5dd4b' : '#DA5763'}
@@ -794,34 +1146,72 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                   value={isEnabled}
                 /> */}
                 <Switch
-                  trackColor={{ false: '#FBA6B1', true: colors.green_color2 }}
-                  thumbColor={providerData?.call_status === 'online' ? "green" : '#DA5763'}
+                  trackColor={{false: '#FBA6B1', true: colors.green_color2}}
+                  thumbColor={
+                    providerData?.call_status === 'online' ? 'green' : '#DA5763'
+                  }
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={(value) => handleCallStatusToggle(value)}
+                  onValueChange={value => handleCallStatusToggle(value)}
                   value={providerData?.call_status === 'online'}
                 />
 
-                <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.2 }}>
-                  {providerData?.call_status === 'online' ? 'Enabled' : 'Disable'}
+                <Text
+                  style={{
+                    color: colors.black_color9,
+                    fontSize: Sizes.fixPadding * 1.2,
+                  }}>
+                  {providerData?.call_status === 'online'
+                    ? 'Enabled'
+                    : 'Disable'}
                 </Text>
               </View>
-
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.04 }}>
-
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.17, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: SCREEN_WIDTH * 0.04,
+              }}>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.08,
+                    width: SCREEN_WIDTH * 0.17,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.background_theme6,
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.05, width: SCREEN_WIDTH * 0.1, resizeMode: "contain" }}
-                    source={require('../../assets/images/CHATBOOK.png')} />
+                    style={{
+                      height: SCREEN_HEIGHT * 0.05,
+                      width: SCREEN_WIDTH * 0.1,
+                      resizeMode: 'contain',
+                    }}
+                    source={require('../../assets/images/CHATBOOK.png')}
+                  />
                 </View>
                 <View>
-                  <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.8, fontWeight: "500" }}>Chat</Text>
-                  <Text style={{ color: colors.black_color7, fontSize: Sizes.fixPadding * 1.4 }}>₹  {providerData?.chat_price}/min</Text>
+                  <Text
+                    style={{
+                      color: colors.black_color9,
+                      fontSize: Sizes.fixPadding * 1.8,
+                      fontWeight: '500',
+                    }}>
+                    Chat
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.black_color7,
+                      fontSize: Sizes.fixPadding * 1.4,
+                    }}>
+                    ₹ {providerData?.chat_price}/min
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 {/* <Switch
                   trackColor={{ false: '#FBA6B1', true: '#81b0ff' }}
                   thumbColor={isEnabled ? '#f5dd4b' : '#DA5763'}
@@ -830,33 +1220,71 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                   value={isEnabled}
                 /> */}
                 <Switch
-                  trackColor={{ false: '#FBA6B1', true: colors.green_color2 }}
-                  thumbColor={providerData?.chat_status === 'online' ? "green" : '#DA5763'}
+                  trackColor={{false: '#FBA6B1', true: colors.green_color2}}
+                  thumbColor={
+                    providerData?.chat_status === 'online' ? 'green' : '#DA5763'
+                  }
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={(value) => handleChatStatusToggle(value)}
+                  onValueChange={value => handleChatStatusToggle(value)}
                   value={providerData?.chat_status === 'online'}
                 />
-                <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.2 }}>
-                  {providerData?.chat_status === 'online' ? 'Enabled' : 'Disable'}
+                <Text
+                  style={{
+                    color: colors.black_color9,
+                    fontSize: Sizes.fixPadding * 1.2,
+                  }}>
+                  {providerData?.chat_status === 'online'
+                    ? 'Enabled'
+                    : 'Disable'}
                 </Text>
               </View>
-
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.04 }}>
-
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <View style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.17, borderRadius: 100, alignItems: "center", justifyContent: "center", backgroundColor: colors.background_theme6 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: SCREEN_WIDTH * 0.04,
+              }}>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <View
+                  style={{
+                    height: SCREEN_HEIGHT * 0.08,
+                    width: SCREEN_WIDTH * 0.17,
+                    borderRadius: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.background_theme6,
+                  }}>
                   <Image
-                    style={{ height: SCREEN_HEIGHT * 0.06, width: SCREEN_WIDTH * 0.15, resizeMode: "contain" }}
-                    source={require('../../assets/images/INTERTNETBOOK.png')} />
+                    style={{
+                      height: SCREEN_HEIGHT * 0.06,
+                      width: SCREEN_WIDTH * 0.15,
+                      resizeMode: 'contain',
+                    }}
+                    source={require('../../assets/images/INTERTNETBOOK.png')}
+                  />
                 </View>
                 <View>
-                  <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.8, fontWeight: "500" }}>Video Call</Text>
-                  <Text style={{ color: colors.black_color7, fontSize: Sizes.fixPadding * 1.4 }}>₹  {providerData?.normal_video_call_price}/min</Text>
+                  <Text
+                    style={{
+                      color: colors.black_color9,
+                      fontSize: Sizes.fixPadding * 1.8,
+                      fontWeight: '500',
+                    }}>
+                    Video Call
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.black_color7,
+                      fontSize: Sizes.fixPadding * 1.4,
+                    }}>
+                    ₹ {providerData?.normal_video_call_price}/min
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 {/* <Switch
                   trackColor={{ false: '#FBA6B1', true: '#81b0ff' }}
                   thumbColor={isEnabled ? '#f5dd4b' : '#DA5763'}
@@ -866,72 +1294,109 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 /> */}
 
                 <Switch
-                  trackColor={{ false: '#FBA6B1', true: colors.green_color2 }}
-                  thumbColor={providerData?.video_call_status == 'online' ? "green" : '#DA5763'}
+                  trackColor={{false: '#FBA6B1', true: colors.green_color2}}
+                  thumbColor={
+                    providerData?.video_call_status == 'online'
+                      ? 'green'
+                      : '#DA5763'
+                  }
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={(value) => handleVideoCallStatusToggle(value)}
+                  onValueChange={value => handleVideoCallStatusToggle(value)}
                   value={providerData?.video_call_status == 'online'}
                 />
 
-                <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.2 }}>
-                  {providerData?.video_call_status === 'online' ? 'Enabled' : 'Disable'}
+                <Text
+                  style={{
+                    color: colors.black_color9,
+                    fontSize: Sizes.fixPadding * 1.2,
+                  }}>
+                  {providerData?.video_call_status === 'online'
+                    ? 'Enabled'
+                    : 'Disable'}
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              <View>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.6,
+                    color: colors.black_color9,
+                    fontWeight: '500',
+                  }}>
+                  Live Video
+                </Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.3,
+                    color: colors.black_color7,
+                  }}>
+                  ₹ {providerData?.normal_video_call_price}/min
                 </Text>
               </View>
 
-            </View>
-
-            <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-
               <View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Video</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.normal_video_call_price}/min</Text>
-
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.6,
+                    color: colors.black_color9,
+                    fontWeight: '500',
+                  }}>
+                  Live Audio
+                </Text>
+                <Text
+                  style={{
+                    fontSize: Sizes.fixPadding * 1.3,
+                    color: colors.black_color7,
+                  }}>
+                  ₹ {providerData?.call_price}/min
+                </Text>
               </View>
-
-              <View>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.6, color: colors.black_color9, fontWeight: "500" }}>Live Audio</Text>
-                <Text style={{ fontSize: Sizes.fixPadding * 1.3, color: colors.black_color7 }}>₹ {providerData?.call_price}/min</Text>
-              </View>
-
-
             </View>
-
           </View>
 
-          <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingVertical: SCREEN_HEIGHT * 0.01 }}>
-            <View style={{ backgroundColor: colors.white_color, borderRadius: 10, elevation: 10 }}>
-              <View style={{ paddingHorizontal: SCREEN_WIDTH * 0.03, paddingTop: SCREEN_HEIGHT * 0.01 }}>
-                <Text style={{ color: colors.black_color9, fontSize: Sizes.fixPadding * 1.5, fontWeight: "500" }}>Featured</Text>
+          <View
+            style={{
+              paddingHorizontal: SCREEN_WIDTH * 0.03,
+              paddingVertical: SCREEN_HEIGHT * 0.01,
+            }}>
+            <View
+              style={{
+                backgroundColor: colors.white_color,
+                borderRadius: 10,
+                elevation: 10,
+              }}>
+              <View
+                style={{
+                  paddingHorizontal: SCREEN_WIDTH * 0.03,
+                  paddingTop: SCREEN_HEIGHT * 0.01,
+                }}>
+                <Text
+                  style={{
+                    color: colors.black_color9,
+                    fontSize: Sizes.fixPadding * 1.5,
+                    fontWeight: '500',
+                  }}>
+                  Featured
+                </Text>
               </View>
-              <View style={{ justifyContent: "center", alignItems: "center", paddingVertical: SCREEN_HEIGHT * 0.015 }}>
-
-
-
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingVertical: SCREEN_HEIGHT * 0.015,
+                }}>
                 <FlatList
                   data={DATA}
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={item => item.id}
                   numColumns={4}
                   renderItem={renderitem}
                 />
-
               </View>
             </View>
           </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           {/* <View
             style={{
@@ -1013,7 +1478,7 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
               </Text>
             </TouchableOpacity> */}
           {/* </View> */}
-          <View style={{ paddingHorizontal: 15 }}>
+          <View style={{paddingHorizontal: 15}}>
             <View
               style={{
                 flex: 0,
@@ -1233,8 +1698,6 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
               </View>
             </TouchableOpacity> */}
 
-
-
             {/* <View style={{
               marginTop: 20, flex: 0,
               flexDirection: 'row', justifyContent: 'space-between',
@@ -1339,7 +1802,6 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
               </TouchableOpacity> */}
             {/* </View> */}
-
 
             {/* <View
               style={{
@@ -1572,7 +2034,6 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
 
             {/* </View> */}
 
-
             {/* <View
                 style={{
                   flex: 0,
@@ -1775,48 +2236,56 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 </TouchableOpacity> */}
             {/* </View> */}
 
-
             {/* </View> */}
-            {callRequestData && <TouchableOpacity
-              onPress={() => navigation.navigate('intakeDetails')}
-              style={{
-                flex: 0,
-                padding: 12,
-
-                backgroundColor: colors.new_color,
-                borderRadius: 5,
-                marginBottom: 10,
-              }}>
-              <Text
+            {callRequestData && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('intakeDetails')}
                 style={{
-                  fontSize: getFontSize(1.4),
-                  color: colors.white_color,
-                  fontFamily: fonts.medium,
-                }}>
-                View Kundli for Current Call
-              </Text>
-            </TouchableOpacity>
-            }
-            {callVideoRequestData && <TouchableOpacity
-              onPress={() => navigation.navigate('intakeDetails')} // new page
-              style={{
-                flex: 0,
-                padding: 12,
+                  flex: 0,
+                  padding: 12,
 
-                backgroundColor: colors.new_color,
-                borderRadius: 5,
-              }}>
-              <Text
+                  backgroundColor: colors.new_color,
+                  borderRadius: 5,
+                  marginBottom: 10,
+                }}>
+                <Text
+                  style={{
+                    fontSize: getFontSize(1.4),
+                    color: colors.white_color,
+                    fontFamily: fonts.medium,
+                  }}>
+                  View Kundli for Current Call
+                </Text>
+              </TouchableOpacity>
+            )}
+            {callVideoRequestData && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('intakeDetails')} // new page
                 style={{
-                  fontSize: getFontSize(1.4),
-                  color: colors.white_color,
-                  fontFamily: fonts.medium,
-                }}>
-                View Kundli for Current Video Call
-              </Text>
-            </TouchableOpacity>}
+                  flex: 0,
+                  padding: 12,
 
-            <View style={{ display: "flex", flexDirection: "row", marginBottom: 30, gap: 10, }}>
+                  backgroundColor: colors.new_color,
+                  borderRadius: 5,
+                }}>
+                <Text
+                  style={{
+                    fontSize: getFontSize(1.4),
+                    color: colors.white_color,
+                    fontFamily: fonts.medium,
+                  }}>
+                  View Kundli for Current Video Call
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginBottom: 30,
+                gap: 10,
+              }}>
               {/* <TouchableOpacity
                 onPress={() => navigation.navigate('Assignedpuja')}
                 style={{
@@ -1857,24 +2326,22 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 </Text>
               </TouchableOpacity> */}
             </View>
-
           </View>
         </ScrollView>
       </View>
-      <Modal
-        visible={anouncementsVisible}
-        transparent={true}
-      >
+      <Modal visible={anouncementsVisible} transparent={true}>
         <View style={styles.modalContainerA}>
           <View style={styles.modalContainerBB}>
             <View style={styles.modalContainerC}>
-              <Text style={styles.modalTextA}>{t("announcement")}</Text>
+              <Text style={styles.modalTextA}>{t('announcement')}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(ProviderActions.onReadAnouncement(anouncementData[0]?._id))
+                  dispatch(
+                    ProviderActions.onReadAnouncement(anouncementData[0]?._id),
+                  );
                   setAnouncementsVisible(false);
                 }}
-                style={{ padding: 3 }}>
+                style={{padding: 3}}>
                 <Ionicons
                   name="close-outline"
                   color={colors.black_color8}
@@ -1882,69 +2349,113 @@ const ProviderHome = ({ providerData, navigation, dispatch, callRequestData, cal
                 />
               </TouchableOpacity>
             </View>
-            {anouncementData?.[0]?.description && <RenderHtml source={{ html: anouncementData?.[0]?.description }} contentWidth={SCREEN_WIDTH} />}
+            {anouncementData?.[0]?.description && (
+              <RenderHtml
+                source={{html: anouncementData?.[0]?.description}}
+                contentWidth={SCREEN_WIDTH}
+              />
+            )}
           </View>
         </View>
       </Modal>
-
 
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={handleCloseModal}>
-
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <View style={{ alignItems: "center", paddingVertical: SCREEN_HEIGHT * 0.02 }}>
-
-              <Text style={{ ...Fonts.helveticaBoldBlack, fontSize: responsiveFontSize(1.8) }}>Astrologer Chat Status</Text>
-
+            <View
+              style={{
+                alignItems: 'center',
+                paddingVertical: SCREEN_HEIGHT * 0.02,
+              }}>
+              <Text
+                style={{
+                  ...Fonts.helveticaBoldBlack,
+                  fontSize: responsiveFontSize(1.8),
+                }}>
+                Astrologer Chat Status
+              </Text>
             </View>
             <View>
-
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: SCREEN_WIDTH * 0.055, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingHorizontal: SCREEN_WIDTH * 0.055,
+                  paddingVertical: SCREEN_HEIGHT * 0.02,
+                }}>
                 <TouchableOpacity
                   onPress={() => {
                     handleStatusChange('online');
                     handleCloseModal();
                   }}
-                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
-                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Online</Text>
+                  style={{
+                    borderWidth: 1,
+                    width: SCREEN_WIDTH * 0.2,
+                    paddingVertical: SCREEN_HEIGHT * 0.01,
+                    alignItems: 'center',
+                    borderRadius: 20,
+                    borderColor: colors.background_theme6,
+                  }}>
+                  <Text
+                    style={{
+                      ...Fonts.black11InterMedium,
+                      fontSize: responsiveFontSize(1.5),
+                    }}>
+                    Online
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     handleStatusChange('offline');
                     handleCloseModal();
-
                   }}
-
-                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
-                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Offline</Text>
-                </TouchableOpacity >
+                  style={{
+                    borderWidth: 1,
+                    width: SCREEN_WIDTH * 0.2,
+                    paddingVertical: SCREEN_HEIGHT * 0.01,
+                    alignItems: 'center',
+                    borderRadius: 20,
+                    borderColor: colors.background_theme6,
+                  }}>
+                  <Text
+                    style={{
+                      ...Fonts.black11InterMedium,
+                      fontSize: responsiveFontSize(1.5),
+                    }}>
+                    Offline
+                  </Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     handleStatusChange('busy');
                     handleCloseModal();
                   }}
-
-                  style={{ borderWidth: 1, width: SCREEN_WIDTH * 0.2, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 20, borderColor: colors.background_theme6 }}>
-                  <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.5) }}>Busy</Text>
-                </TouchableOpacity >
+                  style={{
+                    borderWidth: 1,
+                    width: SCREEN_WIDTH * 0.2,
+                    paddingVertical: SCREEN_HEIGHT * 0.01,
+                    alignItems: 'center',
+                    borderRadius: 20,
+                    borderColor: colors.background_theme6,
+                  }}>
+                  <Text
+                    style={{
+                      ...Fonts.black11InterMedium,
+                      fontSize: responsiveFontSize(1.5),
+                    }}>
+                    Busy
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
       </Modal>
-
-
-
-
-
-
-
-
-
     </View>
   );
 };
@@ -1962,7 +2473,7 @@ const mapStateToProps = state => ({
   onlineData: state.history.onlineData,
 });
 
-const mapDispatchToProps = dispatch => ({ dispatch });
+const mapDispatchToProps = dispatch => ({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProviderHome);
 
@@ -1972,10 +2483,10 @@ const styles = StyleSheet.create({
     width: '30%',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: "#F45F4B",
+    borderColor: '#F45F4B',
     borderRadius: 5,
     paddingVertical: 4,
-    backgroundColor: '#F45F4B'
+    backgroundColor: '#F45F4B',
   },
 
   modalOverlay: {
@@ -1990,7 +2501,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: SCREEN_WIDTH * 0.8,
     height: SCREEN_HEIGHT * 0.2,
-
   },
   modalText: {
     fontSize: 18,
@@ -2013,7 +2523,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.white_color,
     shadowColor: colors.black_color7,
-    shadowOffset: { width: -2, height: 1 },
+    shadowOffset: {width: -2, height: 1},
     shadowOpacity: 0.3,
     shadowRadius: 5,
     height: '20%',
