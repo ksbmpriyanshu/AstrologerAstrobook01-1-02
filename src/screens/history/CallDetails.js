@@ -54,39 +54,32 @@ const CallDetails = ({ navigation, route }) => {
           </View>
         </View>
 
-        {/* Info Section */}
-        <View style={styles.infoContainer}>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Name:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>{customerName}</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Gender:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>{ChatData?.customerDetails?.gender}</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Marital Status:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>Darpan Mishra</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Date of Birth:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>{dateOfBirthFormatted}</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Time of Birth:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>{timeOfBirthFormatted}</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Place of Birth:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>{placeOfBirth}</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoLabel}>Topic of Concern:</Text>
-            <Text style={[styles.infoValue, styles.rightAligned]}>
-              {ChatData?.intakeDetailes?.topic_of_concern || 'N/A'}
-            </Text>
+        <View style={styles.container2}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ width: "50%" }}>
+              <Text style={styles.infoLabel}>Name:</Text>
+              <Text style={styles.infoLabel}>Gender:</Text>
+              <Text style={styles.infoLabel}>Marital Status:</Text>
+              <Text style={styles.infoLabel}>Date of Birth:</Text>
+              <Text style={styles.infoLabel}>Time of Birth:</Text>
+              <Text style={styles.infoLabel}>Place of Birth:</Text>
+              <Text style={styles.infoLabel}>Topic of Concern:</Text>
+            </View>
+            <View style={{ width: "50%" }}>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{customerName}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{ChatData?.customerDetails?.gender}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>Darpan Mishra</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{dateOfBirthFormatted}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{timeOfBirthFormatted}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{placeOfBirth}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>
+                {ChatData?.intakeDetailes?.topic_of_concern || 'N/A'}
+              </Text>
+            </View>
           </View>
         </View>
+
+
 
         {/* Reach Out Button */}
         <TouchableOpacity style={styles.reachOutButton}>
@@ -101,17 +94,18 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.whiteDark,
   },
-  centeredContainer: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+  container2: {
+    backgroundColor: "white",
+    elevation: 5,
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(2)
   },
 
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal:responsiveScreenWidth(3),
-    paddingVertical:responsiveScreenHeight(2)
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(2),
   },
   imageContainer: {
     width: responsiveScreenWidth(15),
@@ -132,20 +126,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 
-  infoContainer: {
-    backgroundColor: 'white',
-    borderWidth: 0.5,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    padding: responsiveScreenWidth(3),
-    marginBottom: responsiveScreenHeight(4),
-    paddingHorizontal: responsiveScreenWidth(5),
-  },
-  infoSection: {
-    flexDirection: 'row',
-    marginBottom: responsiveScreenHeight(1.3),
-    justifyContent: 'space-between',
-  },
+
   infoLabel: {
     fontSize: responsiveScreenFontSize(1.8),
     fontWeight: '600',
@@ -155,9 +136,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveScreenFontSize(1.8),
     color: 'gray',
   },
-  rightAligned: {
-    textAlign: 'right', 
-  },
+
 
   reachOutButton: {
     backgroundColor: colors.background_theme6,
@@ -167,6 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: responsiveScreenWidth(80),
     alignSelf: 'center',
+    marginTop: responsiveScreenHeight(5)
   },
   reachOutButtonText: {
     fontSize: responsiveScreenFontSize(1.7),
