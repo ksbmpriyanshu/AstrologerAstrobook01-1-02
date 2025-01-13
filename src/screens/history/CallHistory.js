@@ -27,6 +27,9 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
     dispatch(HistoryActions.getCallHistory());
   }, [dispatch]);
 
+  console.log("check the call data::::", callHistoryData);
+  
+
   const renderItem = ({item}) => {
     const transactionId = item?.transactionId || '';
     const last10Chars = transactionId.slice(-10);
