@@ -8,7 +8,7 @@ import {
   FlatList,
   Alert
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { colors, fonts } from '../../config/Constants';
 import MyStatusBar from '../../components/MyStatusbar';
 import { useState } from 'react';
@@ -23,11 +23,14 @@ import * as AuthActions from '../../redux/actions/AuthActions'
 import { Input } from '@rneui/themed';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config/Screen';
+import * as SettingActions from '../../redux/actions/SettingActions'
 
-const AstrologerSignUp = ({ navigation, dispatch }) => {
+const AstrologerSignUp = ({ navigation, dispatch, locationData, subLocationData, route }) => {
 
   const [state, setState] = useState({
     name: '',
+    lastname: '',
+    displayname: '',
     email: '',
     phoneNumber: '',
     address: '',
@@ -39,7 +42,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
     experience: '',
     gender: 'Male',
     isChecked: false
-  })
+  });
+
+  useEffect(() => {
+    return () => {
+      dispatch(SettingActions.setLocationData(null))
+      dispatch(SettingActions.setSubLocationData(null))
+    }
+  }, [])
 
 
   const register = async () => {
@@ -52,6 +62,11 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
     const selectedDate = new Date(dob);
     const age = currentDate.getFullYear() - selectedDate.getFullYear();
     const monthDiff = currentDate.getMonth() - selectedDate.getMonth();
+
+
+
+
+
     if (
       monthDiff < 0 ||
       (monthDiff === 0 && currentDate.getDate() < selectedDate.getDate())
@@ -59,14 +74,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
       age--;
     }
 
-    if (experience > age) {
-      console.log('start')
-      showToastMessage({ message: 'Experience cannot be greater than age.' })
-      updateState({ experience: '' })
-      console.log('end')
+    // if (experience > age) {
+    //   console.log('start')
+    //   showToastMessage({ message: 'Experience cannot be greater than age.' })
+    //   updateState({ experience: '' })
+    //   console.log('end')
 
-      return;
-    }
+    //   return;
+    // }
 
     if (name.length == 0) {
       showToastMessage({ message: 'Please enter your name' })
@@ -77,10 +92,34 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
     } else if (!nameRegex.test(name.trimEnd())) {
       showToastMessage({ message: 'Name can only contain alphabetic characters ' });
       return false;
-    } else if (!phoneNumberRegex.test(phoneNumber.trimEnd())) {
-      showToastMessage({ message: 'Please enter a valid mobile number' });
+    }
+
+    if (lastname.length == 0) {
+      showToastMessage({ message: 'Please enter your Last name' })
+      return
+    } else if (lastname.length > 40) {
+      showToastMessage({ message: 'Name can contain only 40 characters.' });
       return false;
-    } else if (email.length == 0) {
+    } else if (!nameRegex.test(name.trimEnd())) {
+      showToastMessage({ message: 'Name can only contain alphabetic characters ' });
+      return false;
+    }
+
+    if (displayname.length == 0) {
+      showToastMessage({ message: 'Please enter your Display name' })
+      return
+    } else if (displayname.length > 40) {
+      showToastMessage({ message: 'Name can contain only 40 characters.' });
+      return false;
+    } else if (!nameRegex.test(name.trimEnd())) {
+      showToastMessage({ message: 'Name can only contain alphabetic characters ' });
+      return false;
+    }
+
+    // else if (!phoneNumberRegex.test(phoneNumber.trimEnd())) {
+    //   showToastMessage({ message: 'Please enter a valid mobile number' });
+    //   return false;
+   if (email.length == 0) {
       showToastMessage({ message: 'Please enter your email' })
       return
     } else if (!emailRegex.test(email)) {
@@ -97,38 +136,38 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
       //   showToastMessage({message: 'Please enter your address'})
       //   return
       // }else
-      if (city.length == 0) {
-        showToastMessage({ message: 'Please enter your city' })
-        return
-      } else if (!nameRegex.test(city.trimEnd())) {
-        showToastMessage({ message: 'Please enter your Correct City' })
-        return
-      } else if (!nameRegex.test(countryState.trimEnd())) {
-        showToastMessage({ message: 'Please enter your Correct State' })
-        return
-      } else if (countryState.length == 0) {
-        showToastMessage({ message: 'Please enter your state' })
-        return
-      } else if (!nameRegex.test(country.trimEnd())) {
-        showToastMessage({ message: 'Please enter your Correct Country' })
-        return
-      } else if (country.length == 0) {
-        showToastMessage({ message: 'Please enter your country' })
-        return
-      } else
+      // if (city.length == 0) {
+      //   showToastMessage({ message: 'Please enter your city' })
+      //   return
+      // } else if (!nameRegex.test(city.trimEnd())) {
+      //   showToastMessage({ message: 'Please enter your Correct City' })
+      //   return
+      // } else if (!nameRegex.test(countryState.trimEnd())) {
+      //   showToastMessage({ message: 'Please enter your Correct State' })
+      //   return
+      // } else if (countryState.length == 0) {
+      //   showToastMessage({ message: 'Please enter your state' })
+      //   return
+      // } else if (!nameRegex.test(country.trimEnd())) {
+      //   showToastMessage({ message: 'Please enter your Correct Country' })
+      //   return
+      // } else if (country.length == 0) {
+      //   showToastMessage({ message: 'Please enter your country' })
+      //   return
+      // } else
         // if(pincode.length == 0){
         //   showToastMessage({message: 'Please enter your pincode'})
         //   return
         // }else 
-        if (!dob) {
-          showToastMessage({ message: 'Please select your date of birth' })
-          return
-        } else if (experience.length == 0) {
+        // if (!dob) {
+        //   showToastMessage({ message: 'Please select your date of birth' })
+        //   return
+       if (experience.length == 0) {
           showToastMessage({ message: 'Please enter your experience' })
           return
-        } else if (!isChecked) {
-          showToastMessage({ message: 'Please accept our term and conditions' })
-          return
+          // } else if (!isChecked) {
+          //   showToastMessage({ message: 'Please accept our term and conditions' })
+          //   return
         } else {
           const payload = {
             astrologerName: name.trimEnd(),
@@ -154,7 +193,7 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
       return newData
     })
   }
-  const { name, email, phoneNumber, address, city, countryState, country, pincode, dob, experience, gender, isChecked } = state
+  const { name,lastname,displayname, email, phoneNumber, address, city, countryState, country, pincode, dob, experience, gender, isChecked } = state
 
   console.log(dob, 'date')
   return (
@@ -172,15 +211,16 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           {emailInfo()}
           {phoneNumberInfo()}
           {addressInfo()}
-          {cityInfo()}
-          {stateInfo()}
-          {countryInfo()}
-          {pincodeInfo()}
-          {dobInfo()}
+          {/* {cityInfo()} */}
+          {/* {stateInfo()} */}
+          {/* {countryInfo()} */}
+          {/* {pincodeInfo()} */}
+          {/* {dobInfo()} */}
           {experienceInfo()}
-          {genderInfo()}
-          {/* {termsInfo()} */}
+          {/* {genderInfo()} */}
+
           {submitInfo()}
+          {termsInfo()}
           {/* {noteInfo()} */}
         </>}
           contentContainerStyle={{ padding: Sizes.fixPadding * 1.5 }}
@@ -204,62 +244,75 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
 
   function submitInfo() {
     return (
-      <View style={{alignItems:"center",paddingVertical:SCREEN_HEIGHT*0.03}}>
-      <TouchableOpacity
-        onPress={() => {
-          register();
-        }}
-        style={{
-          flex: 0,
-        
-          backgroundColor: colors.black_color9,
-          paddingVertical: 13,
-          borderRadius: 25,
-          shadowColor: colors.black_color3,
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.3,
-          shadowRadius: 10,
-        
-          width:SCREEN_WIDTH*0.6,
-          
-        }}>
-        <Text
+      <View style={{ alignItems: "center", paddingTop: SCREEN_HEIGHT * 0.05 }}>
+        <TouchableOpacity
+          onPress={() => {
+            register();
+          }}
           style={{
-            fontSize: 16,
-            color: colors.background_theme1,
-            fontFamily: fonts.semi_bold,
-            textAlign: 'center',
+            flex: 0,
+
+            backgroundColor: colors.background_theme6,
+            paddingVertical: 13,
+            borderRadius: 25,
+            shadowColor: colors.black_color3,
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.3,
+            shadowRadius: 10,
+
+            width: SCREEN_WIDTH * 0.6,
+
           }}>
-          Submit
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 16,
+              color: colors.background_theme1,
+              fontFamily: fonts.semi_bold,
+              textAlign: 'center',
+            }}>
+            Signup
+          </Text>
+        </TouchableOpacity>
       </View>
     )
   }
 
   function termsInfo() {
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, width: 270 }}>
-        <BouncyCheckbox
-          size={20}
-          fillColor={colors.new_color}
-          onPress={() => updateState({ isChecked: !isChecked })}
-          textComponent={<Text style={{ color: colors.black_color, marginLeft: Sizes.fixPadding }}>By signing-up, you agree to our{' '}
-            <Text
-              style={{ fontSize: 14, color: 'red', paddingTop: 10 }}
+      // <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, width: 270 }}>
+      //   <BouncyCheckbox
+      //     size={20}
+      //     fillColor={colors.new_color}
+      //     onPress={() => updateState({ isChecked: !isChecked })}
+      //     textComponent={<Text style={{ color: colors.black_color, marginLeft: Sizes.fixPadding ,fontSize:12}}>By signing-up, you agree to our{' '}
+      //       <Text
+      //         style={{ fontSize: 12, color: 'red', paddingTop: 10 }}
 
-              onPress={() => Linking.openURL('https://astroremedy.com/terms-and-conditions')}
-            >
-              Terms & Conditions.
-            </Text>
-          </Text>}
-          innerIconStyle={{
-            borderRadius: 5,
-            backgroundColor: isChecked
-              ? colors.new_color
-              : colors.background_theme1,
-          }}
-        />
+      //         onPress={() => Linking.openURL('https://astroremedy.com/terms-and-conditions')}
+      //       >
+      //        Privacy Policy
+      //       </Text>
+      //       <Text
+      //         style={{ fontSize: 12, color: 'red', paddingTop: 10 }}
+
+      //         onPress={() => Linking.openURL('https://astroremedy.com/terms-and-conditions')}
+      //       >
+      //        Terms uses
+      //       </Text>
+
+      //     </Text>}
+      //     innerIconStyle={{
+      //       borderRadius: 5,
+      //       backgroundColor: isChecked
+      //         ? colors.new_color
+      //         : colors.background_theme1,
+      //     }}
+      //   />
+      // </View>
+      <View style={{ paddingTop: SCREEN_HEIGHT * 0.02 }}>
+
+        <Text style={{ ...Fonts.black11InterMedium, }}>By Signing up,you agree to our <Text onPress={() => Linking.openURL('https://astrobook.co.in/privacy-policy')} style={{ ...Fonts.black11InterMedium, color: "red" }}>Privacy Policy</Text> & <Text onPress={() => Linking.openURL('https://astrobook.co.in/terms-of-use')} style={{ ...Fonts.black11InterMedium, color: "red" }}>Terms of Use</Text></Text>
+
       </View>
     )
   }
@@ -344,15 +397,15 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           maxLength={3}
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
-            placeholder='Experience in Year'
-            placeholderTextColor={colors.black_color9} 
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
+            placeholder='Experience in Astrology (Optional)'
+            placeholderTextColor={colors.black_color6}
             onChangeText={text => updateState({ experience: text })}
             maxLength={3}
             keyboardType="number-pad"
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={experience}/>
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={experience} />
         </View>
       </View>
     )
@@ -384,11 +437,11 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
         {/* <Text style={styles.heading}>Date of Birth <Text style={{ color: Colors.red }}>*</Text></Text> */}
         <TouchableOpacity
           onPress={() => onDobSelect()}
-          style={{borderBottomWidth:1.5,paddingVertical:SCREEN_HEIGHT*0.02,borderBottomColor:Colors.gray2}}>
+          style={{ borderBottomWidth: 1.5, paddingVertical: SCREEN_HEIGHT * 0.02, borderBottomColor: Colors.gray2 }}>
           <Text
             style={{
               marginLeft: 5,
-              ...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2),
+              ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2),
               color: dob ? colors.black_color9 : colors.black_color9
               // paddingVertical: Sizes.fontSize*0.3,
             }}>
@@ -418,15 +471,15 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           maxLength={6}
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
             placeholder='Pin Code'
-            placeholderTextColor={colors.black_color9} 
+            placeholderTextColor={colors.black_color9}
             onChangeText={text => updateState({ pincode: text })}
             maxLength={6}
             keyboardType="number-pad"
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={pincode}/>
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={pincode} />
         </View>
       </View>
     )
@@ -447,14 +500,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='Country'
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
             placeholder='Country'
-            placeholderTextColor={colors.black_color9} 
+            placeholderTextColor={colors.black_color9}
             onChangeText={text => updateState({ country: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={country}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={country} />
         </View>
       </View>
     )
@@ -475,14 +528,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='State'
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
             placeholder='State .'
-            placeholderTextColor={colors.black_color9} 
+            placeholderTextColor={colors.black_color9}
             onChangeText={text => updateState({ countryState: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={countryState}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={countryState} />
         </View>
       </View>
     )
@@ -503,14 +556,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='City'
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
             placeholder='City .'
-            placeholderTextColor={colors.black_color9} 
+            placeholderTextColor={colors.black_color9}
             onChangeText={text => updateState({ city: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={city}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={city} />
         </View>
       </View>
     )
@@ -531,15 +584,25 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='Address'
 
         /> */}
-          <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
+        <TouchableOpacity
+
+          onPress={() => {
+            navigation.navigate('PlaceOfBirth', {
+              type: 'sub'
+            });
+          }}
+          style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2, paddingVertical: SCREEN_HEIGHT * 0.02 }}>
+          {/* <TextInput
             placeholder='Current Location'
             placeholderTextColor={colors.black_color9} 
             onChangeText={text => updateState({ address: text })}
             
             style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={address}/>
-        </View>
+            value={address}/> */}
+          <Text
+            style={{ color:colors.black_color5, fontSize: responsiveFontSize(2) }}
+          > {subLocationData ? subLocationData?.address : "Location (Optional)"}</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -560,14 +623,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='Phone Number '
           maxLength={10}
         /> */}
-        <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
-        <TextInput
-            placeholder='Whatsapp Mobile No.'
-            placeholderTextColor={colors.black_color9} 
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
+          <TextInput
+            placeholder='Mobile No.'
+            placeholderTextColor={colors.black_color5}
             onChangeText={text => updateState({ phoneNumber: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={phoneNumber}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={phoneNumber} />
         </View>
       </View>
     )
@@ -589,16 +652,16 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
           placeholder='Email'
 
         /> */}
-         <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2}}>
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
           <TextInput
             placeholder='Email Address'
-            placeholderTextColor={colors.black_color9} 
+            placeholderTextColor={colors.black_color5}
             onChangeText={text => updateState({ email: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={email}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={email} />
         </View>
-        
+
       </View>
     )
   }
@@ -624,15 +687,45 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
       //       </View>
       <View>
 
-        <View style={{borderBottomWidth:1.5,borderBottomColor:Colors.gray2,marginBottom: Sizes.fixPadding * 0.6}}>
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2, marginBottom: Sizes.fixPadding * 0.6 }}>
           <TextInput
-            placeholder='Your Name'
-            placeholderTextColor={colors.black_color9} 
+            placeholder='First Name'
+            placeholderTextColor={colors.black_color5}
             onChangeText={text => updateState({ name: text })}
-            
-            style={{color:colors.black_color9,...Fonts.black12RobotoRegular,fontSize:responsiveFontSize(2)}}
-            value={name}/>
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={name} />
         </View>
+
+
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2, marginBottom: Sizes.fixPadding * 0.6 }}>
+          <TextInput
+            placeholder='Last Name'
+            placeholderTextColor={colors.black_color5}
+            onChangeText={text => updateState({ lastname: text })}
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={lastname} />
+        </View>
+
+
+        <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2, marginBottom: Sizes.fixPadding * 0.6 }}>
+          <TextInput
+            placeholder='Display Name'
+            placeholderTextColor={colors.black_color5}
+            onChangeText={text => updateState({ displayname: text })}
+
+            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            value={displayname} />
+        </View>
+
+
+
+
+
+
+
+
       </View>
 
     )
@@ -640,12 +733,12 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
 
   function titleInfo() {
     return (
-            <View style={{paddingBottom:SCREEN_HEIGHT*0.025}}>
-                      <View style={{alignItems:"center",gap:2}}>
-                          <Text style={{...Fonts.white18RobotBold,color:colors.black_color9,fontSize:responsiveFontSize(2.8)}}>Only For Astrologers</Text>
-                          <Text style={{...Fonts.black11InterMedium,color:colors.black_color9,fontSize:responsiveFontSize(2)}}>Register For an Astrologer Account</Text>
-                      </View>
-            </View>
+      <View style={{ paddingBottom: SCREEN_HEIGHT * 0.025 }}>
+        <View style={{ alignItems: "center", gap: 2 }}>
+          <Text style={{ ...Fonts.white18RobotBold, color: colors.black_color9, fontSize: responsiveFontSize(2.8) }}>Only For Astrologers</Text>
+          <Text style={{ ...Fonts.black11InterMedium, color: colors.black_color9, fontSize: responsiveFontSize(2) }}>Register For an Astrologer Account</Text>
+        </View>
+      </View>
     )
   }
 
@@ -653,8 +746,14 @@ const AstrologerSignUp = ({ navigation, dispatch }) => {
 };
 
 const mapDispatchToProps = dispatch => ({ dispatch })
+const mapStateToProps = state => ({
 
-export default connect(null, mapDispatchToProps)(AstrologerSignUp);
+
+  locationData: state.setting.locationData,
+  subLocationData: state.setting.subLocationData,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AstrologerSignUp);
 
 const styles = StyleSheet.create({
   textInput: {

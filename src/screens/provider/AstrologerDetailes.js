@@ -38,18 +38,21 @@ import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import Expertise from '../AstroloferDetailes/Expertise';
+import * as HistoryActions from '../../redux/actions/HistoryActions';
 
 const AstrologerDetailes = ({
   navigation,
   dispatch,
   reviewData,
   astroData,
+  locationData, subLocationData,route,
+  UpdateProfile
 }) => {
   console.log(astroData?.skill, 'skills data ')
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
-  const route = useRoute();
+  // const route = useRoute();
   const route1 = useRoute();
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedExpertise, setSelectedExpertise] = useState([]);
@@ -71,6 +74,37 @@ const AstrologerDetailes = ({
       setSelectedExpertise(route1.params.selectedExpertise);
     }
   }, [route1.params?.selectedExpertise]);
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(SettingActions.setLocationData(null))
+      dispatch(SettingActions.setSubLocationData(null))
+    }
+  }, [])
+
+   useEffect(() => {
+          dispatch(HistoryActions.getSelectLanguageDATA());
+      }, [dispatch]);
+
+
+
+
+
+      const Updateastroprofile = () => {
+      
+      
+              const data = {
+      
+                // language: 
+                // skill:
+                // mainExpertise:
+                // address:
+              }
+      
+      
+              dispatch(HistoryActions.getUpdateProfileDATA(data));
+          };
 
 
 
@@ -135,7 +169,12 @@ const AstrologerDetailes = ({
             </>
           }
         />
-        <TouchableOpacity style={{ elevation: 1, paddingVertical: SCREEN_HEIGHT * 0.023, alignItems: "center", width: SCREEN_WIDTH * 0.8, borderRadius: 100, backgroundColor: colors.background_theme6, alignSelf: "center", position: "absolute", bottom: 10, }}>
+        <TouchableOpacity 
+        
+        onPress={() => {
+          Updateastroprofile();
+      }}
+        style={{ elevation: 1, paddingVertical: SCREEN_HEIGHT * 0.023, alignItems: "center", width: SCREEN_WIDTH * 0.8, borderRadius: 100, backgroundColor: colors.background_theme6, alignSelf: "center", position: "absolute", bottom: 10, }}>
           <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>Update</Text>
         </TouchableOpacity>
       </View>
@@ -557,35 +596,35 @@ const AstrologerDetailes = ({
 
         </View>
 
-        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.02,alignItems:"center" }}>
+        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.02, alignItems: "center" }}>
 
-       
 
-            {selectedExpertise.length > 0 ? (
-              <FlatList
-              
-                data={selectedExpertise}
-               
-                numColumns={3} 
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  // <Text style={{ ...Fonts.helveticaRegular, fontSize: responsiveFontSize(1.8), marginHorizontal: 2, color: colors.black_color9 }}>
-                  //   {item}
-                  // </Text>
-                  <View style={{ width:SCREEN_WIDTH*0.25,paddingVertical:SCREEN_HEIGHT*0.01,alignItems:"center",borderRadius:100,margin:5,backgroundColor: "#EFEFEF",elevation:1}}>
-                              <Text style={{...Fonts.black11InterMedium}}> {item}</Text>
 
-                  </View>
+          {selectedExpertise.length > 0 ? (
+            <FlatList
 
-                )}
-              />
-            ) : (
-              <Text style={{ ...Fonts.helveticaRegular, fontSize: responsiveFontSize(1.8) }}>
-                No languages selected.
-              </Text>
-            )}
+              data={selectedExpertise}
 
-         
+              numColumns={3}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                // <Text style={{ ...Fonts.helveticaRegular, fontSize: responsiveFontSize(1.8), marginHorizontal: 2, color: colors.black_color9 }}>
+                //   {item}
+                // </Text>
+                <View style={{ width: SCREEN_WIDTH * 0.25, paddingVertical: SCREEN_HEIGHT * 0.01, alignItems: "center", borderRadius: 100, margin: 5, backgroundColor: "#EFEFEF", elevation: 1 }}>
+                  <Text style={{ ...Fonts.black11InterMedium }}> {item}</Text>
+
+                </View>
+
+              )}
+            />
+          ) : (
+            <Text style={{ ...Fonts.helveticaRegular, fontSize: responsiveFontSize(1.8) }}>
+              No languages selected.
+            </Text>
+          )}
+
+
 
         </View>
 
@@ -700,6 +739,7 @@ const AstrologerDetailes = ({
           <View style={{ borderWidth: 1, paddingVertical: SCREEN_HEIGHT * 0.02, paddingHorizontal: SCREEN_WIDTH * 0.03, borderRadius: 10, borderColor: colors.black_color4, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             {/* <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.8) }}>{[...astroData?.language].join(', ')}</Text> */}
 
+
             {selectedLanguages.length > 0 ? (
               <FlatList
                 horizontal={true}
@@ -735,9 +775,13 @@ const AstrologerDetailes = ({
 
 
           <View style={{ borderWidth: 1, paddingVertical: SCREEN_HEIGHT * 0.02, paddingHorizontal: SCREEN_WIDTH * 0.03, borderRadius: 10, borderColor: colors.black_color4, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(1.8) }}>{[...astroData?.language].join(', ')}</Text>
+            <Text style={{  fontSize: responsiveFontSize(1.8) }}> {subLocationData ? subLocationData?.address : t("select_location")}</Text>
 
-            <TouchableOpacity>
+            <TouchableOpacity  onPress={() => {
+            navigation.navigate('PlaceOfBirth', {
+              type: 'sub'
+            });
+          }}>
               <Image
                 style={{ height: SCREEN_HEIGHT * 0.025, width: SCREEN_WIDTH * 0.05 }}
                 source={require('../../assets/images/Subtract.png')} />
@@ -749,8 +793,8 @@ const AstrologerDetailes = ({
             <Text style={{ ...Fonts.helveticaBoldBlack, fontSize: responsiveFontSize(1.8) }}>
               About My Service
             </Text>
-            <View style={{ backgroundColor: "#EFEFEF", paddingVertical: SCREEN_HEIGHT * 0.01, borderRadius: 10 ,paddingHorizontal:SCREEN_WIDTH*0.03 }}>
-              <Text style={{...Fonts.black11InterMedium}}>
+            <View style={{ backgroundColor: "#EFEFEF", paddingVertical: SCREEN_HEIGHT * 0.01, borderRadius: 10, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
+              <Text style={{ ...Fonts.black11InterMedium }}>
                 {astroData?.long_bio}
               </Text>
             </View>
@@ -764,8 +808,8 @@ const AstrologerDetailes = ({
             <Text style={{ ...Fonts.helveticaBoldBlack, fontSize: responsiveFontSize(1.8) }}>
               Experience & Qualification
             </Text>
-            <View style={{ backgroundColor: "#EFEFEF", paddingVertical: SCREEN_HEIGHT * 0.01, borderRadius: 10,paddingHorizontal:SCREEN_WIDTH*0.03 }}>
-              <Text style={{...Fonts.black11InterMedium}}>
+            <View style={{ backgroundColor: "#EFEFEF", paddingVertical: SCREEN_HEIGHT * 0.01, borderRadius: 10, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
+              <Text style={{ ...Fonts.black11InterMedium }}>
                 {astroData?.long_bio}
               </Text>
             </View>
@@ -1114,6 +1158,9 @@ const AstrologerDetailes = ({
 const mapStateToProps = state => ({
   astroData: state.provider.providerData,
   reviewData: state.provider.reviewData,
+  locationData: state.setting.locationData,
+  subLocationData: state.setting.subLocationData,
+  UpdateProfile: state.history.UpdateProfile
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });

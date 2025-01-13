@@ -451,7 +451,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
       <TouchableOpacity
       onPress={() => navigation.navigate('forgetPassword')}
       style={{alignItems:"center",}}>
-            <Text style={{...Fonts.black11InterMedium,color:"blue",fontSize:responsiveFontSize(1.3)}}>Forget Password</Text>
+            <Text style={{...Fonts.black11InterMedium,color:"blue",fontSize:responsiveFontSize(1.3)}}>Forgot Password</Text>
       </TouchableOpacity>
       </View>
       

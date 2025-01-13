@@ -39,3 +39,13 @@ export const onRefreshHomeScreen = payload => ({
     type: actionTypes.ON_NEXT_ONLINE,
     payload,
   })
+
+  export const setLocationData = payload => ({
+    type: actionTypes.SET_LOCATION_DATA,
+    payload,
+})
+
+export const setSubLocationData = payload => ({
+    type: actionTypes.SET_SUB_LOCATION_DATA,
+    payload,
+})

@@ -46,6 +46,10 @@ export const register_pooja = 'ecommerce/register_pooja';
 export const get_astrologer_registered_pooja = 'ecommerce/get_astrologer_registered_pooja';
 export const complete_astrologer_pooja = 'ecommerce/complete_astrologer_pooja';
 
+
+
+
+
 export const user_web_api_login = 'user_web_api/login?';
 export const api2_get_countries = 'api2/get_countries';
 export const api2_get_state = 'api2/get_state';
@@ -217,7 +221,14 @@ export const Main_Expertise ="admin/get-all-main-expertise"
 export const My_Customer ="astrologer/get_my_customer"
 
 
-export const google_map_key = 'AIzaSyAnqARt-OmLPXCTpKS3-jKY2SK2SwgUEWE';
+
+
+export const Block_user ="astrologer/block_customer"
+
+
+export const google_map_key = 'AIzaSyC39FKxanlCKxkJmRz85zeg0DW0YD1AknI';
+
+// export const google_map_key = 'AIzaSyAnqARt-OmLPXCTpKS3-jKY2SK2SwgUEWE';
 // old
 export const call_app_id = 1999906308;
 export const call_app_sign = 'd4d7c9f488ad6e4e0e76baf0e6796b191fd650729107cc90f9bde5472240eb0c';

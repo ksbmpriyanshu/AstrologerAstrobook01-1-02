@@ -12,7 +12,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { connect } from 'react-redux';
 import * as HistoryActions from '../redux/actions/HistoryActions';
 
-const MyCustomer = ({ MyCustomerData, dispatch }) => {
+const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
     const navigation = useNavigation();
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -20,12 +20,41 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [reasonblock, setReasonblock] = useState('');
 
     useEffect(() => {
         dispatch(HistoryActions.getMyCustomerDATA());
     }, [dispatch]);
 
-    
+    useEffect(() => {
+        dispatch(HistoryActions.getBlockCustomerDATA());
+    }, [dispatch]);
+
+
+
+    const handleCheckboxChange = (reason) => {
+        setReasonblock(reason); 
+    };
+
+
+    const BlockCustomer = () => {
+
+
+        const data = {
+
+            customerId: selectedCustomer?.customerId,
+            reason: reasonblock
+
+
+        }
+
+        console.log("blockuseranuj", data)
+
+
+        dispatch(HistoryActions.getBlockCustomerDATA(data));
+    };
+
+
 
     useEffect(() => {
         if (MyCustomerData && Array.isArray(MyCustomerData)) {
@@ -52,21 +81,21 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: colors.black_color5, paddingBottom: SCREEN_HEIGHT * 0.01 }}>
                     <View style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16, alignItems: "center", justifyContent: "center", borderRadius: 100, overflow: "hidden" }}>
 
-                        
+
                         {/* <Image style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16 }} source={{ uri: img_url + (item?.customerProfile || '') }} /> */}
                         {item?.customerProfile ? (
-               <Image
-               source={{ uri: img_url + item?.customerProfile  }}
-               style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16 }}
-              
-             />
-            ):(  
-              <Image
-              source={require('../assets/images/AVTARBOOK.png')}
-              style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16 }}
-            />
-            )}
-          
+                            <Image
+                                source={{ uri: img_url + item?.customerProfile }}
+                                style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16 }}
+
+                            />
+                        ) : (
+                            <Image
+                                source={require('../assets/images/AVTARBOOK.png')}
+                                style={{ height: SCREEN_HEIGHT * 0.08, width: SCREEN_WIDTH * 0.16 }}
+                            />
+                        )}
+
                     </View>
 
                     <View>
@@ -75,8 +104,8 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                         <Text style={{ ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(1.7) }}>Session Type: <Text style={{ ...Fonts.black14RobotoRegular, fontSize: responsiveFontSize(1.7), color: "#51A300" }}> {item?.type || 'N/A'}</Text></Text>
                     </View>
 
-                    <TouchableOpacity 
-                    onPress={()=>navigation.navigate("CustomerSessions")}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("CustomerSessions")}>
                         <AntDesign name="right" color={colors.black_color9} size={18} />
                     </TouchableOpacity>
                 </View>
@@ -183,6 +212,7 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                                         unfillColor="#FFFFFF"
                                         iconStyle={{ borderColor: "#00BFFF" }}
                                         innerIconStyle={{ borderWidth: 2 }}
+                                        onPress={() => handleCheckboxChange('Billing / Charge issue')}
                                     />
                                     <Text style={{ ...Fonts.black11InterMedium, alignSelf: "center", fontSize: responsiveFontSize(1.8) }}>Billing / Charge issue</Text>
                                 </View>
@@ -193,6 +223,7 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                                         unfillColor="#FFFFFF"
                                         iconStyle={{ borderColor: "#00BFFF" }}
                                         innerIconStyle={{ borderWidth: 2 }}
+                                        onPress={() => handleCheckboxChange('Customer is Abusive / Fraud')}
                                     />
                                     <Text style={{ ...Fonts.black11InterMedium, alignSelf: "center", fontSize: responsiveFontSize(1.8) }}>Customer is Abusive / Fraud</Text>
                                 </View>
@@ -203,6 +234,7 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                                         unfillColor="#FFFFFF"
                                         iconStyle={{ borderColor: "#00BFFF" }}
                                         innerIconStyle={{ borderWidth: 2 }}
+                                        onPress={() => handleCheckboxChange('Misuse of Free Services')}
                                     />
                                     <Text style={{ ...Fonts.black11InterMedium, alignSelf: "center", fontSize: responsiveFontSize(1.8) }}>Misuse of Free Services</Text>
                                 </View>
@@ -213,6 +245,7 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                                         unfillColor="#FFFFFF"
                                         iconStyle={{ borderColor: "#00BFFF" }}
                                         innerIconStyle={{ borderWidth: 2 }}
+                                        onPress={() => handleCheckboxChange('Cannot establish a good connection')}
                                     />
                                     <Text style={{ ...Fonts.black11InterMedium, alignSelf: "center", fontSize: responsiveFontSize(1.8) }}>Connot establish a good     connection</Text>
                                 </View>
@@ -224,6 +257,7 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                                         unfillColor="#FFFFFF"
                                         iconStyle={{ borderColor: "#00BFFF" }}
                                         innerIconStyle={{ borderWidth: 2 }}
+                                        onPress={() => handleCheckboxChange('Other')}
                                     />
                                     <Text style={{ ...Fonts.black11InterMedium, alignSelf: "center", fontSize: responsiveFontSize(1.8) }}>Other</Text>
                                 </View>
@@ -235,7 +269,10 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
 
                                 <View style={{ borderWidth: 1, borderColor: colors.black_color4, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, backgroundColor: "#FBFBFB", paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
                                     <TextInput placeholder='Please share Your reason'
-                                        style={{ ...Fonts.black11InterMedium }} />
+                                        style={{ ...Fonts.black11InterMedium ,bottom:SCREEN_HEIGHT*0.032}}
+                                        value={reasonblock}
+                                        onChangeText={setReasonblock}
+                                    />
                                 </View>
 
                             </View>
@@ -245,14 +282,21 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
                             </View>
 
 
-                    <View style={{paddingTop:SCREEN_HEIGHT*0.045,alignItems:"center"}}>
-                            <TouchableOpacity 
-                            onPress={() => setIsModalVisible(false)}
-                            style={{width:SCREEN_WIDTH*0.5,paddingVertical:SCREEN_HEIGHT*0.023,alignItems:"center",borderRadius:100,backgroundColor:colors.background_theme6,elevation:1}}>
-                                <Text style={{...Fonts.black11InterMedium,fontSize:responsiveFontSize(2)}}>
-                                    Block
-                                </Text>
-                            </TouchableOpacity>
+                            <View style={{ paddingTop: SCREEN_HEIGHT * 0.045, alignItems: "center" }}>
+                                <TouchableOpacity
+
+                                    onPress={() => {
+
+                                        setIsModalVisible(false)
+                                        BlockCustomer()
+                                    }}
+
+
+                                    style={{ width: SCREEN_WIDTH * 0.5, paddingVertical: SCREEN_HEIGHT * 0.023, alignItems: "center", borderRadius: 100, backgroundColor: colors.background_theme6, elevation: 1 }}>
+                                    <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>
+                                        Block
+                                    </Text>
+                                </TouchableOpacity>
 
                             </View>
 
@@ -266,7 +310,8 @@ const MyCustomer = ({ MyCustomerData, dispatch }) => {
 };
 
 const mapStateToProps = state => ({
-    MyCustomerData: state.history.MyCustomerData || [],
+    MyCustomerData: state.history.MyCustomerData,
+    BlockUser: state.history.BlockUser,
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });

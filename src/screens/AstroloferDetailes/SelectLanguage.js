@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import * as HistoryActions from '../../redux/actions/HistoryActions';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const SelectLanguage = ({ SelectLanguagedata, dispatch }) => {
+const SelectLanguage = ({ SelectLanguagedata, dispatch,route }) => {
     console.log("SelectLanguagedata",SelectLanguagedata)
     const navigation = useNavigation();
     const [selectedLanguages, setSelectedLanguages] = useState([]);

@@ -13,7 +13,10 @@ const initialState = {
     RegisterPujadata:null,
     SelectLanguagedata:null,
     Expertisedata:null,
-    MyCustomerData:null
+    MyCustomerData:null,
+    SelectedLanguagedata:null,
+    UpdateProfile:null,
+    BlockUser:null
 };
 
 const history = (state = initialState, actions)=>{
@@ -103,6 +106,24 @@ const history = (state = initialState, actions)=>{
                                  ...state,
                                  MyCustomerData: payload,
                               };
+
+                              case actionTypes.SET_SELECTED_LANGUAGE_DATA:
+                              return {
+                                 ...state,
+                                 SelectedLanguagedata: payload,
+                              };
+
+                              case actionTypes.SET_UPDATE_PROFILE_DATA:
+                                 return {
+                                    ...state,
+                                    UpdateProfile: payload,
+                                 };
+
+                                 case actionTypes.SET_BLOCK_USER_DATA:
+                                 return {
+                                    ...state,
+                                    BlockUser: payload,
+                                 };
 
                            
                           

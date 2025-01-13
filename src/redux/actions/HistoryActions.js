@@ -125,4 +125,32 @@ export const getOnlineData = payload =>({
     type: actionTypes.SET_MY_CUSTOMER_DATA,
     payload,
   })
+
+  export const setSelectedLanguages = payload => ({
+      type: actionTypes.SET_SELECTED_LANGUAGE_DATA,
+      payload,
+  })
+
+  export const getUpdateProfileDATA = payload => ({
+    type: actionTypes.GET_MY_CUSTOMER_DATA,
+    payload,
+  })
+  export const setUpdateProfileDATA = payload => ({
+    type: actionTypes.SET_MY_CUSTOMER_DATA,
+    payload,
+  })
+
+
+  export const getBlockCustomerDATA = payload => ({
+    type: actionTypes.GET_BLOCK_USER_DATA,
+    payload,
+  })
+  export const setBlockCustomerDATA = payload => ({
+    type: actionTypes.SET_BLOCK_USER_DATA,
+    payload,
+  })
+
+
+  
+  
   
