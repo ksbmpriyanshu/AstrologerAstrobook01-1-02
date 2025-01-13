@@ -40,7 +40,7 @@ import {
   
     return (
       <View style={styles.container}>
-        <FeaturedHeader title={'Call Details'} navigation={navigation} />
+        <FeaturedHeader title={'Chat Details'} navigation={navigation} />
         <View style={styles.chatDetailsContainer}>
           {/* Profile Section */}
           <View style={styles.profileContainer}>
