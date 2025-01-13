@@ -1,323 +1,165 @@
-import { Image, StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import MyHeader from '../../components/MyHeader';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
-import { Fonts, Sizes } from '../../assets/style';
-import { Bubble, GiftedChat } from 'react-native-gifted-chat';
-import { connect } from 'react-redux';
-import { SCREEN_WIDTH } from '../../config/Screen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import * as ChatActions from "../../redux/actions/ChatActions"
-import { img_url } from '../../config/Constants';
+import {
+    Image,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+  } from 'react-native';
+  import React, { useEffect, useState } from 'react';
+  import FeaturedHeader from '../../components/FeaturedHeader';
+  import { Colors } from 'react-native/Libraries/NewAppScreen';
+  import {
+    responsiveScreenFontSize,
+    responsiveScreenHeight,
+    responsiveScreenWidth,
+  } from 'react-native-responsive-dimensions';
+  import { colors, img_url } from '../../config/Constants';
+  import moment from 'moment';
+  
+  const ChatDetails = ({ navigation, route }) => {
+    const { CallData } = route.params;
+  
+    const customerName = CallData?.customerId?.customerName;
+    const gendern = CallData?.customerId?.gender;
 
-const ChatDetails = ({ navigation, route, dispatch, previousChats, providerData }) => {
-
-    const { ChatData } = route.params;
-
-
-    console.log("Received Chat Data::::::K", ChatData?.customerId?._id);
-
-
-    const customerName = ChatData?.customerId?.customerName;
-
-
-
-    useEffect(() => {
-        dispatch(ChatActions.getPreviousChat(ChatData?.customerId?._id))
-    }, [dispatch])
-
-    const [isChatVisible, setIsChatVisible] = useState(false);
-
-    const toggleChat = () => {
-        setIsChatVisible(!isChatVisible);
-    };
-
+    console.log("check the Call details:::", CallData);
+    
+  
+    const createdAtFormatted = moment(CallData?.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+    const dateOfBirthFormatted = moment(CallData?.intakeDetailes?.dateOfBirth).format('MMMM Do YYYY');
+    const timeOfBirthFormatted = moment(CallData?.intakeDetailes?.timeOfBirth, 'HH:mm').format('h:mm A');
+    const placeOfBirth = moment(CallData?.intakeDetailes?.placeOfBirth).format('MMMM Do YYYY');
+  
+    if (!CallData) {
+      return (
+        <View style={styles.centeredContainer}>
+          <Text>No Call Data Available</Text>
+        </View>
+      );
+    }
+  
     return (
-
-        <>
-            <View style={styles.container}>
-                <MyHeader title={'Chat Order Details'} navigation={navigation} />
-
-                {/* Profile Section */}
-                <View style={styles.profileContainer}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={{ uri: img_url + (ChatData?.customerId?.image || '') }}
-                            style={{ width: '100%', height: '100%', borderRadius: 1000 }}
-                        />
-                    </View>
-                    <View style={styles.profileDetails}>
-                        <Text style={styles.profileName}>{customerName}</Text>
-                        <Text style={styles.profileDate}>{ChatData?.endTime || 'N/A'}</Text>
-                    </View>
-                </View>
-
-                {/* Offer Minutes Section */}
-                <View style={styles.sectionContainer}>
-                    <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Offer Minute :</Text>
-                        <Text style={styles.rowValues}>{ChatData?.durationInSeconds} Min</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Free Munutes :</Text>
-                        <Text style={styles.rowValues}>0 MIN</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Paind Minutes :</Text>
-                        <Text style={styles.rowValues}>0 MIN</Text>
-                    </View>
-                    <Text style={styles.sessionEndText}>Customer Ended the Session</Text>
-
-                </View>
-
-                {/* Expert Summary Section */}
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Expert Summary</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Reference ID :</Text>
-                        <Text style={styles.rowValues}>{ChatData?.transactionId}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Session type :</Text>
-                        <Text style={styles.rowValues}>Paid</Text>
-                    </View>
-
-                    <View style={{ borderWidth: 0.2, borderColor: "#B5B5B5" }}></View>
-                    <View style={styles.rowtotal}>
-                        <Text style={styles.rowLabel}>Total Earnings :</Text>
-                        <Text style={styles.rowValues}>₹ 999.00</Text>
-                    </View>
-                </View>
+      <View style={styles.container}>
+        <FeaturedHeader title={'Chat Details'} navigation={navigation} />
+        <View style={styles.chatDetailsContainer}>
+          {/* Profile Section */}
+          <View style={styles.profileContainer}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: img_url + (CallData?.customerId?.image || 'N/A') }}
+                style={{ width: '100%', height: '100%', borderRadius: 1000 }}
+              />
             </View>
-
-
-
-
-            <View style={{ flex: 1 }}>
-             
-
-                    {/* Title Button for Chat */}
-                    <TouchableOpacity
-                        style={{
-                            padding: 10,
-                            backgroundColor: 'white',
-                            borderRadius: 10,
-                            margin: 5,
-                        }}
-                        onPress={toggleChat}
-                    >
-                        <Text style={{ fontSize: 16, color: 'black' }}>
-                            Chat History
-                        </Text>
-                    </TouchableOpacity>
-
-                    {/* Conditionally Render Chat */}
-                    {isChatVisible && (
-                        <ImageBackground
-                            source={require('../../assets/images/chat_bg.png')}
-                            style={{
-                                width: SCREEN_WIDTH,
-                                flex: 1,
-                                backgroundColor: "#FFF2D9",
-                                
-                            }}
-                            resizeMode="cover">
-                            <GiftedChat
-                                messages={previousChats}
-                                user={{
-                                    _id: `customer_${providerData?._id}`,
-                                    name: providerData?.customerName,
-                                }}
-                                renderUsernameOnMessage={true}
-                                alwaysShowSend={false}
-                                placeholder="No more messages"
-                                textInputProps={{
-                                    editable: false,
-                                }}
-                                renderSend={() => null}
-                                renderInputToolbar={() => null}
-                                renderBubble={(props) => {
-                                    const { currentMessage } = props;
-                                    return (
-                                        <Bubble
-                                            {...props}
-                                            wrapperStyle={{
-                                                right: {
-                                                    backgroundColor: "#E0C987",
-                                                },
-                                                left: {
-                                                    backgroundColor: "#FFFFFF",
-                                                },
-                                            }}
-                                            textStyle={{ right: { color: "#000", fontSize: 12 }, left: { color: "#000", fontSize: 12 } }}
-                                        />
-                                    );
-                                }}
-                            />
-                        </ImageBackground>
-                    )}
-
+  
+            <View style={styles.profileTextContainer}>
+              <Text style={styles.profileName}>{customerName || 'N/A'}</Text>
+              <Text style={styles.profileDate}>{createdAtFormatted}</Text>
             </View>
-
-        </>
+          </View>
+  
+          <View style={styles.container2}>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ width: "50%" }}>
+                <Text style={styles.infoLabel}>Name:</Text>
+                <Text style={styles.infoLabel}>Gender:</Text>
+                <Text style={styles.infoLabel}>Marital Status:</Text>
+                <Text style={styles.infoLabel}>Date of Birth:</Text>
+                <Text style={styles.infoLabel}>Time of Birth:</Text>
+                <Text style={styles.infoLabel}>Place of Birth:</Text>
+                <Text style={styles.infoLabel}>Topic of Concern:</Text>
+              </View>
+              <View style={{ width: "50%" }}>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{customerName}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{gendern}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{customerName}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{dateOfBirthFormatted}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{timeOfBirthFormatted}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>{placeOfBirth}</Text>
+                <Text style={[styles.infoValue, styles.centerAligned]}>
+                  {CallData?.intakeDetailes?.topic_of_concern || 'N/A'}
+                </Text>
+              </View>
+            </View>
+          </View>
+  
+  
+  
+          {/* Reach Out Button */}
+          <TouchableOpacity style={styles.reachOutButton}>
+            <Text style={styles.reachOutButtonText}>Reach Out</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
-};
-
-const mapStateToProps = state => ({
-    previousChats: state.chat.previousChats,
-    providerData: state.provider.providerData,
-});
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatDetails);
-
-
-const styles = StyleSheet.create({
+  };
+  
+  const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        backgroundColor: Colors.whiteDark,
+      backgroundColor: Colors.whiteDark,
     },
+    container2: {
+      backgroundColor: "white",
+      elevation: 5,
+      paddingHorizontal: responsiveScreenWidth(3),
+      paddingVertical: responsiveScreenHeight(2)
+    },
+  
     profileContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#FFF4E0',
-        paddingHorizontal: Sizes.fixPadding * 1.5,
-        paddingVertical: Sizes.fixPadding,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-        height: responsiveScreenHeight(12)
-    },
-    profileImage: {
-        width: responsiveScreenWidth(15),
-        height: responsiveScreenHeight(15),
-        resizeMode: 'contain',
-        borderRadius: 50,
-    },
-    profileDetails: {
-        marginLeft: Sizes.fixPadding,
-    },
-    profileName: {
-        ...Fonts.gray16RobotoMedium,
-        color: Colors.black,
-    },
-    profileDate: {
-        ...Fonts.gray12RobotoRegular,
-        color: Colors.black,
-        marginTop: Sizes.fixPadding * 0.5,
-    },
-    sectionContainer: {
-        paddingHorizontal: Sizes.fixPadding * 1.5,
-        paddingVertical: Sizes.fixPadding * 1.5,
-        marginBottom: Sizes.fixPadding * 1.5,
-        backgroundColor: Colors.white,
-        borderRadius: Sizes.fixPadding * 0.7,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
-    },
-    sectionTitle: {
-        ...Fonts.primaryLight14RobotoMedium,
-        color: Colors.black,
-        textAlign: 'center',
-        marginBottom: Sizes.fixPadding,
-    },
-    rowValues: {
-        flexDirection: 'row',
-        paddingLeft: Sizes.fixPadding * 6,
-        // marginBottom: Sizes.fixPadding,
-    },
-    row: {
-        flexDirection: 'row',
-        paddingLeft: Sizes.fixPadding * 1.5,
-        marginBottom: Sizes.fixPadding,
-    },
-    rowtotal: {
-        flexDirection: 'row',
-        paddingLeft: Sizes.fixPadding * 1.4,
-        paddingVertical: Sizes.fixPadding
-    },
-    rowLabel: {
-        ...Fonts.gray12RobotoMedium,
-        color: Colors.blackLight,
-    },
-    rowValue: {
-        ...Fonts.primaryLight14RobotoMedium,
-        color: Colors.black,
-    },
-    sessionEndText: {
-        textAlign: 'center',
-        marginTop: Sizes.fixPadding * 1.5,
-        color: Colors.red,
-        ...Fonts.primaryLight14RobotoMedium,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: responsiveScreenWidth(3),
+      paddingVertical: responsiveScreenHeight(2),
     },
     imageContainer: {
-        width: SCREEN_WIDTH * 0.15,
-        height: SCREEN_WIDTH * 0.15,
-        borderRadius: 1000,
-        overflow: 'hidden',
-        alignItems: "center",
+      width: responsiveScreenWidth(15),
+      height: responsiveScreenWidth(15),
+      borderRadius: 1000,
+      overflow: 'hidden',
+      alignItems: 'center',
     },
-
-    // --------------p-------------------
-
-    astrologerImage: {
-        height: responsiveScreenHeight(5),
-        width: responsiveScreenWidth(11),
-        objectFit: "cover",
-        borderRadius: 100,
+    profileTextContainer: {
+      marginLeft: responsiveScreenWidth(3),
     },
-    astrologerName: {
-        ...Fonts.primaryHelvetica,
-        color: "#000",
-        fontSize: 17,
-        fontWeight: "600"
+    profileName: {
+      fontSize: responsiveScreenFontSize(2),
+      fontWeight: 'bold',
     },
-    astrologerMode: {
-        ...Fonts.primaryHelvetica,
-        color: "#dadada",
-        fontSize: 14,
-        fontWeight: "600"
+    profileDate: {
+      fontSize: responsiveScreenFontSize(1.5),
+      color: 'gray',
     },
-    header: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: 'center',
-        gap: 15,
-        paddingHorizontal: 20,
-        backgroundColor: "#fff",
-        elevation: 2,
-        flex: 0.08,
+  
+  
+    infoLabel: {
+      fontSize: responsiveScreenFontSize(1.8),
+      fontWeight: '600',
+      color: 'black',
+      paddingVertical:responsiveScreenHeight(0.3)
+      
     },
-    customFooter: {
-        backgroundColor: '#381415',
-        padding: 10,
-        paddingVertical: 10,
-        margin: 10,
-        borderRadius: 10,
-        elevation: 4,
-
+    infoValue: {
+      fontSize: responsiveScreenFontSize(1.8),
+      color: 'gray',
+      paddingVertical:responsiveScreenHeight(0.3)
+  
     },
-    customFooterText: {
-        fontSize: 13,
-        color: '#fff',
-        ...Fonts.primaryHelvetica,
+  
+  
+    reachOutButton: {
+      backgroundColor: colors.background_theme6,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 15,
+      borderRadius: 50,
+      width: responsiveScreenWidth(80),
+      alignSelf: 'center',
+      marginTop: responsiveScreenHeight(5)
     },
-    chatBtn: {
-        backgroundColor: '#F1B646',
-        paddingVertical: 10,
-        borderRadius: 5,
-        marginBottom: 5,
+    reachOutButtonText: {
+      fontSize: responsiveScreenFontSize(1.7),
+      color: 'white',
     },
-    chatText: {
-        color: '#000',
-        textAlign: 'center',
-        ...Fonts.primaryHelvetica,
-        fontSize: 15,
-        fontWeight: "600"
-    }
-
-});
+  });
+  
+  export default ChatDetails;
+  

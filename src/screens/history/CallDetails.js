@@ -3,254 +3,159 @@ import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import MyHeader from '../../components/MyHeader';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import React, { useEffect, useState } from 'react';
+import FeaturedHeader from '../../components/FeaturedHeader';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
+  responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {Fonts, Sizes} from '../../assets/style';
-import {Bubble, GiftedChat} from 'react-native-gifted-chat';
-import {connect} from 'react-redux';
-import {SCREEN_WIDTH} from '../../config/Screen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import * as ChatActions from '../../redux/actions/ChatActions';
-import {img_url} from '../../config/Constants';
-import {color} from '@rneui/base';
+import { colors, img_url } from '../../config/Constants';
+import moment from 'moment';
 
-const ChatDetails = ({
-  navigation,
-  route,
-  dispatch,
-  previousChats,
-  providerData,
-}) => {
-  const {ChatData} = route.params;
+const CallDetails = ({ navigation, route }) => {
+  const { ChatData } = route.params;
 
-  useEffect(() => {
-    if (ChatData?.customerId?._id) {
-      dispatch(ChatActions.getPreviousChat(ChatData?.customerId?._id));
-    }
-  }, [dispatch, ChatData?.customerId?._id]);
+  const customerName = ChatData?.customerDetails?.customerName;
 
-  const customerName = ChatData?.customerId?.customerName;
-
-  const [isChatVisible, setIsChatVisible] = useState(false);
-
-  const toggleChat = () => {
-    setIsChatVisible(!isChatVisible);
-  };
+  // Formatting the dates and times using moment.js
+  const createdAtFormatted = moment(ChatData?.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+  const dateOfBirthFormatted = moment(ChatData?.intakeDetailes?.dateOfBirth).format('MMMM Do YYYY');
+  const timeOfBirthFormatted = moment(ChatData?.intakeDetailes?.timeOfBirth, 'HH:mm').format('h:mm A');
+  const placeOfBirth = moment(ChatData?.intakeDetailes?.placeOfBirth).format('MMMM Do YYYY');
 
   if (!ChatData) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.centeredContainer}>
         <Text>No Call Data Available</Text>
       </View>
     );
   }
 
   return (
-    <>
-      <View style={styles.container}>
-        <MyHeader title={'Call Details'} navigation={navigation} />
-
+    <View style={styles.container}>
+      <FeaturedHeader title={'Call Details'} navigation={navigation} />
+      <View style={styles.chatDetailsContainer}>
         {/* Profile Section */}
         <View style={styles.profileContainer}>
           <View style={styles.imageContainer}>
             <Image
-              source={{uri: img_url + (ChatData?.customerId?.image || '')}}
-              style={{width: '100%', height: '100%', borderRadius: 1000}}
+              source={{ uri: img_url + (ChatData?.customerDetails?.image || '') }}
+              style={{ width: '100%', height: '100%', borderRadius: 1000 }}
             />
           </View>
-          <View style={styles.profileDetails}>
-            <Text style={styles.profileName}>{customerName}</Text>
-            <Text style={styles.profileDate}>{ChatData?.endTime || 'N/A'}</Text>
+
+          <View style={styles.profileTextContainer}>
+            <Text style={styles.profileName}>{customerName || "Unknown"}</Text>
+            <Text style={styles.profileDate}>{createdAtFormatted}</Text>
           </View>
         </View>
 
-        {/* Offer Minutes Section */}
-        <View style={styles.sectionContainer}>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Offer Minute :</Text>
-            <Text style={styles.rowValues}>
-              {ChatData?.durationInSeconds} Min
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Free Munutes :</Text>
-            <Text style={styles.rowValues}>0 MIN</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Paid Minutes :</Text>
-            <Text style={styles.rowValues}>0 MIN</Text>
-          </View>
-          <Text style={styles.sessionEndText}>Customer Ended the Session</Text>
-        </View>
-
-        {/* Expert Summary Section */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Expert Summary</Text>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Reference ID :</Text>
-            <Text style={styles.rowValues}>{ChatData?.transactionId}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Session type :</Text>
-            <Text style={styles.rowValues}>Paid</Text>
-          </View>
-
-          <View style={{borderWidth: 0.2, borderColor: '#B5B5B5'}}></View>
-          <View style={styles.rowtotal}>
-            <Text style={styles.rowLabel}>Total Earnings :</Text>
-            <Text style={styles.rowValues}>₹ 999.00</Text>
+        <View style={styles.container2}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ width: "50%" }}>
+              <Text style={styles.infoLabel}>Name:</Text>
+              <Text style={styles.infoLabel}>Gender:</Text>
+              <Text style={styles.infoLabel}>Marital Status:</Text>
+              <Text style={styles.infoLabel}>Date of Birth:</Text>
+              <Text style={styles.infoLabel}>Time of Birth:</Text>
+              <Text style={styles.infoLabel}>Place of Birth:</Text>
+              <Text style={styles.infoLabel}>Topic of Concern:</Text>
+            </View>
+            <View style={{ width: "50%" }}>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{customerName}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{ChatData?.customerDetails?.gender}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{customerName || 'N/A'}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{dateOfBirthFormatted}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{timeOfBirthFormatted}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{placeOfBirth}</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>
+                {ChatData?.intakeDetailes?.topic_of_concern || 'N/A'}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      <View style={{flex: 1}}>
-        {/* Title Button for Chat */}
-        <TouchableOpacity
-          style={{
-            padding: 10,
-            backgroundColor: 'white',
-            borderRadius: 10,
-            margin: 5,
-          }}
-          onPress={toggleChat}>
-          <Text style={{fontSize: 16, color: 'black'}}>Chat History</Text>
+
+
+        {/* Reach Out Button */}
+        <TouchableOpacity style={styles.reachOutButton}>
+          <Text style={styles.reachOutButtonText}>Reach Out</Text>
         </TouchableOpacity>
-
-        {/* Conditionally Render Chat */}
-        {isChatVisible && (
-          <ImageBackground
-            source={require('../../assets/images/chat_bg.png')}
-            style={{
-              width: SCREEN_WIDTH,
-              flex: 1,
-              backgroundColor: '#FFF2D9',
-            }}
-            resizeMode="cover">
-            <GiftedChat
-              messages={previousChats}
-              user={{
-                _id: `customer_${providerData?._id}`,
-                name: providerData?.customerName,
-              }}
-              renderUsernameOnMessage={true}
-              alwaysShowSend={false}
-              placeholder="No more messages"
-              textInputProps={{
-                editable: false,
-              }}
-              renderSend={() => null}
-              renderInputToolbar={() => null}
-              renderBubble={props => {
-                const {currentMessage} = props;
-                return (
-                  <Bubble
-                    {...props}
-                    wrapperStyle={{
-                      right: {backgroundColor: '#E0C987'},
-                      left: {backgroundColor: '#FFFFFF'},
-                    }}
-                    textStyle={{
-                      right: {color: '#000', fontSize: 12},
-                      left: {color: '#000', fontSize: 12},
-                    }}
-                  />
-                );
-              }}
-            />
-          </ImageBackground>
-        )}
       </View>
-    </>
+    </View>
   );
 };
-
-const mapStateToProps = state => ({
-  previousChats: state.chat.previousChats,
-  providerData: state.provider.providerData,
-});
-
-const mapDispatchToProps = dispatch => ({dispatch});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatDetails);
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.whiteDark,
   },
+  container2: {
+    backgroundColor: "white",
+    elevation: 5,
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(2)
+  },
+
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF4E0',
-    paddingHorizontal: Sizes.fixPadding * 1.5,
-    paddingVertical: Sizes.fixPadding,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    height: responsiveScreenHeight(12),
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(2),
   },
   imageContainer: {
-    width: SCREEN_WIDTH * 0.15,
-    height: SCREEN_WIDTH * 0.15,
+    width: responsiveScreenWidth(15),
+    height: responsiveScreenWidth(15),
     borderRadius: 1000,
     overflow: 'hidden',
     alignItems: 'center',
   },
-  profileDetails: {
-    marginLeft: Sizes.fixPadding,
+  profileTextContainer: {
+    marginLeft: responsiveScreenWidth(3),
   },
   profileName: {
-    ...Fonts.gray16RobotoMedium,
-    color: Colors.black,
+    fontSize: responsiveScreenFontSize(2),
+    fontWeight: 'bold',
   },
   profileDate: {
-    color: Colors.black,
-    marginTop: Sizes.fixPadding * 0.5,
+    fontSize: responsiveScreenFontSize(1.5),
+    color: 'gray',
   },
-  sectionContainer: {
-    paddingHorizontal: Sizes.fixPadding * 1.5,
-    paddingVertical: Sizes.fixPadding * 1.5,
-    marginBottom: Sizes.fixPadding * 1.5,
-    backgroundColor: Colors.white,
-    borderRadius: Sizes.fixPadding * 0.7,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 2,
-  },
-  sectionTitle: {
-    ...Fonts.gray14RobotoMedium,
-    color: Colors.black,
-    marginBottom: Sizes.fixPadding * 1,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: Sizes.fixPadding,
-  },
-  rowLabel: {
-    ...Fonts.gray12RobotoRegular,
+
+
+  infoLabel: {
+    fontSize: responsiveScreenFontSize(1.8),
+    fontWeight: '600',
     color: 'black',
+    paddingVertical:responsiveScreenHeight(0.3)
+    
   },
-  rowValues: {
-    ...Fonts.primaryLight14RobotoMedium,
-    color: Colors.black,
+  infoValue: {
+    fontSize: responsiveScreenFontSize(1.8),
+    color: 'gray',
+    paddingVertical:responsiveScreenHeight(0.3)
+
   },
-  sessionEndText: {
-    ...Fonts.primaryLight14RobotoMedium,
-    color: Colors.black,
-    marginTop: Sizes.fixPadding,
+
+
+  reachOutButton: {
+    backgroundColor: colors.background_theme6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderRadius: 50,
+    width: responsiveScreenWidth(80),
+    alignSelf: 'center',
+    marginTop: responsiveScreenHeight(5)
   },
-  rowtotal: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: Sizes.fixPadding,
+  reachOutButtonText: {
+    fontSize: responsiveScreenFontSize(1.7),
+    color: 'white',
   },
 });
+
+export default CallDetails;
