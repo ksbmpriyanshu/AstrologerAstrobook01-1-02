@@ -68,7 +68,7 @@ const CallDetails = ({ navigation, route }) => {
             <View style={{ width: "50%" }}>
               <Text style={[styles.infoValue, styles.centerAligned]}>{customerName}</Text>
               <Text style={[styles.infoValue, styles.centerAligned]}>{ChatData?.customerDetails?.gender}</Text>
-              <Text style={[styles.infoValue, styles.centerAligned]}>Darpan Mishra</Text>
+              <Text style={[styles.infoValue, styles.centerAligned]}>{customerName || 'N/A'}</Text>
               <Text style={[styles.infoValue, styles.centerAligned]}>{dateOfBirthFormatted}</Text>
               <Text style={[styles.infoValue, styles.centerAligned]}>{timeOfBirthFormatted}</Text>
               <Text style={[styles.infoValue, styles.centerAligned]}>{placeOfBirth}</Text>
@@ -131,10 +131,14 @@ const styles = StyleSheet.create({
     fontSize: responsiveScreenFontSize(1.8),
     fontWeight: '600',
     color: 'black',
+    paddingVertical:responsiveScreenHeight(0.3)
+    
   },
   infoValue: {
     fontSize: responsiveScreenFontSize(1.8),
     color: 'gray',
+    paddingVertical:responsiveScreenHeight(0.3)
+
   },
 
 
