@@ -12,7 +12,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { connect } from 'react-redux';
 import * as HistoryActions from '../redux/actions/HistoryActions';
 
-const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
+const MyCustomer = ({ MyCustomerData, dispatch, BlockUser, FAVuser }) => {
     const navigation = useNavigation();
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +22,9 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [reasonblock, setReasonblock] = useState('');
 
+
+
+
     useEffect(() => {
         dispatch(HistoryActions.getMyCustomerDATA());
     }, [dispatch]);
@@ -30,10 +33,14 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
         dispatch(HistoryActions.getBlockCustomerDATA());
     }, [dispatch]);
 
+    useEffect(() => {
+        dispatch(HistoryActions.getFavCutomerDATA());
+    }, [dispatch]);
+
 
 
     const handleCheckboxChange = (reason) => {
-        setReasonblock(reason); 
+        setReasonblock(reason);
     };
 
 
@@ -48,11 +55,30 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
 
         }
 
-        console.log("blockuseranuj", data)
 
 
         dispatch(HistoryActions.getBlockCustomerDATA(data));
     };
+
+
+
+    const FavCustomer = () => {
+
+
+        const data = {
+
+            customerId: selectedCustomer?.customerId,
+           
+
+
+        }
+
+        console.log("Favcutomeranuj", data)
+
+
+        dispatch(HistoryActions.getFavCutomerDATA(data));
+    };
+
 
 
 
@@ -111,7 +137,14 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingHorizontal: SCREEN_WIDTH * 0.05, paddingTop: SCREEN_HEIGHT * 0.01 }}>
-                    <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
+                    <TouchableOpacity
+
+                        onPress={() => {
+                            FavCustomer();
+                            setSelectedCustomer(item);
+                        }}
+
+                        style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                         <View>
                             <AntDesign name='heart' color={"#EF4D5E"} size={15} />
                         </View>
@@ -269,7 +302,7 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
 
                                 <View style={{ borderWidth: 1, borderColor: colors.black_color4, paddingVertical: SCREEN_HEIGHT * 0.02, borderRadius: 10, backgroundColor: "#FBFBFB", paddingHorizontal: SCREEN_WIDTH * 0.02 }}>
                                     <TextInput placeholder='Please share Your reason'
-                                        style={{ ...Fonts.black11InterMedium ,bottom:SCREEN_HEIGHT*0.032}}
+                                        style={{ ...Fonts.black11InterMedium, bottom: SCREEN_HEIGHT * 0.032 }}
                                         value={reasonblock}
                                         onChangeText={setReasonblock}
                                     />
@@ -312,6 +345,7 @@ const MyCustomer = ({ MyCustomerData, dispatch, BlockUser }) => {
 const mapStateToProps = state => ({
     MyCustomerData: state.history.MyCustomerData,
     BlockUser: state.history.BlockUser,
+    FAVuser: state.history.FAVuser,
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });

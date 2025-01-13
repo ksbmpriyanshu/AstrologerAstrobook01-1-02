@@ -222,8 +222,9 @@ export const My_Customer ="astrologer/get_my_customer"
 
 
 
-
 export const Block_user ="astrologer/block_customer"
+
+export const Favourite_user ="astrologer/mark_as_favorite"
 
 
 export const google_map_key = 'AIzaSyC39FKxanlCKxkJmRz85zeg0DW0YD1AknI';

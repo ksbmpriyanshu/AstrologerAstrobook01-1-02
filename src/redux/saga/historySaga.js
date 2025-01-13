@@ -1,7 +1,7 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { getRequest, postRequest } from '../../utils/apiRequests'
-import { api_url, astrologer_call_history, astrologer_wallet_history, astrologers_chat_history, get_astrolgoer_live_calls, get_gift_order_history, get_video_call_history, get_status_online, get_status_offline, get_all_pooja, astrologer_register_puja, Issue_reporting, Select_language, Main_Expertise, My_Customer, Block_user } from '../../config/Constants'
+import { api_url, astrologer_call_history, astrologer_wallet_history, astrologers_chat_history, get_astrolgoer_live_calls, get_gift_order_history, get_video_call_history, get_status_online, get_status_offline, get_all_pooja, astrologer_register_puja, Issue_reporting, Select_language, Main_Expertise, My_Customer, Block_user, Favourite_user } from '../../config/Constants'
 import { Alert } from 'react-native'
 import { showToastMessage } from '../../utils/services'
 import { state } from 'react-native-fs'
@@ -450,6 +450,43 @@ function* getBlockUser(actions) {
     }
 }
 
+function* getFavouriteUser(actions) {
+    const { payload } = actions
+    console.log("bjhiguytfgvytfg", payload)
+
+    const providerData = yield select(state => state.provider.providerData)
+    console.log("providerData", providerData?._id)
+
+    try {
+
+        const data = {
+            astrologerId: providerData?._id,
+            customerId: payload?.customerId,
+            
+
+        }
+        console.log("sadhsaoui", data)
+        const response = yield postRequest({
+            url: api_url + Favourite_user,
+            data: {
+                astrologerId: providerData?._id,
+                customerId: payload?.customerId,
+             
+
+
+            }
+        })
+        console.log("ANUJJJDATAghfyuyk", response?.message)
+        yield put({ type: actionTypes.SET_BLOCK_USER_DATA, payload: response })
+        showToastMessage({ message: response?.message })
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
 
 
 
@@ -467,13 +504,14 @@ export default function* historySaga() {
     yield takeLeading(actionTypes.GET_STATUS_ONLINE, getonline)
     yield takeLeading(actionTypes.GET_ONLINE_DATA, getonline)
     yield takeLeading(actionTypes.GET_OFFLINE_DATA, getoffline);
-    yield takeLeading(actionTypes.GET_REGISTERD_PUJA_DATA, getRegisterdPuja); getSelectLanguagedata
-    yield takeLeading(actionTypes.GET_ISSUE_DATA, getIssueregisterd); getExpertisedata
-    yield takeLeading(actionTypes.GET_SELECT_LANGUAGE_DATA, getSelectLanguagedata); getMyCustomerData
+    yield takeLeading(actionTypes.GET_REGISTERD_PUJA_DATA, getRegisterdPuja); 
+    yield takeLeading(actionTypes.GET_ISSUE_DATA, getIssueregisterd); 
+    yield takeLeading(actionTypes.GET_SELECT_LANGUAGE_DATA, getSelectLanguagedata); 
     yield takeLeading(actionTypes.GET_EXPERTISE_DATA, getExpertisedata);
     yield takeLeading(actionTypes.GET_MY_CUSTOMER_DATA, getMyCustomerData);
     yield takeLeading(actionTypes.GET_UPDATE_PROFILE_DATA, getUpdateProfile);
 
-    yield takeLeading(actionTypes.GET_BLOCK_USER_DATA, getBlockUser);
+    yield takeLeading(actionTypes.GET_BLOCK_USER_DATA, getBlockUser); 
+    yield takeLeading(actionTypes.GET_FAV_CUSTOMER_DATA, getFavouriteUser);  
 
 }
