@@ -400,11 +400,11 @@ const AstrologerSignUp = ({ navigation, dispatch, locationData, subLocationData,
         <View style={{ borderBottomWidth: 1.5, borderBottomColor: Colors.gray2 }}>
           <TextInput
             placeholder='Experience in Astrology (Optional)'
-            placeholderTextColor={colors.black_color6}
+            placeholderTextColor={colors.black_color5}
             onChangeText={text => updateState({ experience: text })}
             maxLength={3}
             keyboardType="number-pad"
-            style={{ color: colors.black_color9, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
+            style={{ color: colors.black_color5, ...Fonts.black12RobotoRegular, fontSize: responsiveFontSize(2) }}
             value={experience} />
         </View>
       </View>
