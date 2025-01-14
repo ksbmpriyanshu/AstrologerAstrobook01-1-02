@@ -172,7 +172,7 @@ export const Fonts = {
   },
 
   gray12RobotoMedium: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.gray,
     fontFamily: 'Roboto-Medium',
   },

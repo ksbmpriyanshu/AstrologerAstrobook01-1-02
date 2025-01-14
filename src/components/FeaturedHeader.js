@@ -19,7 +19,13 @@ import { responsiveScreenFontSize, responsiveScreenHeight, responsiveScreenWidth
 
 const FeaturedHeader = ({ navigation, title, statusBar, socialIcons = false, download = false, id, language = false }) => {
 
+    const handlePress = () => {
+        // The URL to open
+        const url = 'https://astrobook.co.in/free-kundli?full-name=gaurav-gunjan&gender=male&date-of-birth=20-13-2000&time-of-birth=10:10&place-of-birth=delhi&latitude=&longitude=';
 
+        // Open the URL in the default browser
+        Linking.openURL(url).catch(err => console.error("Failed to open URL", err));
+    };
 
 
     return (
@@ -73,8 +79,8 @@ const FeaturedHeader = ({ navigation, title, statusBar, socialIcons = false, dow
                         {title}
                     </Text>
                 </View>
-                <TouchableOpacity style={{elevation:4, paddingHorizontal:responsiveScreenWidth(4), paddingVertical:responsiveScreenHeight(1), borderRadius:10, backgroundColor:"white"}}>
-                    <Text style={{color:colors.background_theme6, fontSize:responsiveScreenFontSize(1.4)}}>Get Kundali Report</Text>
+                <TouchableOpacity onPress={handlePress} style={{ elevation: 4, paddingHorizontal: responsiveScreenWidth(4), paddingVertical: responsiveScreenHeight(1), borderRadius: 10, backgroundColor: "white" }}>
+                    <Text style={{ color: colors.background_theme6, fontSize: responsiveScreenFontSize(1.4) }}>Get Kundali Report</Text>
                 </TouchableOpacity>
             </View>
 

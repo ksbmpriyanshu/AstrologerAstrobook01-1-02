@@ -6,6 +6,7 @@ import chatSaga from "./chatSaga";
 import historySaga from "./historySaga";
 import kundliSaga from "./kundliSaga";
 import astromallSaga from "./astromallSaga";
+import pujaSaga from "./pujaSaga";
 
 export default function* rootSaga() {
     yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga() {
         chatSaga(),
         historySaga(),
         kundliSaga(),
-        astromallSaga()
+        astromallSaga(),
+        pujaSaga(),
     ]);
 }

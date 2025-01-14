@@ -41,6 +41,8 @@ import {
     return (
       <View style={styles.container}>
         <FeaturedHeader title={'Chat Details'} navigation={navigation} />
+
+        
         <View style={styles.chatDetailsContainer}>
           {/* Profile Section */}
           <View style={styles.profileContainer}>
@@ -85,9 +87,9 @@ import {
   
   
           {/* Reach Out Button */}
-          <TouchableOpacity style={styles.reachOutButton}>
+          {/* <TouchableOpacity style={styles.reachOutButton}>
             <Text style={styles.reachOutButtonText}>Reach Out</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     );

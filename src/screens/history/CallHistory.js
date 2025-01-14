@@ -1,36 +1,46 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
+import React, { useEffect, useState } from 'react';
+import { 
+  View, 
+  Text, 
+  FlatList, 
+  StyleSheet, 
+  Image, 
+  TouchableOpacity 
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import {Sizes, Colors, Fonts} from '../../assets/style';
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../config/Screen';
-import {secondsToHMS, showNumber} from '../../utils/services';
-import {base_url, fonts, getFontSize, img_url} from '../../config/Constants';
+import { Sizes, Colors, Fonts } from '../../assets/style';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config/Screen';
+import { secondsToHMS, showNumber } from '../../utils/services';
+import { base_url, fonts, getFontSize, img_url } from '../../config/Constants';
 import * as HistoryActions from '../../redux/actions/HistoryActions';
-import MyHeader from '../../components/MyHeader';
-import {
-  responsiveFontSize,
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
-import {colors} from '../../config/Constants';
+import { colors } from '../../config/Constants';
+import HeaderFilter from '../../components/HeaderFilter';
+import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 
-const CallHistory = ({dispatch, callHistoryData, navigation}) => {
+const CallHistory = ({ dispatch, callHistoryData, navigation }) => {
+  const [filteredData, setFilteredData] = useState(callHistoryData);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
   useEffect(() => {
     dispatch(HistoryActions.getCallHistory());
   }, [dispatch]);
 
-  console.log("check the call data::::", callHistoryData);
-  
+  useEffect(() => {
+    setFilteredData(callHistoryData); 
+  }, [callHistoryData]);
 
-  const renderItem = ({item}) => {
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    if (filter && filter !== 'All') {
+      const filtered = callHistoryData.filter(item => item.status === filter);
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(callHistoryData); 
+    }
+  };
+
+  const renderItem = ({ item }) => {
     const transactionId = item?.transactionId || '';
     const last10Chars = transactionId.slice(-10);
 
@@ -44,33 +54,33 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
 
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('calldetails', {ChatData: item})}>
+        onPress={() => navigation.navigate('calldetails', { ChatData: item })}>
         <View style={styles.container}>
-          <View style={{flexDirection: 'row', gap: 5}}>
+          <View style={{ flexDirection: 'row', gap: 5 }}>
             <View style={styles.imageContainer}>
               <Image
-                source={{uri: img_url + (item?.customerDetails?.image || '')}}
-                style={{width: '100%', height: '100%', borderRadius: 1000}}
+                source={{ uri: img_url + (item?.customerDetails?.image || '') }}
+                style={{ width: '100%', height: '100%', borderRadius: 1000 }}
               />
             </View>
-            <View style={{flex: 1}}>
-              <Text style={{...Fonts.primaryLight14RobotoMedium}}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>
                 {item?.customerDetails?.customerName}
               </Text>
               <Text
-                style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+                style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
                 Call Price: {showNumber(callPrice)}/min
               </Text>
               <Text
-                style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+                style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
                 Commission Price: {showNumber(commissionPrice)}
               </Text>
               <Text
-                style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+                style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
                 Duration: {secondsToHMS(durationInSeconds)}
               </Text>
               <Text
-                style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+                style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
                 Status: {item?.status || 'N/A'}
               </Text>
             </View>
@@ -80,7 +90,7 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
                 paddingHorizontal: responsiveScreenWidth(2),
               }}>
               <Text
-                style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+                style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
                 {moment(item?.createdAt).format('DD MMM YYYY hh:mm A')}
               </Text>
               <Image
@@ -107,21 +117,25 @@ const CallHistory = ({dispatch, callHistoryData, navigation}) => {
         alignItems: 'center',
         height: SCREEN_HEIGHT * 0.9,
       }}>
-      <Text style={{color: Colors.black, fontSize: getFontSize(1.8)}}>
+      <Text style={{ color: Colors.black, fontSize: getFontSize(1.8) }}>
         No call history available.
       </Text>
     </View>
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.whiteDark}}>
-      <MyHeader title={'Call Order History'} navigation={navigation} />
-      {callHistoryData && (
+    <View style={{ flex: 1, backgroundColor: Colors.whiteDark }}>
+      <HeaderFilter 
+        title={'Call Order History'} 
+        navigation={navigation} 
+        onFilterChange={handleFilterChange} 
+      />
+      {filteredData && (
         <FlatList
-          data={callHistoryData}
+          data={filteredData}
           renderItem={renderItem}
           initialNumToRender={5}
-          contentContainerStyle={{padding: Sizes.fixPadding * 1.5}}
+          contentContainerStyle={{ padding: Sizes.fixPadding * 1.5 }}
           ListEmptyComponent={NoDataFound}
         />
       )}
@@ -133,7 +147,7 @@ const mapStateToProps = state => ({
   callHistoryData: state.history.callHistoryData,
 });
 
-const mapDispatchToProps = dispatch => ({dispatch});
+const mapDispatchToProps = dispatch => ({ dispatch });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallHistory);
 

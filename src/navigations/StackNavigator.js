@@ -95,6 +95,7 @@ import VideoCallDetails from '../screens/history/VideoCallDetails';
 import QueueList from '../screens/history/QueueList';
 import MyMessage from '../screens/history/MyMessage';
 import PlaceOfBirth from '../screens/PlaceOfBirth';
+import PujaCategory from '../screens/remedies/PujaCategory';
 
 const Stack = createNativeStackNavigator();
 
@@ -133,6 +134,9 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name="logout" component={Logout} />
       <Stack.Screen name="astrologerLogin" component={AstrologerLogin} />
       <Stack.Screen name="astrologerDetailes" component={AstrologerDetailes} />
+
+      <Stack.Screen name='remediespuja' component={PujaCategory} options={{headerShown: false}}/>
+
       <Stack.Screen
         name="bascipanchang"
         component={BasicPanchang}
@@ -241,7 +245,7 @@ const StackNavigator = (data, data1) => {
           component={KundliBirthDetailes}
         />
         <Stack.Screen name="astrologerSignUp" component={AstrologerSignUp} />
-        <Stack.Screen name="astromallCategory" component={AstromallCategory} />
+        {/* <Stack.Screen name="astromallCategory" component={AstromallCategory} /> */}
         <Stack.Screen name="poojaDetails" component={PoojaDetails} />
         <Stack.Screen name="registerPooja" component={RegisterPooja} />
         <Stack.Screen name="registeredPooja" component={RegisteredPooja} />

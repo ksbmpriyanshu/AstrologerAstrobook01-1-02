@@ -82,9 +82,9 @@ const CallDetails = ({ navigation, route }) => {
 
 
         {/* Reach Out Button */}
-        <TouchableOpacity style={styles.reachOutButton}>
+        {/* <TouchableOpacity style={styles.reachOutButton}>
           <Text style={styles.reachOutButtonText}>Reach Out</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

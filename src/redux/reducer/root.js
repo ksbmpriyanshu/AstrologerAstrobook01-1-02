@@ -12,6 +12,7 @@ import astromall from './astromall';
 import Withdrawwallet from './Withdrawwallet'
 import notificationReducer from './notificationReducer';
 import assignedpujaReducer from './assignedpujaReducer';
+import puja from './puja';
 const rootReducer = combineReducers({
   provider,
   customer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   astromall,
   Withdrawwallet,
   notificationReducer,
-  assignedpujaReducer
+  assignedpujaReducer,
+  puja
 });
 
 const appReducer = (state, action) => {

@@ -46,7 +46,7 @@ export const register_pooja = 'ecommerce/register_pooja';
 export const get_astrologer_registered_pooja = 'ecommerce/get_astrologer_registered_pooja';
 export const complete_astrologer_pooja = 'ecommerce/complete_astrologer_pooja';
 
-
+export const get_new_pooja_category = 'ecommerce/get_puja_category'
 
 
 

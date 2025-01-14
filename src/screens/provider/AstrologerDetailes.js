@@ -1179,13 +1179,7 @@ const styles = StyleSheet.create({
     ...Fonts.black14InterMedium,
     flex: 0.6
   },
-  //   servicesCol2: {
-  //     ...Fonts.black14InterMedium,
-  //     flex: 0.4
-  //   ,
-  // }
   servicesCol2: {
-
     fontWeight: 'bold',
     fontSize: 14,
     flex: 0.4,

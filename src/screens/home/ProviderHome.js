@@ -297,7 +297,7 @@ const ProviderHome = ({
           navigation.navigate('my-earnings');
           break;
         case 'Remedies':
-          navigation.navigate('astrologerDetailes');
+          navigation.navigate('remediespuja');
           break;
         case 'My Followers':
           navigation.navigate('providerFollowing');
