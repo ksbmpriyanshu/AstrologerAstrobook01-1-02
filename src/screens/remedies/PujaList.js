@@ -59,8 +59,8 @@ const [selectedItemId, setSelectedItemId] = useState(null);
             console.log("::>>>>>",item); 
             
             return (
-                <TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => navigation.navigate('BookingPuja', { pujaData: item })}> */}
+                // <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('BookingPuja', { pujaData: item })}>
                     <View style={{ display: "flex", flexDirection: "row", paddingHorizontal: 10, paddingVertical: 10, gap: 10 }}>
                         <View style={{ flex: 0.25, }}>
                             <View style={{ alignSelf: "center", backgroundColor: '#F4F4F4', height: 40, borderRadius: 60, width: 40, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
@@ -112,9 +112,9 @@ const [selectedItemId, setSelectedItemId] = useState(null);
                             </ImageBackground>
                             <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 5, paddingTop: 5, paddingBottom: 10, }}>
                                 <Text style={styles.dateText}>Price: {"₹" + item?.price}</Text>
-                                <View style={styles.cartBtn}>
+                                {/* <View style={styles.cartBtn}>
                                     <Text style={[styles.dateText, { color: "#fff" }]}>Add to Cart</Text>
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                     </View>
