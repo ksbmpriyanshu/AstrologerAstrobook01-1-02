@@ -12,13 +12,13 @@ import { TouchableOpacity } from 'react-native'
 import { colors } from '../../config/Constants'
 
 const PujaCategory = ({ dispatch, newPoojaCategoryData }) => {
-    console.log("newPoojaCategoryData", newPoojaCategoryData)
+    // console.log("newPoojaCategoryData", newPoojaCategoryData)
     const navigation = useNavigation()
     useEffect(() => {
         dispatch(PujaActions.getPoojacategoryData())
     }, [])
 
-    console.log("check the new puja data:::::", newPoojaCategoryData);
+    // console.log("check the new puja data:::::", newPoojaCategoryData);
     
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>
@@ -32,7 +32,7 @@ const PujaCategory = ({ dispatch, newPoojaCategoryData }) => {
                 return(
                     <TouchableOpacity onPress={()=>{
                        
-                         navigation.navigate('astromallCategory', { categoryId: item?._id });
+                         navigation.navigate('pujaMall', { categoryId: item?._id });
                          
                     }}
                  >

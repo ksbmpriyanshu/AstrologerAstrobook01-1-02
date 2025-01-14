@@ -5,7 +5,10 @@ export const getAssignedPuja = payload => ({
     type: actionTypes.GET_ASSIGNEDPUJA_DATA,
     payload
 })
-
+export const getAstromallData = payload =>({
+    type: actionTypes.GET_ASTROMALL_DATA,
+    payload,
+})
 export const setAssignedPuja = payload => ({
     type: actionTypes.SET_ASSIGNEDPUJA_DATA,
     payload

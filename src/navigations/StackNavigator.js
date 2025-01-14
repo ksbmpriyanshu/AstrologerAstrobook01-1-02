@@ -96,6 +96,7 @@ import QueueList from '../screens/history/QueueList';
 import MyMessage from '../screens/history/MyMessage';
 import PlaceOfBirth from '../screens/PlaceOfBirth';
 import PujaCategory from '../screens/remedies/PujaCategory';
+import PujaMall from '../screens/remedies/PujaMall';
 
 const Stack = createNativeStackNavigator();
 
@@ -136,6 +137,7 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name="astrologerDetailes" component={AstrologerDetailes} />
 
       <Stack.Screen name='remediespuja' component={PujaCategory} options={{headerShown: false}}/>
+      <Stack.Screen name='pujaMall' component={PujaMall} options={{headerShown: false}}/>
 
       <Stack.Screen
         name="bascipanchang"

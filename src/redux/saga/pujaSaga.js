@@ -1,8 +1,9 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { getRequest, postRequest } from '../../utils/apiRequests';
 import * as actionTypes from '../actionTypes';
-import { api_url, get_new_pooja_category } from '../../config/constants';
+
 import axios from 'axios';
+import { api_url } from '../../config/Constants';
 
 
 function* getNewPoojaCategoryData() {
@@ -15,12 +16,12 @@ function* getNewPoojaCategoryData() {
             url: "https://api.astrobook.co.in/api/ecommerce/get_puja_category"
         });
 
-        console.log("Response from API: ", poojaDataResponse?.data?.results);
+        // console.log("Response from API: ", poojaDataResponse?.data?.results);
 
         if (poojaDataResponse) {
-            const results = poojaDataResponse.data.success.results;
+            // const results = poojaDataResponse.data.success.results;
             yield put({ type: actionTypes.SET_POOJA_CATEGORY_DATA, payload: poojaDataResponse?.data?.results });
-            console.log("Data fetched: ", poojaDataResponse?.data?.results);
+            // console.log("Data fetched: ", poojaDataResponse?.data?.results);
         } else {
             console.error("No success data found in the response.");
         }
@@ -35,9 +36,38 @@ function* getNewPoojaCategoryData() {
 }
 
 
+function* getNewPoojaData(actions) {
+    try {
+        const { payload } = actions;
+        console.log("payload", payload);
+        
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true });
 
+        const apiUrl = `${api_url}ecommerce/get_verified_puja_filter?categoryId=${payload?.categoryId}`;
+        console.log("API URL:", apiUrl);
+
+        const poojaDataResponse = yield getRequest({
+            url: apiUrl
+        });
+
+        console.log("Pooja Data Response:", poojaDataResponse);
+
+        if (poojaDataResponse?.success) {
+            console.log("Pooja Data Results:", poojaDataResponse?.results);
+            
+            yield put({ type: actionTypes.SET_NEW_POOJA_DATA, payload: poojaDataResponse?.results });
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false });
+
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false });
+        console.log('Something went wrong...:', e);
+    }
+}
 
 
 export default function* pujaSaga() {
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_DATA, getNewPoojaCategoryData);
+    yield takeLeading(actionTypes.GET_NEW_POOJA_DATA , getNewPoojaData);
 }

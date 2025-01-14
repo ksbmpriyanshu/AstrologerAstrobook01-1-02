@@ -214,7 +214,7 @@ function* getAllastrologerPooja(actions) {
 
     } catch (e) {
         // yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-        console.log('hii', e);
+        console.log('Something went wrong...', e);
     }
 }
 
@@ -332,7 +332,7 @@ function* getExpertisedata(actions) {
 
 
             yield put({ type: actionTypes.SET_EXPERTISE_DATA, payload: response?.mainExpertise })
-
+  
             showToastMessage({ message: response?.message })
 
         }
