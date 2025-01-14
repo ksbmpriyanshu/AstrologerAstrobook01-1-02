@@ -231,6 +231,9 @@ export const Update_password ="astrologer/change_password"
 export const Update_phonenumber ="astrologer/change_phone_number"
 
 
+export const Update_email ="astrologer/change_email_address"
+
+
 
 export const Block_user ="astrologer/block_customer"
 

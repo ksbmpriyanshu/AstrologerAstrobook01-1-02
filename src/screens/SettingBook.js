@@ -30,7 +30,9 @@ const SettingBook = () => {
                 </View>
 
 
-                <TouchableOpacity 
+                <TouchableOpacity
+                
+                onPress={()=>navigation.navigate("UpdateEmail")}
                
                 style={styles.buttonContainer}>
 

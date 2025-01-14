@@ -278,7 +278,7 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name="PlaceOfBirth" component={PlaceOfBirth} />
 
 
-      <Stack.Screen name="UpdateEmail" component={UpdateEmail} />
+      <Stack.Screen name="UpdateEmail" component={UpdateEmail} options={{headerShown: false}}/>
       <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
       <Stack.Screen name="UpdatePhone" component={UpdatePhone} options={{headerShown: false}}/>
 

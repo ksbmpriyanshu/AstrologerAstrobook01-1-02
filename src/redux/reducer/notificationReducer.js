@@ -2,7 +2,8 @@ import * as actionTypes from '../actionTypes';
 const initialState = {
     notificationdata: null,
     UpdatePassword:null,
-    UpdatePhonenumber:null
+    UpdatePhonenumber:null,
+    emailaddress:null
 };
 
 const notificationReducer = (state = initialState, action) => {
@@ -21,10 +22,16 @@ const notificationReducer = (state = initialState, action) => {
                     UpdatePassword: payload
                 }
 
-                case actionTypes.SET_UPDATE_PHONE_NUMBER_DATA:
+                case actionTypes.SET_UPDATE_PHONE_NUMBER_DATA:         emailaddress
                     return {
                         ...state,
                         UpdatePhonenumber: payload
+                    }
+
+                    case actionTypes.SET_UPDATE_PHONE_NUMBER_DATA:         emailaddress
+                    return {
+                        ...state,
+                        emailaddress: payload
                     }
 
         default: {

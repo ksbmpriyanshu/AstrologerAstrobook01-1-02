@@ -32,6 +32,16 @@ export const setUpdatePhoneNumber = payload => ({
     payload
 })
 
+export const getEmailupdatedData = payload => ({
+    type: actionTypes.GET_UPDATE_EMAIL_DATA,
+    payload
+})
+
+export const setEmailupdatedData = payload => ({
+    type: actionTypes.SET_UPDATE_EMAIL_DATA,
+    payload
+})
+
 
 
 
