@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const UpdateEmail = () => {
+const 
+
+UpdateEmail = () => {
   return (
     <View>
       <Text>UpdateEmail</Text>

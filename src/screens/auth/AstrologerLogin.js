@@ -462,7 +462,7 @@ const AstrologerLogin = ({ dispatch, navigation }) => {
       <TouchableOpacity
         onPress={() => validation()}
         style={{ paddingTop: SCREEN_HEIGHT * 0.03, paddingHorizontal: SCREEN_WIDTH * 0.03 }}>
-        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.background_theme6,elevation:1 }}>
+        <View style={{ paddingVertical: SCREEN_HEIGHT * 0.019, borderRadius: 25, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: SCREEN_WIDTH * 0.04, backgroundColor: colors.background_theme6, }}>
           <Text style={{ fontSize: Sizes.fixPadding * 1.5, fontWeight: "500", color: colors.white_color }}>Login</Text>
           <AntDesign name='arrowright' color={colors.white_color} size={20} />
         </View>

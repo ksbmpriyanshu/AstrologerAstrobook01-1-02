@@ -24,6 +24,7 @@ import { Input } from '@rneui/themed';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config/Screen';
 import * as SettingActions from '../../redux/actions/SettingActions'
+import 'react-native-get-random-values';  
 
 const AstrologerSignUp = ({ navigation, dispatch, locationData, subLocationData, route }) => {
 
