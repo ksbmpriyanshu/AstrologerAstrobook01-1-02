@@ -30,7 +30,9 @@ const SettingBook = () => {
                 </View>
 
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity 
+               
+                style={styles.buttonContainer}>
 
                     <View style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.03 }}>
                         <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
@@ -57,7 +59,9 @@ const SettingBook = () => {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity 
+                 onPress={()=>navigation.navigate("UpdatePhone")}
+                style={styles.buttonContainer}>
 
                     <View style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.03 }}>
                         <View style={{ backgroundColor: colors.background_theme6, height: SCREEN_HEIGHT * 0.04, width: SCREEN_WIDTH * 0.08, alignItems: "center", justifyContent: "center", borderRadius: 100 }}>
@@ -111,7 +115,7 @@ const SettingBook = () => {
 
                 </TouchableOpacity>
                 <TouchableOpacity 
-                onPress={()=>navigation.navigate('forgetPassword')}
+                onPress={()=>navigation.navigate('ChangePassword')}
                 style={styles.buttonContainer}>
 
                     <View style={{ flexDirection: "row", alignItems: "center", gap: SCREEN_WIDTH * 0.03 }}>

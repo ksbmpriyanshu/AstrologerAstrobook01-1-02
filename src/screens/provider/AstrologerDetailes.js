@@ -81,7 +81,7 @@ const AstrologerDetailes = ({
       dispatch(SettingActions.setLocationData(null))
       dispatch(SettingActions.setSubLocationData(null))
     }
-  }, [])
+  }, [dispatch])
 
    useEffect(() => {
           dispatch(HistoryActions.getSelectLanguageDATA());

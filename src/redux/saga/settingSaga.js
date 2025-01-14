@@ -19,7 +19,9 @@ import {
   get_delete_accoount,
   get_assigned_Puja,
   complete_astrologer_pooja,
-  get_complete_Puja
+  get_complete_Puja,
+  Update_password,
+  Update_phonenumber
 } from '../../config/Constants';
 import { mergeDateAndTime, showToastMessage } from '../../utils/services';
 import { registerZegoCall } from '../../utils/zegoServices';
@@ -318,7 +320,7 @@ function* getAstrologerAnouncement() {
       },
     });
 
-    console.log("getdataaaaa",response)
+    console.log("getdataaaaa", response)
 
     if (response?.success) {
       yield put({
@@ -504,6 +506,93 @@ function* getAstrologerCompleltePooja(actions) {
 }
 
 
+function* getUpdatePassword(actions) {
+  const { payload } = actions
+  console.log("bjhiguytfgvytfg", payload)
+
+  const providerData = yield select(state => state.provider.providerData)
+  console.log("providerData", providerData?._id)
+
+  try {
+
+    const data = {
+      astrologerId: providerData?._id,
+      oldPassword:providerData?.password,
+      newPassword:payload?.newPassword,
+      confirmPassword:payload?.confirmPassword
+
+
+    }
+    console.log("sadhsaoui", data)
+    const response = yield postRequest({
+      url: api_url + Update_password,
+      data: {
+        astrologerId: providerData?._id,
+        oldPassword:providerData?.password,
+        newPassword: payload?.newPassword,     
+        confirmPassword:payload?.confirmPassword
+
+
+
+      }
+    })
+    console.log("ANUJJJDATAghfyuyk", response)
+    yield put({ type: actionTypes.SET_UPDATE_PASSWORD_DATA, payload: response })
+    showToastMessage({ message: response?.message })
+    yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+  } catch (e) {
+    console.log(e)
+    yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+  }
+}
+
+
+function* getUpdatePhonenumber(actions) {
+  const { payload } = actions
+  console.log("bjhiguytfgvytfg", payload)
+
+  const providerData = yield select(state => state.provider.providerData)
+  console.log("providerData", providerData?._id)
+
+  try {
+
+    const data = {
+      astrologerId: providerData?._id,
+      oldPhoneNumber:providerData?.phoneNumber,
+      newPhoneNumber:payload?.newPhoneNumber
+      
+
+    }
+    console.log("sadhsaoui", data)
+    const response = yield postRequest({
+      url: api_url + Update_phonenumber,
+      data: {
+        astrologerId: providerData?._id,
+      oldPhoneNumber:providerData?.phoneNumber,
+      newPhoneNumber:payload?.newPhoneNumber
+
+
+
+      }
+    })
+    console.log("ANUJJJDATAghfyuyk", response)
+    yield put({ type: actionTypes.SET_UPDATE_PHONE_NUMBER_DATA, payload: response })
+    showToastMessage({ message: response?.message })
+    yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+  } catch (e) {
+    console.log(e)
+    yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+  }
+}
+
+
+
+
+
+
+
 
 export default function* settingSaga() {
   yield takeLeading(actionTypes.GET_SPLASH, getSplash);
@@ -523,4 +612,6 @@ export default function* settingSaga() {
   yield takeLeading(actionTypes.GET_ASSIGNEDPUJA_DATA, getAssignedPujaData);
   yield takeLeading(actionTypes.GET_ASSIGNEDPUJA_UPLOAD, getAssignedPujaUpload);
   yield takeLeading(actionTypes.GET_ASTROLOGER_COMPLETE_POOJA, getAstrologerCompleltePooja);
+  yield takeLeading(actionTypes.GET_UPDATE_PASSWORD_DATA, getUpdatePassword);   
+  yield takeLeading(actionTypes.GET_UPDATE_PHONE_NUMBER_DATA, getUpdatePhonenumber);  
 }
