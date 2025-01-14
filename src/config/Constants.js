@@ -220,10 +220,21 @@ export const Main_Expertise ="admin/get-all-main-expertise"
 
 export const My_Customer ="astrologer/get_my_customer"
 
+//update password
+
+
+export const Update_password ="astrologer/change_password"
+
+//update phone number
+
+
+export const Update_phonenumber ="astrologer/change_phone_number"
 
 
 
 export const Block_user ="astrologer/block_customer"
+
+export const Favourite_user ="astrologer/mark_as_favorite"
 
 
 export const google_map_key = 'AIzaSyC39FKxanlCKxkJmRz85zeg0DW0YD1AknI';

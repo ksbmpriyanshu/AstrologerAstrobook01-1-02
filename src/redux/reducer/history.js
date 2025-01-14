@@ -16,7 +16,8 @@ const initialState = {
     MyCustomerData:null,
     SelectedLanguagedata:null,
     UpdateProfile:null,
-    BlockUser:null
+    BlockUser:null,
+    FAVuser:null
 };
 
 const history = (state = initialState, actions)=>{
@@ -124,6 +125,12 @@ const history = (state = initialState, actions)=>{
                                     ...state,
                                     BlockUser: payload,
                                  };
+
+                                 case actionTypes.SET_FAV_CUSTOMER_DATA:
+                                    return {
+                                       ...state,
+                                       FAVuser: payload,
+                                    };
 
                            
                           

@@ -190,7 +190,7 @@ function CustomDrawerContent(props) {
                 source={require('../assets/images/HAVEANISSUE.png')} />
             </View>
             <View>
-              <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>Have an Issue ?</Text>
+              <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>Have an Issue </Text>
             </View>
           </TouchableOpacity>
 
@@ -203,7 +203,7 @@ function CustomDrawerContent(props) {
                 source={require('../assets/images/SETTINGBOOK.png')} />
             </View>
             <View>
-              <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>Setting ?</Text>
+              <Text style={{ ...Fonts.black11InterMedium, fontSize: responsiveFontSize(2) }}>Setting</Text>
             </View>
           </TouchableOpacity>
 

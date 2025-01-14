@@ -97,6 +97,9 @@ import MyMessage from '../screens/history/MyMessage';
 import PlaceOfBirth from '../screens/PlaceOfBirth';
 import PujaCategory from '../screens/remedies/PujaCategory';
 import PujaMall from '../screens/remedies/PujaMall';
+import UpdateEmail from '../Settingbook/UpdateEmail';
+import ChangePassword from '../Settingbook/ChangePassword';
+import UpdatePhone from '../Settingbook/UpdatePhone';
 
 const Stack = createNativeStackNavigator();
 
@@ -273,6 +276,11 @@ const StackNavigator = (data, data1) => {
       <Stack.Screen name="providerChatPickup" component={ProviderChatPickup} />
 
       <Stack.Screen name="PlaceOfBirth" component={PlaceOfBirth} />
+
+
+      <Stack.Screen name="UpdateEmail" component={UpdateEmail} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
+      <Stack.Screen name="UpdatePhone" component={UpdatePhone} options={{headerShown: false}}/>
 
       
       

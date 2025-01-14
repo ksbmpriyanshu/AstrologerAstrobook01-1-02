@@ -150,6 +150,15 @@ export const getOnlineData = payload =>({
     payload,
   })
 
+  export const getFavCutomerDATA = payload => ({
+    type: actionTypes.GET_FAV_CUSTOMER_DATA,
+    payload,
+  })
+  export const setFavCutomerDATA = payload => ({
+    type: actionTypes.SET_FAV_CUSTOMER_DATA,
+    payload,
+  })
+
 
   
   

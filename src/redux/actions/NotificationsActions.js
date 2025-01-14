@@ -12,4 +12,26 @@ export const setNotifications = payload => ({
     payload
 })
 
+export const getUpdatePassword = payload => ({
+    type: actionTypes.GET_UPDATE_PASSWORD_DATA,
+    payload
+})
+
+export const setUpdatePassword = payload => ({
+    type: actionTypes.SET_UPDATE_PASSWORD_DATA,
+    payload
+})
+
+export const getUpdatePhoneNumber = payload => ({
+    type: actionTypes.GET_UPDATE_PHONE_NUMBER_DATA,
+    payload
+})
+
+export const setUpdatePhoneNumber = payload => ({
+    type: actionTypes.SET_UPDATE_PHONE_NUMBER_DATA,
+    payload
+})
+
+
+
 
