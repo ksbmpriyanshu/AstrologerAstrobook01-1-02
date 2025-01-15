@@ -4,6 +4,7 @@ import MyHeader from '../../components/MyHeader';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { color } from '@rneui/base';
 
 const ScheduleSession = ({ navigation }) => {
     const [selected, setSelected] = useState("");
@@ -94,6 +95,7 @@ const ScheduleSession = ({ navigation }) => {
                                 paddingLeft: 10,
                                 paddingVertical: 10,
                                 marginBottom: responsiveScreenHeight(2),
+                                color:"grey"
                             }}
                         />
                     </TouchableOpacity>
@@ -121,6 +123,7 @@ const ScheduleSession = ({ navigation }) => {
                                 paddingLeft: 10,
                                 paddingVertical: 10,
                                 marginBottom: responsiveScreenHeight(2),
+                                color:"grey"
                             }}
                         />
                     </TouchableOpacity>
@@ -146,6 +149,7 @@ const ScheduleSession = ({ navigation }) => {
                             paddingLeft: 10,
                             paddingVertical: 10,
                             marginBottom: responsiveScreenHeight(2),
+                            color:"grey"
                         }}
                     />
                 </View>
@@ -154,7 +158,7 @@ const ScheduleSession = ({ navigation }) => {
                 <View style={{ justifyContent: 'flex-end', flex: 1 }}>
                     <TouchableOpacity
                         style={styles.scheduleButton}
-                        onPress={() => navigation.navigate('scheduleSession')}
+                        onPress={() => navigation.navigate('liveSession')}
                     >
                         <Text style={{ fontWeight: "700", color: 'black' }}>Schedule Now</Text>
                     </TouchableOpacity>
