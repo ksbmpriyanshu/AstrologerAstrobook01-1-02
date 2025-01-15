@@ -21,7 +21,6 @@ import {
 } from 'react-native-responsive-dimensions';
 import HeaderFilter from '../../components/HeaderFilter';
 
-// Function to round up seconds to the next whole minute
 const roundUpToNextMinute = seconds => Math.ceil(seconds / 60);
 
 const ChatHistory = ({ chatHistoryData, navigation, dispatch }) => {
@@ -33,7 +32,7 @@ const ChatHistory = ({ chatHistoryData, navigation, dispatch }) => {
    }, [dispatch]);
 
    useEffect(() => {
-     setFilteredData(chatHistoryData); // Reset to full data when chat history changes
+     setFilteredData(chatHistoryData); 
    }, [chatHistoryData]);
 
    const handleFilterChange = (filter) => {
@@ -42,7 +41,7 @@ const ChatHistory = ({ chatHistoryData, navigation, dispatch }) => {
        const filtered = chatHistoryData.filter(item => item.status === filter);
        setFilteredData(filtered);
      } else {
-       setFilteredData(chatHistoryData); // Show all data if no filter
+       setFilteredData(chatHistoryData); 
      }
    };
 

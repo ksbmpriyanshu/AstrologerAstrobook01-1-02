@@ -902,7 +902,7 @@ const ProviderHome = ({
 
           <View style={{paddingHorizontal: SCREEN_WIDTH * 0.03}}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('livePreview')}
+              onPress={() => navigation.navigate('liveSession')}
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',

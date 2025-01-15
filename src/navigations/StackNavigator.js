@@ -100,6 +100,8 @@ import PujaMall from '../screens/remedies/PujaMall';
 import UpdateEmail from '../Settingbook/UpdateEmail';
 import ChangePassword from '../Settingbook/ChangePassword';
 import UpdatePhone from '../Settingbook/UpdatePhone';
+import LiveSession from '../screens/live/LiveSession';
+import ScheduleSession from '../screens/live/ScheduleSession';
 
 const Stack = createNativeStackNavigator();
 
@@ -217,6 +219,8 @@ const StackNavigator = (data, data1) => {
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name='scheduleSession' component={ScheduleSession}/>
+        <Stack.Screen name='liveSession' component={LiveSession}/>
         <Stack.Screen name="livePreview" component={LivePreview} />
         <Stack.Screen name="liveScreen" component={LiveScreen} />
         <Stack.Screen name="liveChatCall" component={LiveChatCall} />
